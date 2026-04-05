@@ -2,11 +2,11 @@
 package com.mycompany.desktophotelreservationsystem;
 public class Amenity {
 double price;
-String Name;
+String name;
 int number;
 Amenity(String s,double p,int no)
 {
-    Name=s;
+    name=s;
     price=p;
     number=no;
 }
@@ -19,11 +19,11 @@ int getNumber()
 }
 String getName()
 {
-    return this.Name;
+    return this.name;
 }
 void setName(String s)
 {
-    this.Name=s;
+    this.name=s;
 }
 void setNumber(int n)
 {
