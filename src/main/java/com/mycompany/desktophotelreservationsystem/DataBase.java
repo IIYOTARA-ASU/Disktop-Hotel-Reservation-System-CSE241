@@ -6,9 +6,11 @@ public class DataBase {
     ArrayList<Invoice> invoices = new ArrayList<>();
     ArrayList<Staff> staff = new ArrayList<>();
     
+    Database(){
     guests.add(new Guest());
     rooms.add(new Room());
     reservations.add(new Reservation());
     invoices.add(new Invoice());
     staff.add(new Admin());
+    }
 }
