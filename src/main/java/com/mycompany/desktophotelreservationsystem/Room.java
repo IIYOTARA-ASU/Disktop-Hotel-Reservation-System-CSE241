@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
 
@@ -7,7 +7,7 @@ public class Room {
 	private Guest roomGuest;
 	private boolean occupied;
 	private int roomNumber;
-	ArrayList<Amenity> ameneties = new ArrayList<>();
+	ArrayList<Amenity> amenities = new ArrayList<>();
 
 	Room() {
 		//type = new Single(); NEEDS TO BE UPDATED
@@ -20,7 +20,7 @@ public class Room {
 		this.roomGuest = roomGuest;
 		this.occupied = occupied;
 		for(int i = 0 ; i<ameneties.size();i++) {
-			this.ameneties.set(i,ameneties[i]);
+			this.ameneties.set(i,ameneties.get(i));
 		}
 	}
 
