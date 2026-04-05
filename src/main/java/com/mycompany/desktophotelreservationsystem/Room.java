@@ -14,10 +14,13 @@ public class Room {
 		occupied = false;
 	}
 
-	Room(RoomType type, Guest roomGuest, boolean occupied) {
+	Room(RoomType type, Guest roomGuest, boolean occupied, ArrayList amenities) {
 		this.type = type;
 		this.roomGuest = roomGuest;
 		this.occupied = occupied;
+		for(int i = 0 ; i<ameneties.size();i++) {
+			this.ameneties.set(i,ameneties[i]);
+		}
 	}
 
 	public Roomtype getRoomType() {
