@@ -1,13 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.mycompany.desktophotelreservationsystem;
 
-/**
- *
- * @author YOTARA
- */
-public class Guest {
-    
+public class Guest extends User{
+    double balance;
+    String address;
+     public enum gender{MALE , FEMALE}
+     RoomType roomChoice = new RoomType();
+    @Override
+       public void viewRooms(){
+           
+       }
+       
+       public void makeReservation(){
+           
+           
+       }
+       
+       @Override
+       public void viewReservation(){
+           
+           
+       }
+       
+       public void cancelReservation(){
+           
+           
+       }
+       
+       public void checkout(){
+           
+       }
+       
+       public void  payInvoice(){
+           
+           
+       } 
+       
+       
 }
