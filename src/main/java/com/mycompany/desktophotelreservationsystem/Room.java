@@ -6,6 +6,7 @@ public class Room {
 	private Guest roomGuest;
 	private boolean occupied;
 	private int roomNumber;
+	ArrayList<Amenity> ameneties = new ArrayList<>();
 
 	Room() {
 		type = new Single();
