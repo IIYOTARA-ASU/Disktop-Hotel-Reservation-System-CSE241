@@ -19,7 +19,7 @@ public class Room {
 		this.roomGuest = roomGuest;
 		this.occupied = occupied;
 		for(int i = 0 ; i<ameneties.size();i++) {
-			this.ameneties.set(i,ameneties[i]);
+			this.ameneties.set(i,ameneties.get(i));
 		}
 	}
 
