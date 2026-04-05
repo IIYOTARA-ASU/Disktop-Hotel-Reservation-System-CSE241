@@ -1,5 +1,6 @@
 
 package com.mycompany.desktophotelreservationsystem;
+import java.util.*;
 
 public class Room {
 	private RoomType type;
