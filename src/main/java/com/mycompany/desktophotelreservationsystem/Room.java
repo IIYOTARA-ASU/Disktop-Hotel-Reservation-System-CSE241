@@ -10,8 +10,8 @@ public class Room {
 	ArrayList<Amenity> ameneties = new ArrayList<>();
 
 	Room() {
-		type = new Single();
-		occupier = "Unnamed";
+		//type = new Single(); NEEDS TO BE UPDATED
+		//occupier = "Unnamed"; NEEDS TO BE UPDATED
 		occupied = false;
 	}
 
