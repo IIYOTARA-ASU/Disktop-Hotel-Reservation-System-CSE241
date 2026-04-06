@@ -16,13 +16,7 @@ public class DataBase {
     //leave lists and methods static because need to call using class and they are shared by all objecrs anyways
 
     DataBase(){
-    guests.add(new Guest(this));
-    rooms.add(new Room());
-    reservations.add(new Reservation());
-    invoices.add(new Invoice());
-    staff.add(new Admin(this));
-    amenities.add(new Amenity());
-    roomTypes.add(new RoomType());
+
     }
 
     //leave lists and methods static because need to call using class ,and they are shared by all objecrs anyways

@@ -16,7 +16,8 @@ import javafx.stage.Stage;
 
             // Define an action for the button
             btn.setOnAction(event -> System.out.println("Hello World!"));
-
+            
+            btn.setStyle("--fx--background-color:Color.Red;");
             // Add the button to a layout pane
             StackPane root = new StackPane();
             root.getChildren().add(btn);

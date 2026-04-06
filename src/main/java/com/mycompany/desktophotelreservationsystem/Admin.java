@@ -3,7 +3,6 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.Scanner;
 
 public class Admin extends Staff{
-	DataBase dataBase;
 	Admin(DataBase dataBase){
 		super(dataBase);
 	}
