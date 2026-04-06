@@ -23,10 +23,10 @@ import javafx.stage.Stage;
             root.getChildren().add(btn);
 
             // Create a scene with the layout pane, setting dimensions
-            Scene scene = new Scene(root, 300, 250);
+            Scene scene = new Scene(root, 600, 400);
 
             // Configure the stage (the main window)
-            primaryStage.setTitle("Hello World!");
+            primaryStage.setTitle("Hello HADI!");
             primaryStage.setScene(scene);
             primaryStage.show();
         }
