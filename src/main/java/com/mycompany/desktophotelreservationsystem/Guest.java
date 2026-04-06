@@ -32,7 +32,8 @@ public class Guest extends User{
         System.out.println("please enter password: ");
         String inputPass = input.nextLine();
 
-        return inputUser.equals(this.userName) && inputPass.equals(this.password);//make sure that account exists
+
+        return dataBase.loginUser(inputUser,inputPass);//make sure that account exists
     }
 
 

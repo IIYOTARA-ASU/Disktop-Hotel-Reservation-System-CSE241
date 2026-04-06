@@ -21,10 +21,10 @@ public class DataBase {
     staff.add(new Admin());
     }
 
-    //leave lists and methods static because need to call using class and they are shared by all objecrs anyways
+    //leave lists and methods static because need to call using class ,and they are shared by all objecrs anyways
 
     public static boolean registerUser(String username, String password){
-        if(username.contains(username)){
+        if(usernames.contains(username)){
             System.out.println("username already exists please choose another");
             return false;
         }
@@ -37,9 +37,9 @@ public class DataBase {
     }
 
 
-    public static boolean loginUser(String username, String passsword){
+    public static boolean loginUser(String username, String password){
     int index= usernames.indexOf(username);
-    if (index!=-1&& passwords.get(index).equals(passsword)){//because indexof momken terga3 -1
+    if (index!=-1&& passwords.get(index).equals(password)){//because indexof momken terga3 -1
         System.out.println("login successful welcome, "+ username);
         return true;
 
