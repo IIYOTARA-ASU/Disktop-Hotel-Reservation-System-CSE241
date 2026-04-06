@@ -1,26 +1,30 @@
-
 package com.mycompany.desktophotelreservationsystem;
+import java.util.*;
+import java.util.ArrayList;
 
 public class Room {
 	private RoomType type;
 	private Guest roomGuest;
 	private boolean occupied;
 	private int roomNumber;
-	ArrayList<Amenity> ameneties = new ArrayList<>();
+	ArrayList<Amenity> amenities = new ArrayList<>();
 
 	Room() {
-		type = new Single();
-		occupier = "Unnamed";
+		//type = new Single(); NEEDS TO BE UPDATED
+		//occupier = "Unnamed"; NEEDS TO BE UPDATED
 		occupied = false;
 	}
 
-	Room(RoomType type, Guest roomGuest, boolean occupied) {
+	Room(RoomType type, Guest roomGuest, boolean occupied, ArrayList amenities) {
 		this.type = type;
 		this.roomGuest = roomGuest;
 		this.occupied = occupied;
+		for(int i = 0 ; i<amenities.size();i++) {
+			this.amenities.set(i,(Amenity) amenities.get(i));
+		}
 	}
 
-	public Roomtype getRoomType() {
+	public RoomType getRoomType() {
 		return type;
 	}
 
