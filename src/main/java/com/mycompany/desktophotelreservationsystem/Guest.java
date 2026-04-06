@@ -1,5 +1,6 @@
 
 package com.mycompany.desktophotelreservationsystem;
+import java.util.*;
 
 public class Guest extends User{
     double balance;

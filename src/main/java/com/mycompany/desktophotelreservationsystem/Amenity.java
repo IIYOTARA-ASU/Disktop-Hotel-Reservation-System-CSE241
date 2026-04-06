@@ -1,4 +1,4 @@
-
+import java.util.*;
 package com.mycompany.desktophotelreservationsystem;
 public class Amenity {
 double price;
