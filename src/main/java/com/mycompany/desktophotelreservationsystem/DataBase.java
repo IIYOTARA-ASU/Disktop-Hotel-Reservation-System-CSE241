@@ -40,7 +40,7 @@ public class DataBase {
 
     public static boolean loginUser(String username, String passsword){
     int index= usernames.indexof(username);
-    if (index!=-1&& passwords.get(index).equals(passsword)){
+    if (index!=-1&& passwords.get(index).equals(passsword)){//because indexof momken terga3 -1
         System.out.println("login successful welcome, "+ username);
         return true;
 
@@ -48,6 +48,7 @@ public class DataBase {
         System.out.println("invalid username or password please try again");
         return false;
     }
+
 
 }
 
