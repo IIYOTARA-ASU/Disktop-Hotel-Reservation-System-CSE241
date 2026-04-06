@@ -21,7 +21,6 @@ public class Guest extends User{
         String inputUser = scanner.nextLine().trim();
         System.out.print("Enter a password: ");
         String inputPass = scanner.nextLine().trim();
-
         if (dataBase.registerUser(inputUser, inputPass)) {
             this.userName = inputUser;
             this.password = inputPass;
