@@ -4,7 +4,7 @@ public class DataBase {
     ArrayList<Guest> guests = new ArrayList<>();
     ArrayList<Room> rooms = new ArrayList<>();
     ArrayList<Reservation> reservations = new ArrayList<>();
-  //  ArrayList<Invoice> invoices = new ArrayList<>();
+    ArrayList<Invoice> invoices = new ArrayList<>();
     ArrayList<Staff> staff = new ArrayList<>();
     //ahmed arraylists feeha commands 7elwa fa45 eba esta5demhom
 
@@ -17,7 +17,7 @@ public class DataBase {
     guests.add(new Guest());
     rooms.add(new Room());
     reservations.add(new Reservation());
-  //  invoices.add(new Invoice());
+    invoices.add(new Invoice());
     staff.add(new Admin());
     }
 
