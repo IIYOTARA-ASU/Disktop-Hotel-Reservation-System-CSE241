@@ -21,7 +21,18 @@ public class Guest extends User{
         }
     }
 
-    
+    @Override
+    public boolean login() {
+        System.out.println("please enter username: ");
+        String inputUser = scanner.nextLine();
+
+        System.out.println("please enter password: ");
+        String inputPass = scanner.nextLine();
+
+        return inputUser.equals(this.userName) && inputPass.equals(this.password);
+    }
+
+
      @Override
        public void viewRooms(){
            
