@@ -6,7 +6,23 @@ public class Guest extends User{
     String address;
      public enum gender{MALE , FEMALE}
      RoomType roomChoice = new RoomType();
-    @Override
+
+     @Override
+    public void register() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a username: ");
+        String inputUser = scanner.nextLine().trim();
+        System.out.print("Enter a password: ");
+        String inputPass = scanner.nextLine().trim();
+
+        if (Database.registerUser(inputUser, inputPass)) {
+            this.userName = inputUser;
+            this.password = inputPass;
+        }
+    }
+
+    
+     @Override
        public void viewRooms(){
            
        }

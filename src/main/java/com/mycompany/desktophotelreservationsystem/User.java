@@ -4,6 +4,7 @@ public abstract class User {
     String userName;
     String password;
     Date dateOfBirth;
+
     public abstract void viewRooms();
     public abstract boolean login();
     public abstract void register();
