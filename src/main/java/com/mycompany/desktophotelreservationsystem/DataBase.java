@@ -6,6 +6,7 @@ public class DataBase {
     ArrayList<Reservation> reservations = new ArrayList<>();
     ArrayList<Invoice> invoices = new ArrayList<>();
     ArrayList<Staff> staff = new ArrayList<>();
+    //ahmed arraylists feeha commands 7elwa fa45 eba esta5demhom
 
 
     static ArrayList<String> usernames = new ArrayList<>();//array list for registering and loging in
@@ -37,7 +38,16 @@ public class DataBase {
     }
 
 
-    public static boolean loginuser(String usernmae, String passsword){
+    public static boolean loginUser(String username, String passsword){
+    int index= usernames.indexof(username);
+    if (index!=-1&& passwords.get(index).equals(passsword)){
+        System.out.println("login successful welcome, "+ username);
+        return true;
+
+    }else{
+        System.out.println("invalid username or password please try again");
+        return false;
+    }
 
 }
 
