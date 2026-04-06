@@ -2,6 +2,7 @@ package com.mycompany.desktophotelreservationsystem;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -24,7 +25,8 @@ import javafx.stage.Stage;
 
             // Create a scene with the layout pane, setting dimensions
             Scene scene = new Scene(root, 300, 250);
-
+    		Image badr = new Image("badrExe.png");
+    		primaryStage.getIcons().add(badr);
             // Configure the stage (the main window)
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);
