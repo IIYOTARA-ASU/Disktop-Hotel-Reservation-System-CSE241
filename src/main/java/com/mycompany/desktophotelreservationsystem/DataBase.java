@@ -6,6 +6,8 @@ public class DataBase {
     ArrayList<Reservation> reservations = new ArrayList<>();
     ArrayList<Invoice> invoices = new ArrayList<>();
     ArrayList<Staff> staff = new ArrayList<>();
+    ArrayList<Amenity> amenities  = new ArrayList<>();
+    ArrayList<RoomType> roomTypes  = new ArrayList<>();
     //ahmed arraylists feeha commands 7elwa fa45 eba esta5demhom
 
 
@@ -14,11 +16,13 @@ public class DataBase {
     //leave lists and methods static because need to call using class and they are shared by all objecrs anyways
 
     DataBase(){
-    guests.add(new Guest());
+    guests.add(new Guest(this));
     rooms.add(new Room());
     reservations.add(new Reservation());
     invoices.add(new Invoice());
-    staff.add(new Admin());
+    staff.add(new Admin(this));
+    amenities.add(new Amenity());
+    roomTypes.add(new RoomType());
     }
 
     //leave lists and methods static because need to call using class ,and they are shared by all objecrs anyways

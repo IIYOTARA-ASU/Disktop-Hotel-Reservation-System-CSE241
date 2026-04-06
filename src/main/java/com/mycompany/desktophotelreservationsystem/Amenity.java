@@ -4,6 +4,7 @@ public class Amenity {
 private double price;
 private String name;
 private int number;
+Amenity(){}
 Amenity(String s,double p,int no)
 {
     name=s;

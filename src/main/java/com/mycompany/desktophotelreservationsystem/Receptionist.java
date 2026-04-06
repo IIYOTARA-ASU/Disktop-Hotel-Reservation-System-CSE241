@@ -5,17 +5,33 @@ import java.util.Scanner;
 public class Receptionist extends Staff {
 	DataBase dataBase;
 
+	Receptionist(DataBase dataBase) {
+		super(dataBase);
+	}
+
 	@Override
 	public void viewGuests() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < dataBase.guests.size(); i++) {
+			System.out.println("Guest"+i+": "+ dataBase.guests.get(i));
+		}
+
 	}
 
 	@Override
 	public void viewRooms() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < dataBase.rooms.size(); i++) {
+			System.out.println("Room"+i+": "+ dataBase.rooms.get(i));
+		}
+
 	}
+
+	@Override
+	public void viewReservation() {
+		for (int i = 0; i < dataBase.reservations.size(); i++) {
+			System.out.println("reservation"+i+": "+ dataBase.reservations.get(i));
+		}
+	}
+
 
 	@Override
 	public boolean login() {
@@ -47,11 +63,7 @@ public class Receptionist extends Staff {
 		}
 	}
 
-	@Override
-	public void viewReservation() {
-		// TODO Auto-generated method stub
-		
-	}
+
     
     
 }

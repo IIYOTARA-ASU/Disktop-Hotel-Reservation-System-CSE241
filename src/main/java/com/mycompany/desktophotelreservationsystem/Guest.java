@@ -6,6 +6,11 @@ public class Guest extends User{
     double balance;
     String address;
     DataBase dataBase;
+
+    Guest(DataBase dataBase) {
+        super(dataBase);
+    }
+
     public enum gender{MALE , FEMALE}
     RoomType roomChoice = new RoomType();
 

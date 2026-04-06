@@ -3,19 +3,89 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.Scanner;
 
 public class Admin extends Staff{
-
 	DataBase dataBase;
+	Admin(DataBase dataBase){
+		super(dataBase);
+	}
+
 	@Override
 	public void viewGuests() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < dataBase.guests.size(); i++) {
+			System.out.println("Guest"+i+": "+ dataBase.guests.get(i));
+		}
 	}
 
 	@Override
 	public void viewRooms() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < dataBase.rooms.size(); i++) {
+			System.out.println("Room"+i+": "+ dataBase.rooms.get(i));
+		}
 	}
+
+	@Override
+	public void viewReservation() {
+		for (int i = 0; i < dataBase.reservations.size(); i++) {
+			System.out.println("reservation"+i+": "+ dataBase.reservations.get(i));
+		}
+	}
+
+	public void createRoom(Room room){
+		dataBase.rooms.add(room);
+	}
+
+
+	public void createAmenities(Amenity amenity){
+		dataBase.amenities.add(amenity);
+	}
+
+
+	public void createRoomTypes(RoomType roomType){
+		dataBase.roomTypes.add(roomType);
+	}
+
+	public void readRoom(int index){
+		dataBase.rooms.get(index);
+	}
+
+
+	public void readAmenities(int index){
+		dataBase.amenities.get(index);
+	}
+
+
+	public void readRoomTypes(int index){
+		dataBase.roomTypes.get(index);
+	}
+
+	public void updateRoom(int index,Room room){
+		dataBase.rooms.set( index, room);
+	}
+
+
+	public void updateAmenities(int index,Amenity amenity){
+		dataBase.amenities.set(index, amenity);
+	}
+
+
+	public void updateRoomTypes(int index , RoomType roomType){
+		dataBase.roomTypes.set(index, roomType);
+	}
+
+	public void deleteRoom(Room room){
+		dataBase.rooms.remove(room);
+	}
+
+
+	public void deleteAmenities(Amenity amenity){
+		dataBase.amenities.remove(amenity);
+	}
+
+
+	public void deleteRoomTypes(RoomType roomType){
+		dataBase.roomTypes.remove(roomType);
+	}
+
+
 
 	@Override
 	public boolean login() {
@@ -46,10 +116,6 @@ public class Admin extends Staff{
 		}
 	}
 
-	@Override
-	public void viewReservation() {
-		// TODO Auto-generated method stub
-		
-	}
-    // Im yousef hossammmmmmm
+
+
 }
