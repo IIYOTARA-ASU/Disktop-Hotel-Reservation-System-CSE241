@@ -34,7 +34,6 @@ public class DataBase {
             System.out.println("Registration successful Welcome, " + username);
             return true;
         }
-        }
     }
 
 

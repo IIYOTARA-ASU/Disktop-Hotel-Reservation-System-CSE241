@@ -6,10 +6,10 @@ public class Guest extends User{
     double balance;
     String address;
     DataBase dataBase;
-     public enum gender{MALE , FEMALE}
-     RoomType roomChoice = new RoomType();
+    public enum gender{MALE , FEMALE}
+    RoomType roomChoice = new RoomType();
 
-     @Override
+    @Override
     public void register() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a username: ");

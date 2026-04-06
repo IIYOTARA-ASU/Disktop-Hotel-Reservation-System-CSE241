@@ -1,4 +1,5 @@
 package com.mycompany.desktophotelreservationsystem;
+import java.util.Date;
 
 public class Invoice {
     public enum PaymentMethod { CASH, CREDIT_CARD, ONLINE }
@@ -12,6 +13,8 @@ public class Invoice {
         this.amount = amount;
     }
 
+    private Reservation reservation;
+    private PaymentMethod paymentMethod;
     private Date paymentDate;
     private double amount;
 
