@@ -25,8 +25,7 @@ import javafx.stage.Stage;
 
             // Create a scene with the layout pane, setting dimensions
             Scene scene = new Scene(root, 300, 250);
-    		Image badr = new Image("badrExe.png");
-    		primaryStage.getIcons().add(badr);
+
             // Configure the stage (the main window)
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);
