@@ -1,5 +1,5 @@
 package com.mycompany.desktophotelreservationsystem;
-import java.util.ArrayList;
+import java.util.*;//better
 public class DataBase {
     ArrayList<Guest> guests = new ArrayList<>();
     ArrayList<Room> rooms = new ArrayList<>();
