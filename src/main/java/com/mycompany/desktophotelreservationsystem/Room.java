@@ -1,6 +1,6 @@
-import java.util.ArrayList;
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
+import java.util.ArrayList;
 
 public class Room {
 	private RoomType type;
