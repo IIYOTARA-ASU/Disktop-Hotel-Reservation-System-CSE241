@@ -1,6 +1,6 @@
-import java.util.ArrayList;
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
+import java.util.ArrayList;
 
 public class Room {
 	private RoomType type;
@@ -19,12 +19,12 @@ public class Room {
 		this.type = type;
 		this.roomGuest = roomGuest;
 		this.occupied = occupied;
-		for(int i = 0 ; i<ameneties.size();i++) {
-			this.ameneties.set(i,ameneties.get(i));
+		for(int i = 0 ; i<amenities.size();i++) {
+			this.amenities.set(i,(Amenity) amenities.get(i));
 		}
 	}
 
-	public Roomtype getRoomType() {
+	public RoomType getRoomType() {
 		return type;
 	}
 

@@ -1,9 +1,9 @@
 
 package com.mycompany.desktophotelreservationsystem;
 public class Amenity {
-double price;
-String name;
-int number;
+private double price;
+private String name;
+private int number;
 Amenity(String s,double p,int no)
 {
     name=s;
