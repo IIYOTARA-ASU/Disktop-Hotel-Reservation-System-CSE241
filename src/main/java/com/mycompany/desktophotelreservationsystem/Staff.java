@@ -1,7 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
 public abstract class Staff extends User {
-    Staff(DataBase dataBase){
-        super(dataBase);
+    Staff(){
     }
     public enum roll {ADMIN, RECEPTIONIST}
     int workingHours;

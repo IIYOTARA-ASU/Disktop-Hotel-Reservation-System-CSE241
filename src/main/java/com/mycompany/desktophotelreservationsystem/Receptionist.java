@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class Receptionist extends Staff {
 	DataBase dataBase;
 
-	Receptionist(DataBase dataBase) {
-		super(dataBase);
+	Receptionist() {
 	}
 
 	@Override
