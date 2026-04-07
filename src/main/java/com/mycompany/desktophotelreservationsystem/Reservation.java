@@ -68,4 +68,12 @@ public class Reservation {
         }
     }
 
+
+    // ###############################  METHODS  ###############################
+    public int calculateDuration() {
+        long diffInMs = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
+        long diffInDays = (diffInMs / (1000 * 60 * 60 * 24));
+        return (int) (diffInDays == 0 ? 1 : diffInDays); // Minimum of 1 day
+    }
+    
 }

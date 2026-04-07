@@ -2,8 +2,8 @@ package com.mycompany.desktophotelreservationsystem;
 public class Main {
     public static void main(String args[]){
         System.out.println("Hello, world!");
-        DataBase dataBase = new DataBase();
-        Guest guest=new Guest(dataBase);
+        DataBase.
+        Guest guest = new Guest(dataBase);
         Receptionist receptionist = new Receptionist(dataBase);
         Room room = new Room();
         Admin admin = new Admin(dataBase);
@@ -14,3 +14,6 @@ public class Main {
 
     }
 }
+
+
+

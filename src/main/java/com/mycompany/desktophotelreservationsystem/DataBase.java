@@ -1,13 +1,13 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;//better
 public class DataBase {
-    ArrayList<Guest> guests = new ArrayList<>();
-    ArrayList<Room> rooms = new ArrayList<>();
-    ArrayList<Reservation> reservations = new ArrayList<>();
-    ArrayList<Invoice> invoices = new ArrayList<>();
-    ArrayList<Staff> staff = new ArrayList<>();
-    ArrayList<Amenity> amenities  = new ArrayList<>();
-    ArrayList<RoomType> roomTypes  = new ArrayList<>();
+    static ArrayList<Guest> guests = new ArrayList<>();
+    static ArrayList<Room> rooms = new ArrayList<>();
+    static ArrayList<Reservation> reservations = new ArrayList<>();
+    static ArrayList<Invoice> invoices = new ArrayList<>();
+    static ArrayList<Staff> staff = new ArrayList<>();
+    static ArrayList<Amenity> amenities  = new ArrayList<>();
+    static ArrayList<RoomType> roomTypes  = new ArrayList<>();
     //ahmed arraylists feeha commands 7elwa fa45 eba esta5demhom
 
 

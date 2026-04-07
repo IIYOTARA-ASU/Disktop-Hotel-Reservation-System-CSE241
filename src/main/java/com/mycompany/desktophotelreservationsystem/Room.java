@@ -7,6 +7,7 @@ public class Room {
 	private Guest roomGuest;
 	private boolean occupied;
 	private int roomNumber;
+	private int price;
 	ArrayList<Amenity> amenities = new ArrayList<>();
 
 	Room() {
@@ -15,9 +16,10 @@ public class Room {
 		occupied = false;
 	}
 
-	Room(RoomType type, Guest roomGuest, boolean occupied, ArrayList amenities) {
+	Room(RoomType type, Guest roomGuest, int price, boolean occupied, ArrayList amenities) {
 		this.type = type;
 		this.roomGuest = roomGuest;
+		this.price = price;
 		this.occupied = occupied;
 		for(int i = 0 ; i<amenities.size();i++) {
 			this.amenities.set(i,(Amenity) amenities.get(i));
@@ -40,6 +42,10 @@ public class Room {
 		return roomNumber;
 	}
 
+	public int getPrice() {
+		return price;
+	}
+
 	public void setRoomType(RoomType type) {
 		this.type = type;
 	}
@@ -54,6 +60,10 @@ public class Room {
 
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 }
