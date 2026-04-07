@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
         @Override
         public void start(Stage primaryStage) {
+        	
             // Create a button and set its text
             Button btn = new Button();
             btn.setText("Say 'Hello World'");
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
             // Define an action for the button
             btn.setOnAction(event -> System.out.println("Hello World!"));
             
-            btn.setStyle("--fx--background-color:Color.Red;");
+          //  btn.setStyle("--fx--background-color:Color.Red;");
             // Add the button to a layout pane
             StackPane root = new StackPane();
             root.getChildren().add(btn);
@@ -26,6 +27,9 @@ import javafx.stage.Stage;
             // Create a scene with the layout pane, setting dimensions
             Scene scene = new Scene(root, 600, 400);
 
+            String css = this.getClass().getResource("Style.css").toExternalForm();
+            scene.getStylesheets().add(css);
+            
             // Configure the stage (the main window)
             primaryStage.setTitle("Hello HADI!");
             primaryStage.setScene(scene);
