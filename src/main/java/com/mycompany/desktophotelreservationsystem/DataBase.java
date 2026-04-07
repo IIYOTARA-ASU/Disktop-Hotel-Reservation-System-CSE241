@@ -11,8 +11,8 @@ public class DataBase {
     //ahmed arraylists feeha commands 7elwa fa45 eba esta5demhom
 
 
-    static ArrayList<String> usernames = new ArrayList<>();//array list for registering and loging in
-    static ArrayList<String> passwords = new ArrayList<>();//a place to store users instead of files
+    static ArrayList<String> usernames = new ArrayList<>(List.of("youssef"));//array list for registering and loging in
+    static ArrayList<String> passwords = new ArrayList<>(List.of("hell")); //a place to store users instead of files
     //leave lists and methods static because need to call using class and they are shared by all objecrs anyways
 
     DataBase(){
@@ -22,6 +22,7 @@ public class DataBase {
     //leave lists and methods static because need to call using class ,and they are shared by all objecrs anyways
 
     public static boolean registerUser(String username, String password){
+
         if(usernames.contains(username)){
             System.out.println("username already exists please choose another");
             return false;
