@@ -8,79 +8,79 @@ public class Admin extends Staff{
 
 	@Override
 	public void viewGuests() {
-		for (int i = 0; i < dataBase.guests.size(); i++) {
-			System.out.println("Guest"+i+": "+ dataBase.guests.get(i));
+		for (int i = 0; i < DataBase.guests.size(); i++) {
+			System.out.println("Guest"+i+": "+ DataBase.guests.get(i));
 		}
 	}
 
 	@Override
 	public void viewRooms() {
-		for (int i = 0; i < dataBase.rooms.size(); i++) {
-			System.out.println("Room"+i+": "+ dataBase.rooms.get(i));
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			System.out.println("Room"+i+": "+ DataBase.rooms.get(i));
 		}
 	}
 
 	@Override
 	public void viewReservation() {
-		for (int i = 0; i < dataBase.reservations.size(); i++) {
-			System.out.println("reservation"+i+": "+ dataBase.reservations.get(i));
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			System.out.println("reservation"+i+": "+ DataBase.reservations.get(i));
 		}
 	}
 
 	public void createRoom(Room room){
-		dataBase.rooms.add(room);
+		DataBase.rooms.add(room);
 	}
 
 
 	public void createAmenities(Amenity amenity){
-		dataBase.amenities.add(amenity);
+		DataBase.amenities.add(amenity);
 	}
 
 
 	public void createRoomTypes(RoomType roomType){
-		dataBase.roomTypes.add(roomType);
+		DataBase.roomTypes.add(roomType);
 	}
 
 	public void readRoom(int index){
-		dataBase.rooms.get(index);
+		DataBase.rooms.get(index);
 	}
 
 
 	public void readAmenities(int index){
-		dataBase.amenities.get(index);
+		DataBase.amenities.get(index);
 	}
 
 
 	public void readRoomTypes(int index){
-		dataBase.roomTypes.get(index);
+		DataBase.roomTypes.get(index);
 	}
 
 	public void updateRoom(int index,Room room){
-		dataBase.rooms.set( index, room);
+		DataBase.rooms.set( index, room);
 	}
 
 
 	public void updateAmenities(int index,Amenity amenity){
-		dataBase.amenities.set(index, amenity);
+		DataBase.amenities.set(index, amenity);
 	}
 
 
 	public void updateRoomTypes(int index , RoomType roomType){
-		dataBase.roomTypes.set(index, roomType);
+		DataBase.roomTypes.set(index, roomType);
 	}
 
 	public void deleteRoom(Room room){
-		dataBase.rooms.remove(room);
+		DataBase.rooms.remove(room);
 	}
 
 
 	public void deleteAmenities(Amenity amenity){
-		dataBase.amenities.remove(amenity);
+		DataBase.amenities.remove(amenity);
 	}
 
 
 	public void deleteRoomTypes(RoomType roomType){
-		dataBase.roomTypes.remove(roomType);
+		DataBase.roomTypes.remove(roomType);
 	}
 
 
@@ -96,7 +96,7 @@ public class Admin extends Staff{
 		String inputPass = input.nextLine();
 
 
-		return dataBase.loginUser(inputUser,inputPass);
+		return DataBase.loginUser(inputUser,inputPass);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class Admin extends Staff{
 		System.out.print("Enter a password: ");
 		String inputPass = scanner.nextLine().trim();
 
-		if (dataBase.registerUser(inputUser, inputPass)) {
+		if (DataBase.registerUser(inputUser, inputPass)) {
 			this.userName = inputUser;
 			this.password = inputPass;
 		}

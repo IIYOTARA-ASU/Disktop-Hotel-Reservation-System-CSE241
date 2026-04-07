@@ -1,7 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
 public abstract class User {
-    DataBase dataBase;
     User(){
     }
     String userName;

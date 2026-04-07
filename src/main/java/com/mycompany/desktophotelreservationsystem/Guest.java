@@ -5,13 +5,12 @@ import java.util.*;
 public class Guest extends User{
     double balance;
     String address;
-    DataBase dataBase;
 
     Guest() {
     }
 
     public enum gender{MALE , FEMALE}
-    RoomType roomChoice = new RoomType();
+    RoomType roomChoice = new RoomType("Single");
 
     @Override
     public void register() {
@@ -20,7 +19,7 @@ public class Guest extends User{
         String inputUser = scanner.nextLine().trim();
         System.out.print("Enter a password: ");
         String inputPass = scanner.nextLine().trim();
-        if (dataBase.registerUser(inputUser, inputPass)) {
+        if (DataBase.registerUser(inputUser, inputPass)) {
             this.userName = inputUser;
             this.password = inputPass;
         }
@@ -36,7 +35,7 @@ public class Guest extends User{
         String inputPass = input.nextLine();
 
 
-        return dataBase.loginUser(inputUser,inputPass);//make sure that account exists
+        return DataBase.loginUser(inputUser,inputPass);//make sure that account exists
     }
 
 

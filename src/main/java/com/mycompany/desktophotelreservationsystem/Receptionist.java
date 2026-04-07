@@ -3,31 +3,29 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.Scanner;
 
 public class Receptionist extends Staff {
-	DataBase dataBase;
-
 	Receptionist() {
 	}
 
 	@Override
 	public void viewGuests() {
-		for (int i = 0; i < dataBase.guests.size(); i++) {
-			System.out.println("Guest"+i+": "+ dataBase.guests.get(i));
+		for (int i = 0; i < DataBase.guests.size(); i++) {
+			System.out.println("Guest"+i+": "+ DataBase.guests.get(i));
 		}
 
 	}
 
 	@Override
 	public void viewRooms() {
-		for (int i = 0; i < dataBase.rooms.size(); i++) {
-			System.out.println("Room"+i+": "+ dataBase.rooms.get(i));
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			System.out.println("Room"+i+": "+ DataBase.rooms.get(i));
 		}
 
 	}
 
 	@Override
 	public void viewReservation() {
-		for (int i = 0; i < dataBase.reservations.size(); i++) {
-			System.out.println("reservation"+i+": "+ dataBase.reservations.get(i));
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			System.out.println("reservation"+i+": "+ DataBase.reservations.get(i));
 		}
 	}
 
@@ -43,7 +41,7 @@ public class Receptionist extends Staff {
 		String inputPass = input.nextLine();
 
 
-		return dataBase.loginUser(inputUser,inputPass);//make sure that account exists
+		return DataBase.loginUser(inputUser,inputPass);//make sure that account exists
 
 	}
 
@@ -56,7 +54,7 @@ public class Receptionist extends Staff {
 		System.out.print("Enter a password: ");
 		String inputPass = scanner.nextLine().trim();
 
-		if (dataBase.registerUser(inputUser, inputPass)) {
+		if (DataBase.registerUser(inputUser, inputPass)) {
 			this.userName = inputUser;
 			this.password = inputPass;
 		}
