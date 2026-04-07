@@ -12,7 +12,7 @@ public class DataBase {
 
 
     static ArrayList<String> usernames = new ArrayList<>(List.of("youssef"));//array list for registering and loging in
-    static ArrayList<String> passwords = new ArrayList<>(List.of("hell")); //a place to store users instead of files
+    static ArrayList<String> passwords = new ArrayList<>(List.of("hell"));
     //leave lists and methods static because need to call using class and they are shared by all objecrs anyways
 
     DataBase(){

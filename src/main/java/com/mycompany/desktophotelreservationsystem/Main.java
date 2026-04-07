@@ -5,6 +5,7 @@ public class Main {
         Guest guest=new Guest();
         guest.register();
         guest.login();
+
     }
 }
 
