@@ -7,8 +7,7 @@ public class Guest extends User{
     String address;
     DataBase dataBase;
 
-    Guest(DataBase dataBase) {
-        super(dataBase);
+    Guest() {
     }
 
     public enum gender{MALE , FEMALE}
