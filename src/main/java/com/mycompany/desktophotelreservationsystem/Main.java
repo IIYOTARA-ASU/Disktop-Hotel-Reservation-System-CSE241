@@ -20,8 +20,8 @@ public class Main {
         System.out.println("2 : Register ");
         String choice = input.next();
         switch(choice) {
-        case "1" : user.loggedIn = user.login(user); break;
-        case "2" : user = user.register(); break;
+        case "1" : user = user.login(user); break; //login
+        case "2" : user = user.register(); break; //register
         }
         return user;
 	}
