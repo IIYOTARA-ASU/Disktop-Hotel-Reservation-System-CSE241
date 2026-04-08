@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.*;
+
 
 
     public class GUI_testing extends Application {
@@ -54,15 +54,17 @@ import javafx.*;
 
             // Create a scene with the layout pane, setting dimensions
             int x = 70;
+			getClass().getResource("/Style.css");
             primaryStage.setResizable(false);
-            String css = this.getClass().getResource("Style.css").toExternalForm();
+			String css = this.getClass().getResource("/Style.css").toExternalForm();
             Scene scene = new Scene(root, 16*x, 9*x-2);
+			scene.getStylesheets().add(css);
             
             // Configure the stage (the main window)
             primaryStage.setTitle("Hello HADI!");
             
             
-           Image loginImage = new Image(getClass().getResource("Images/Login.png").toExternalForm());
+           Image loginImage = new Image(this.getClass().getResource("/Images/Login.png").toExternalForm());
            ImageView loginImageView = new ImageView(loginImage);
            
            loginImageView.setFitWidth(x*9.5);
