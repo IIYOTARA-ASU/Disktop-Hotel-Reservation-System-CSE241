@@ -21,41 +21,17 @@ public class User {
 	}
 	
     
-	public User login(User user) {
+	public boolean login(User user) {
 		// TODO Auto-generated method stub
-		int i=0;
 		Scanner input = new Scanner(System.in);
 		System.out.println("please enter username: ");
 		String inputUser = input.nextLine();
-		for(int j = 0 ; j < DataBase.users.size(); j++ ) {
-			if((DataBase.users.get(i)).userName.equals(inputUser)) {
-				break;
-			}
-			else{
-				i++;
-			}
-			if(i<DataBase.users.size())
-			{
-				System.out.println("invalid user, please try again");
-				login(user);
-
-			}
-
-
-		}
 
 		System.out.println("please enter password: ");
 		String inputPass = input.nextLine();
-			if((DataBase.users.get(i)).password.equals(inputPass)) {
-				user=DataBase.users.get(i);
-			}
-			else{
-				System.out.println("invalid password, please try again");
-				login(user);
-			}
 
 
-		return user;
+		return DataBase.loginUser(inputUser,inputPass,user);
 	}
 
 	

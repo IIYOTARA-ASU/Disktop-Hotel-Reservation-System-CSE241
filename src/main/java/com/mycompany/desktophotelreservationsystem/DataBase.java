@@ -24,7 +24,7 @@ public class DataBase {
     //leave lists and methods static because need to call using class ,and they are shared by all objecrs anyways
 
 
-//    public static boolean loginUser(String username, String password,User user){
+    public static boolean loginUser(String username, String password,User user){
 //    int index= usernames.indexOf(username);
 //    if (index!=-1&& passwords.get(index).equals(password)){//because indexof momken terga3 -1
 //        System.out.println("login successful welcome, "+ username);
@@ -35,9 +35,9 @@ public class DataBase {
 //        System.out.println("invalid username or password please try again");
 //        return false;
 //    }
-//
-//    	return true;
-//}
+
+    	return true;
+}
 
 
 }
