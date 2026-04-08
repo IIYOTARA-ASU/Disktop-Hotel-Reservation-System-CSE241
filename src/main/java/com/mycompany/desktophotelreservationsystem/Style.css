@@ -1,16 +1,7 @@
 .root{
-	-fx-background-image : url("Images/67.png");
+	-fx-background-color : #DED2AE;
 }
-.button {
-    -fx-background-color: skyblue;
-    -fx-translate-x: 100;
-    
-    -fx-border-style: solid;
-    -fx-border-color: blue;
-    -fx-border-width: 5px;
-    
-    -fx-background-insets: 0; 
-    
-    -fx-border-radius: 5px;
-    -fx-background-radius: 20px;
-	}
+.formRect{
+	-fx-border-radius : 10px;
+	-fx-background-radius: 30px;
+}
