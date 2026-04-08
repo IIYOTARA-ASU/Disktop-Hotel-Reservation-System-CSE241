@@ -8,35 +8,12 @@ public class Guest extends User{
 
     Guest() {
     }
+    Guest(String n, String p){
+    	super(n,p);
+    }
 
     public enum gender{MALE , FEMALE}
     RoomType roomChoice = new RoomType("Single");
-
-    @Override
-    public void register() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a username: ");
-        String inputUser = scanner.nextLine().trim();
-        System.out.print("Enter a password: ");
-        String inputPass = scanner.nextLine().trim();
-        if (DataBase.registerUser(inputUser, inputPass)) {
-            this.userName = inputUser;
-            this.password = inputPass;
-        }
-    }
-
-    @Override
-    public boolean login() {
-    	Scanner input = new Scanner(System.in);
-        System.out.println("please enter username: ");
-        String inputUser = input.nextLine();
-
-        System.out.println("please enter password: ");
-        String inputPass = input.nextLine();
-
-
-        return DataBase.loginUser(inputUser,inputPass);//make sure that account exists
-    }
 
 
      @Override
