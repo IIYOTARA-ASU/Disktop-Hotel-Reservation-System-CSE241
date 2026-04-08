@@ -15,6 +15,7 @@ public class Admin extends Staff{
 
 	public void createAmenities(Amenity amenity){
 		DataBase.amenities.add(amenity);
+		System.out.println("Amenity added successfully!");
 	}
 
 

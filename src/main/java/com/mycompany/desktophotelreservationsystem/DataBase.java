@@ -1,12 +1,10 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;//better
 public class DataBase {
-    static ArrayList<Guest> guests = new ArrayList<>();
     static ArrayList<Room> rooms = new ArrayList<>();
     static ArrayList<Reservation> reservations = new ArrayList<>();
     static ArrayList<Invoice> invoices = new ArrayList<>();
-    static ArrayList<Staff> staff = new ArrayList<>();
-    static ArrayList<User> users = new ArrayList<>();
+    static ArrayList<User> people = new ArrayList<>();
     static ArrayList<RoomType> roomTypes = new ArrayList<>();
     static ArrayList<Amenity> amenities = new ArrayList<>();
 

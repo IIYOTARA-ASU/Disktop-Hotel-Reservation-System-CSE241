@@ -20,70 +20,92 @@ public class User {
 		}
 	}
 	
-    
-	public boolean login(User user) {
-		// TODO Auto-generated method stub
-		Scanner input = new Scanner(System.in);
-		System.out.println("please enter username: ");
-		String inputUser = input.nextLine();
+	public User login() {
+        Scanner scanner = new Scanner(System.in);
+        String inputUser;
+        boolean usernameAlreadyExists;
+        int userIndex = -1; // Initialize userIndex to an invalid value, It gets set to the correct index if the username is found
+		
+        /////////////////////////////////////////////////////////// TAKE AN EXISTING USERNAME 
+        do {
+            System.out.print("Enter your username: ");
+            inputUser  = scanner.nextLine().trim();
+            usernameAlreadyExists = false;
+            for(int i = 0 ; i < DataBase.people.size(); i++ ) {
+                if((DataBase.people.get(i)).userName.equals(inputUser)) {
+                    usernameAlreadyExists = true;
+                    userIndex = i; // Store the index of the user with the matching username
+                }
+            }
+            if (!usernameAlreadyExists) { System.out.println("Username not found, please try again"); } 
+        } while (!usernameAlreadyExists);
 
-		System.out.println("please enter password: ");
-		String inputPass = input.nextLine();
+        /////////////////////////////////////////////////////////// TAKE USER PASSWORD
+        boolean correctPassword;
+        do {
+            System.out.print("Enter your password: ");
+            String inputPass = scanner.nextLine().trim();
+            correctPassword = DataBase.people.get(userIndex).password.equals(inputPass);
+            if (!correctPassword) { System.out.println("Incorrect password, please try again"); }
+        } while (!correctPassword);
 
-
-		return DataBase.loginUser(inputUser,inputPass,user);
+        System.out.println("Login successful, welcome " + inputUser);
+        return DataBase.people.get(userIndex); // Return the logged-in user object
 	}
 
-	
 	public User register() {
-		
 		User user;
 		
-		/////////////////////////////////////////////////////////// TAKE USER INPUTS START
+		/////////////////////////////////////////////////////////// TAKE A VALID USERNAME 
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter a username: ");
-		String inputUser = scanner.nextLine().trim();
+        String inputUser;
+        boolean usernameAlreadyExists;
+		
+        do {
+            System.out.print("Enter a username: ");
+            inputUser  = scanner.nextLine().trim();
+            
+            // System.out.println("DEBUG] Number of users in database: " + DataBase.people.size());
+            usernameAlreadyExists = false;
+            for(int i = 0 ; i < DataBase.people.size(); i++ ) {
+                if((DataBase.people.get(i)).userName.equals(inputUser)) {
+                    usernameAlreadyExists = true;
+                    System.out.println("Username already taken, please try again");
+                }
+            } 
+        } while (usernameAlreadyExists);
+
+
+        /////////////////////////////////////////////////////////// TAKE USER PASSWORD
 		System.out.print("Enter a password: ");
 		String inputPass = scanner.nextLine().trim();
-		
-		System.out.println("Choose account type");
-		System.out.println("1 : Guest");
-		System.out.println("2 : Admin");
-		System.out.println("3 : Receptionist");
-		String inputType = scanner.nextLine().trim();
-		///////////////////////////////////////////////////////// TAKE USER INPUTS END
-		
-		//////////// CHECK USER TYPE START
-	
+
+
+        /////////////////////////////////////////////////////////// TAKE VALID ACCOUNT TYPE
+		String inputType;
+        boolean validType;
+
+        do {
+            System.out.println("Choose account type");
+            System.out.println("1 : Guest");
+            System.out.println("2 : Admin");
+            System.out.println("3 : Receptionist");
+            inputType = scanner.nextLine().trim();
+            validType = inputType.equals("1") || inputType.equals("2") || inputType.equals("3");
+            if (!validType) { System.out.println("Invalid account type, please try again"); }
+        } while (!validType);
+
+        ///////////////////////////////////////////////////////// CHECK USER TYPE
 		switch(inputType) {
 		case "1" : 	user = new Guest(inputUser,inputPass);			   break;
 		case "2" :	user = new Admin(inputUser,inputPass);		       break;
 		case "3" : 	user = new Receptionist(inputUser,inputPass);	   break;
 		default  : System.out.println("Invalid number"); 		 return null;
 		}
-		
-		
-		//////////// CHECK USER TYPE END
-	
-		/////////// SEARCH FOR NAMES IN DATABASE START
 
-		System.out.println(DataBase.users.size());
-		for(int i = 0 ; i < DataBase.users.size(); i++ ) {
-			if((DataBase.users.get(i)).userName.equals(inputUser)) {
-				System.out.println("Username already taken, try again");
-				return null;
-			}
-		}
-		
-		/////////// SEARCH FOR NAMES IN DATABASE END
-		
-		/////////// ADD USER TO DATABASE START
-		
-		DataBase.users.add(user);
+		///////////////////////////////////////////////////////// ADD USER TO DATABASE
+		DataBase.people.add(user);
 		System.out.println("User added successfully!");
-		
-		/////////// ADD USER TO DATABASE END
-		
 		return user;	
 
 	}
@@ -91,7 +113,8 @@ public class User {
 	public void addUser(String inputUser, String inputPass,int type, User user) {
 
 	}
-	public void viewReservation() {
+	
+    public void viewReservation() {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
 			System.out.println("reservation"+i+": "+ DataBase.reservations.get(i));
 		}
