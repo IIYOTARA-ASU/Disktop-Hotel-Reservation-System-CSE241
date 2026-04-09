@@ -1,68 +1,52 @@
 package com.mycompany.desktophotelreservationsystem;
 
+import java.util.Date;
 import java.util.Scanner;
 
 public class Receptionist extends Staff {
-	DataBase dataBase;
-
+	Scanner in = new Scanner(System.in);
 	Receptionist() {
 	}
+    Receptionist(String username, String password){
+		super(username, password);
+    }
 
-	@Override
-	public void viewGuests() {
-		for (int i = 0; i < dataBase.guests.size(); i++) {
-			System.out.println("Guest"+i+": "+ dataBase.guests.get(i));
+	public void checkin(Guest guest , Room room , Date inDate , Date outDate){
+		if (room.getOccupied() == true){
+			System.out.println("Room Occupied already!");
 		}
-
-	}
-
-	@Override
-	public void viewRooms() {
-		for (int i = 0; i < dataBase.rooms.size(); i++) {
-			System.out.println("Room"+i+": "+ dataBase.rooms.get(i));
-		}
-
-	}
-
-	@Override
-	public void viewReservation() {
-		for (int i = 0; i < dataBase.reservations.size(); i++) {
-			System.out.println("reservation"+i+": "+ dataBase.reservations.get(i));
+		else {
+			Reservation reservation = new Reservation(guest, room, inDate, outDate);
+			DataBase.reservations.add(reservation);
+			reservation.setReservationStatus(Reservation.ReservationStatus.CONFIRMED);
+			System.out.println("Room Reserved");
 		}
 	}
 
 
-	@Override
-	public boolean login() {
-		// TODO Auto-generated method stub
-		Scanner input = new Scanner(System.in);
-		System.out.println("please enter username: ");
-		String inputUser = input.nextLine();
-
-		System.out.println("please enter password: ");
-		String inputPass = input.nextLine();
-
-
-		return dataBase.loginUser(inputUser,inputPass);//make sure that account exists
-
-	}
-
-	@Override
-	public void register() {
-		// TODO Auto-generated method stub
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter a username: ");
-		String inputUser = scanner.nextLine().trim();
-		System.out.print("Enter a password: ");
-		String inputPass = scanner.nextLine().trim();
-
-		if (dataBase.registerUser(inputUser, inputPass)) {
-			this.userName = inputUser;
-			this.password = inputPass;
+	public void checkout(Guest guest , Reservation reservation){
+		if (guest.getBalance() < reservation.getRoom().getPrice() * reservation.calculateDuration()){
+			System.out.println("Sorry, balance is not enough");
+			reservation.setReservationStatus(Reservation.ReservationStatus.PENDING);
+		}
+		else{
+			Invoice invoice = new Invoice(reservation , null , reservation.getCheckOutDate());
+			int input;
+			do {
+				System.out.println("Enter your payment method:\n1: Cash\n2: Credit Card\n");
+				input = in.nextInt();
+			}while(input != 1 && input != 2);
+			if (input == 1) {
+				invoice.setPaymentMethod(Invoice.PaymentMethod.CASH);
+				System.out.println("Taking Money from Guest by hands");
+			}
+			if (input == 2) {
+				invoice.setPaymentMethod(Invoice.PaymentMethod.CREDIT_CARD);
+				guest.setBalance(guest.getBalance() - invoice.getAmount());
+				System.out.println("Cash Operation Complete");
+			}
+			DataBase.invoices.add(invoice);
+			reservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
 		}
 	}
-
-
-    
-    
 }

@@ -1,0 +1,7 @@
+.root{
+	-fx-background-color : #DED2AE;
+}
+.formRect{
+	-fx-border-radius : 10px;
+	-fx-background-radius: 30px;
+}

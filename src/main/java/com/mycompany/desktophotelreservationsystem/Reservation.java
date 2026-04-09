@@ -30,8 +30,14 @@ public class Reservation {
         return room;
     }
 
-    public ReservationStatus getReservationStatus() {
-        return reservationStatus;
+    public String getReservationStatus() {
+        switch (reservationStatus) {
+            case PENDING: return "PENDING";
+            case CONFIRMED: return "CONFIRMED";
+            case CANCELLED: return "CANCELLED";
+            case COMPLETED: return "COMPLETED";
+        }
+        return "";
     }
 
     public Date getCheckInDate() {
@@ -76,4 +82,8 @@ public class Reservation {
         return (int) (diffInDays == 0 ? 1 : diffInDays); // Minimum of 1 day
     }
     
+    public boolean isReservationActive() {
+        Date currentDate = new Date();
+        return checkInDate.before(currentDate) && checkOutDate.after(currentDate);
+    }
 }
