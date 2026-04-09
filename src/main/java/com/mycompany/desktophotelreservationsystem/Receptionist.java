@@ -50,4 +50,7 @@ public class Receptionist extends Staff {
 			reservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
 		}
 	}
+	public void receptionistInterface(){
+
+	}
 }
