@@ -3,23 +3,17 @@ package com.mycompany.desktophotelreservationsystem;
 public class Amenity {
     private double price;
     private String name;
-    private int number;
 
     Amenity() {
     }
 
-    Amenity(String name, double price, int number) {
+    Amenity(String name, double price) {
         this.name = name;
         this.price = price;
-        this.number = number;
     }
 
     double getprice() {
         return this.price;
-    }
-
-    int getNumber() {
-        return this.number;
     }
 
     String getName() {
@@ -28,10 +22,6 @@ public class Amenity {
 
     void setName(String s) {
         this.name = s;
-    }
-
-    void setNumber(int n) {
-        this.number = n;
     }
 
     void setPrice(double p) {

@@ -4,14 +4,15 @@ import java.util.Scanner;
 
 public class Main {
 	static boolean appRunning = true;
-	
+
 	public static void guestMenu(User user) {
 		System.out.println("Hi guest");
 	}
 	public static void adminMenu(User user) {
         System.out.println("=================================================================");
 		System.out.println("Welcome, Admin " + user.userName + "!");
-        // user.createAmenities(new Amenity("Pool", 50));
+        Admin admin = (Admin) user;
+        admin.adminInterface();
 	}
 	
 	public static User enterAccount() {
@@ -31,19 +32,21 @@ public class Main {
 	}
 	
     public static void main(String args[]){
-        while(appRunning) {
-            User user = null;
-            do { user = enterAccount();
-            } while(user == null);
+        User user = null;
+        DataBase.demoFill(); // Initialize the database with some default data
 
-            // System.out.println(user.loggedIn);
+        do { user = enterAccount();
+        } while(user == null);
 
-            if(user instanceof Guest) {
-                guestMenu(user);
-            }else {
-                adminMenu(user);
-            }
-        
+
+        if(user instanceof Guest) {
+            guestMenu(user);
+        }
+        else if(user instanceof Receptionist) {
+            System.out.println("Hi, receptionist");
+        }
+        else if(user instanceof Admin) {
+            adminMenu(user);
         }
     }
 }

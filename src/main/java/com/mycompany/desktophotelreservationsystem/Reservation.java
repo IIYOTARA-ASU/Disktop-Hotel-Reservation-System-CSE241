@@ -76,4 +76,8 @@ public class Reservation {
         return (int) (diffInDays == 0 ? 1 : diffInDays); // Minimum of 1 day
     }
     
+    public boolean isReservationActive() {
+        Date currentDate = new Date();
+        return checkInDate.before(currentDate) && checkOutDate.after(currentDate);
+    }
 }

@@ -1,5 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
-import java.util.*;//better
+import java.util.*; 
+
 public class DataBase {
     static ArrayList<Room> rooms = new ArrayList<>();
     static ArrayList<Reservation> reservations = new ArrayList<>();
@@ -8,34 +9,45 @@ public class DataBase {
     static ArrayList<RoomType> roomTypes = new ArrayList<>();
     static ArrayList<Amenity> amenities = new ArrayList<>();
 
-    //ahmed arraylists feeha commands 7elwa fa45 eba esta5demhom
-
-
-//    static ArrayList<String> usernames = new ArrayList<>();//array list for registering and loging in
-//    static ArrayList<String> passwords = new ArrayList<>();//a place to store users instead of files
-    //leave lists and methods static because need to call using class and they are shared by all objecrs anyways
-
     DataBase(){
 
     }
 
-    //leave lists and methods static because need to call using class ,and they are shared by all objecrs anyways
+    public static void demoFill() {
+        /////////////////////////////////////////////////////////// PEOPLE
+        Admin admin = new Admin("Ahmed", "67");
+        Guest guest = new Guest("Baraa", "67");
+        Receptionist receptionist = new Receptionist("Youssef", "67");
+        people.add(admin);
+        people.add(guest);
+        people.add(receptionist);
 
+        /////////////////////////////////////////////////////////// ROOM TYPES
+        RoomType single = new RoomType("Single");
+        RoomType couple = new RoomType("Double"); // "double" is a reserved word in java
+        RoomType suite = new RoomType("Suite"); 
+        roomTypes.add(single);
+        roomTypes.add(couple);
+        roomTypes.add(suite);
 
-    public static boolean loginUser(String username, String password,User user){
-//    int index= usernames.indexOf(username);
-//    if (index!=-1&& passwords.get(index).equals(password)){//because indexof momken terga3 -1
-//        System.out.println("login successful welcome, "+ username);
-//        user = users.get(index);
-//        return true;
-//
-//    }else{
-//        System.out.println("invalid username or password please try again");
-//        return false;
-//    }
+        /////////////////////////////////////////////////////////// AMENITIES
+        Amenity pool = new Amenity("Pool", 50);
+        Amenity gym = new Amenity("Gym", 30);
+        Amenity coffee = new Amenity("Coffee Machine", 5);
+        Amenity wifi = new Amenity("Free Wifi", 10);
+        amenities.add(pool);
+        amenities.add(gym);
+        amenities.add(coffee);
+        amenities.add(wifi);
 
-    	return true;
-}
+        /////////////////////////////////////////////////////////// ROOM TYPES
+        Room room067 = new Room(67, suite, 670).addAmenity(gym).addAmenity(coffee);
+        Room room108 = new Room(108, single, 100).addAmenity(gym);
+        Room room123 = new Room(123, couple, 150).addAmenity(wifi).addAmenity(pool);
+        rooms.add(room067);
+        rooms.add(room108);
+        rooms.add(room123);
+    }
 
 
 }

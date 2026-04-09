@@ -8,9 +8,11 @@ public class RoomType {
 		case "Single" : roomType = roomtype.Single; break;
 		case "Double" : roomType = roomtype.Double; break;
 		case "Suite" : roomType = roomtype.Suite; break;
-		
 		}
-		
+	}
+
+	public String getRoomTypeString() {
+		return roomType.name();
 	}
 	
 }

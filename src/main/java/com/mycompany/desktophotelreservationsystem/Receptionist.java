@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class Receptionist extends Staff {
 	Receptionist() {
 	}
-    Receptionist(String n, String p){
-    	super(n,p);
+    Receptionist(String username, String password){
+		super(username, password);
     }
 
 

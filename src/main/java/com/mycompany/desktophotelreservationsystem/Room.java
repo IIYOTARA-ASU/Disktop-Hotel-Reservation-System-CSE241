@@ -1,41 +1,35 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
-import java.util.ArrayList;
 
 public class Room {
 	private RoomType type;
-	private Guest roomGuest;
-	private boolean occupied;
 	private int roomNumber;
 	private int price;
 	ArrayList<Amenity> amenities = new ArrayList<>();
 
 	Room() {
-		//type = new Single(); NEEDS TO BE UPDATED
-		//occupier = "Unnamed"; NEEDS TO BE UPDATED
-		occupied = false;
 	}
 
-	Room(RoomType type, Guest roomGuest, int price, boolean occupied, ArrayList amenities) {
+	Room(int roomNumber, RoomType type, int price) {
+		this.roomNumber = roomNumber;
 		this.type = type;
-		this.roomGuest = roomGuest;
 		this.price = price;
-		this.occupied = occupied;
-		for(int i = 0 ; i<amenities.size();i++) {
-			this.amenities.set(i,(Amenity) amenities.get(i));
-		}
 	}
 
+
+	// ###############################  GETTERS  ###############################
 	public RoomType getRoomType() {
 		return type;
 	}
 
-	public Guest getroomGuest() {
-		return roomGuest;
-	}
-
 	public boolean getOccupied() {
-		return occupied;
+		Date currentDate = new Date();
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			boolean isInReservations = DataBase.reservations.get(i).getRoom().getRoomNumber() == this.roomNumber; // Room is in reservations
+			boolean isOccupied = DataBase.reservations.get(i).isReservationActive(); // Reservation is active
+			if (isInReservations && isOccupied) { return true; }
+		}
+		return false;
 	}
 
 	public int getRoomNumber() {
@@ -46,16 +40,14 @@ public class Room {
 		return price;
 	}
 
+	public ArrayList<Amenity> getAmenities() {
+		return amenities;
+	}
+
+
+	// ###############################  SETTERS  ###############################
 	public void setRoomType(RoomType type) {
 		this.type = type;
-	}
-
-	public void setRoomGuest(Guest roomGuest) {
-		this.roomGuest = roomGuest;
-	}
-
-	public void setOccupied(boolean occupied) {
-		this.occupied = occupied;
 	}
 
 	public void setRoomNumber(int roomNumber) {
@@ -66,4 +58,8 @@ public class Room {
 		this.price = price;
 	}
 
+	public Room addAmenity(Amenity amenity) {
+		this.amenities.add(amenity);
+		return this; // To allow method chaining (according to Gemini) for faster addition of amenities to rooms
+	}
 }

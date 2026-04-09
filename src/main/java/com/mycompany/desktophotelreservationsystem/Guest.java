@@ -8,43 +8,33 @@ public class Guest extends User{
 
     Guest() {
     }
-    Guest(String n, String p){
-    	super(n,p);
+    Guest(String username, String password){
+        super(username, password);
     }
 
     public enum gender{MALE , FEMALE}
     RoomType roomChoice = new RoomType("Single");
 
 
-     @Override
-       public void viewRooms(){
-           
-       }
-       
-       public void makeReservation(){
-           
-           
-       }
-       
-       @Override
-       public void viewReservation(){
-           
-           
-       }
-       
-       public void cancelReservation(){
-           
-           
-       }
-       
-       public void checkout(){
-           
-       }
-       
-       public void  payInvoice(){
-           
-           
-       } 
-       
-       
+    @Override
+    public void viewRooms(){
+    }
+        
+    public void makeReservation(){
+    }
+        
+    @Override
+    public void viewReservation(){  
+    }
+        
+    public void cancelReservation(){
+    }
+        
+    public void checkout(){
+    }
+        
+    public void  payInvoice(){
+    } 
+        
+        
 }
