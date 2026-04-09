@@ -6,6 +6,7 @@ public class Reservation {
     
     Reservation() {
     }
+
     
     Reservation(Guest guest, Room room, Date checkInDate, Date checkOutDate) {
         this.guest = guest;

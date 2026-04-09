@@ -7,6 +7,10 @@ public class Main {
 
 	public static void guestMenu(User user) {
 		System.out.println("Hi guest");
+        System.out.println("=================================================================");
+        System.out.println("Welcome, Guest " + user.userName + "!");
+        Guest guest = (Guest) user;
+        guest.guestInterface();
 	}
 	public static void adminMenu(User user) {
         System.out.println("=================================================================");
@@ -14,7 +18,7 @@ public class Main {
         Admin admin = (Admin) user;
         admin.adminInterface();
 	}
-	
+
 	public static User enterAccount() {
         Scanner input = new Scanner(System.in);
         User user = new User();

@@ -2,6 +2,7 @@ package com.mycompany.desktophotelreservationsystem;
 
 import java.util.Scanner;
 
+
 public abstract class Staff extends User {
     Scanner in = new Scanner(System.in);
     Staff(){

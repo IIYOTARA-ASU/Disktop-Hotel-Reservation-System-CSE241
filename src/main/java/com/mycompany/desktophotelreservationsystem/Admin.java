@@ -88,6 +88,7 @@ public class Admin extends Staff {
 		Scanner scanner = new Scanner(System.in);
 		int choice;
 
+
 		System.out.println("=================================================================");
 		System.out.println("=========================== ADMIN MENU ==========================");
 		System.out.println("MANAGEMENT OPTIONS]");

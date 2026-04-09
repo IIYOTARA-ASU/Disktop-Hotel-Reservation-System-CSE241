@@ -10,6 +10,7 @@ public class DataBase {
     static ArrayList<RoomType> roomTypes = new ArrayList<>();
     static ArrayList<Amenity> amenities = new ArrayList<>();
 
+
     DataBase(){
 
     }

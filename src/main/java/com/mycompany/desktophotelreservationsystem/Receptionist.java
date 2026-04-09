@@ -7,6 +7,7 @@ public class Receptionist extends Staff {
 	Scanner in = new Scanner(System.in);
 	Receptionist() {
 	}
+
     Receptionist(String username, String password){
 		super(username, password);
     }

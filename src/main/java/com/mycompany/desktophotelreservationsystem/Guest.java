@@ -64,4 +64,68 @@ public class Guest extends User{
             DataBase.invoices.add(invoice);
             System.out.println("Cash Operation Complete");
         }
+
+    public void guestInterface() {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        System.out.println("=================================================================");
+        System.out.println("=========================== GUEST MENU ==========================");
+        System.out.println("GUEST OPTIONS]");
+        System.out.println("[1] Available Rooms  [2] Make Reservation  [3] View Reservation  ");
+        System.out.println("[4] Cancel Reservation  [5] Checkout  [6] Pay Invoice");
+
+        String inputOption;
+        boolean validOption;
+        do {
+            inputOption = scanner.nextLine().trim();
+            validOption = inputOption.equals("1") || inputOption.equals("2") || inputOption.equals("3")|| inputOption.equals("4")|| inputOption.equals("5")|| inputOption.equals("6");
+            if (!validOption) { System.out.println("Invalid option, please try again"); }
+        } while (!validOption);
+
+        switch(inputOption) {
+            case "1" : 	viewRooms();			break;
+            case "2" :
+                viewRooms();
+                System.out.println("please enter desired room number");
+                int roomNumber = Integer.parseInt(scanner.nextLine().trim());
+                Room selectedRoom = null;
+                for (int i = 0; i < DataBase.rooms.size(); i++) {
+                    if (DataBase.rooms.get(i).getRoomNumber() == roomNumber) {
+                        selectedRoom = DataBase.rooms.get(i);
+                        break;
+                    }
+                }
+                if(selectedRoom==null){
+                    System.out.println("room not found");
+                    break;
+                }
+                if(selectedRoom.getOccupied()){
+                    System.out.println("room is already occupied");
+                    break;
+                }
+                Date inDate  = readDate(scanner, "Enter check-in date:");
+                Date outDate = readDate(scanner, "Enter check-out date:");
+
+                makeReservation(selectedRoom , inDate , outDate);
+                break;
+            case "3" : 	System.out.println("Room Types:") ; 				break;
+            default  : System.out.println("Invalid number"); 		 return;
+        }
+    }
+
+    private Date readDate(Scanner scanner, String prompt) {
+        System.out.println(prompt);
+        System.out.print("Day: ");   int d = Integer.parseInt(scanner.nextLine().trim());
+        System.out.print("Month: "); int m = Integer.parseInt(scanner.nextLine().trim());
+        System.out.print("Year: ");  int y = Integer.parseInt(scanner.nextLine().trim());
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(y, m - 1, d); // month is like an array fa lazem tezabat el index
+        return cal.getTime();
+    }
+
 }
+
+
+

@@ -14,5 +14,4 @@ public class RoomType {
 	public String getRoomTypeString() {
 		return roomType.name();
 	}
-	
 }
