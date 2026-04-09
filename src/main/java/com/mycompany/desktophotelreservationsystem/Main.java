@@ -13,11 +13,14 @@ public class Main {
         while(true){
         guest.guestInterface();
         Scanner scanner=new Scanner(System.in);
-            System.out.println("please enter if you want to continue:");
-        boolean keepGoingTemp=scanner.nextBoolean();
-        if(!keepGoingTemp)
+            System.out.println("Do you want to do something else? (yes/no):");
+            String keepGoing = scanner.nextLine().trim();
+        if(!keepGoing.equalsIgnoreCase("no")) {
+            System.out.println("logging out");
             break;
         }
+        }
+
 	}
 	public static void adminMenu(User user) {
         System.out.println("=================================================================");
@@ -45,7 +48,7 @@ public class Main {
     public static void main(String args[]){
         User user = null;
         DataBase.demoFill(); // Initialize the database with some default data
-
+        while (true){
         do { user = enterAccount();
         } while(user == null);
 
@@ -58,6 +61,7 @@ public class Main {
         }
         else if(user instanceof Admin) {
             adminMenu(user);
+        }
         }
     }
 }
