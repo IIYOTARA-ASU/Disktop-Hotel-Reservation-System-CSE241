@@ -121,6 +121,7 @@ public class Guest extends User{
                     System.out.println("you have no reservations");
                     break;
                 }
+                break;
             case "4":
                 boolean findPending=false;
                 for(int i=0;i< DataBase.reservations.size();i++){
@@ -134,6 +135,7 @@ public class Guest extends User{
                     System.out.println("you have no pending reservations");
                     break;
                 }
+                break;
             case "5":
                 boolean findConfirmed=false;
                 for(int i=0;i< DataBase.reservations.size();i++){
@@ -147,7 +149,21 @@ public class Guest extends User{
                     System.out.println("you have no confirmed reservations");
                     break;
                 }
+                break;
             case "6":
+                boolean findCompleted=false;
+                for(int i=0;i< DataBase.reservations.size();i++){
+                    if(DataBase.reservations.get(i).getGuest().equals(this) && DataBase.reservations.get(i).getReservationStatus().equals("COMPLETED")){
+
+                        checkout( DataBase.reservations.get(i)); ;
+                        findCompleted=true;
+                    }
+                }
+                if(!findCompleted) {
+                    System.out.println("you have no confirmed reservations");
+                    break;
+                }
+                break;
 
 
 

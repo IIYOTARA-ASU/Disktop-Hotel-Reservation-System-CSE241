@@ -10,7 +10,14 @@ public class Main {
         System.out.println("=================================================================");
         System.out.println("Welcome, Guest " + user.userName + "!");
         Guest guest = (Guest) user;
+        while(true){
         guest.guestInterface();
+        Scanner scanner=new Scanner(System.in);
+            System.out.println("please enter if you want to continue:");
+        boolean keepGoingTemp=scanner.nextBoolean();
+        if(!keepGoingTemp)
+            break;
+        }
 	}
 	public static void adminMenu(User user) {
         System.out.println("=================================================================");
