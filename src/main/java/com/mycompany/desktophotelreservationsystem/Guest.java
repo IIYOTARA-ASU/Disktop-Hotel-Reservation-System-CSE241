@@ -109,7 +109,48 @@ public class Guest extends User{
 
                 makeReservation(selectedRoom , inDate , outDate);
                 break;
-            case "3" : 	System.out.println("Room Types:") ; 				break;
+            case "3" :
+                boolean findReservation=false;
+                for(int i=0;i< DataBase.reservations.size();i++){
+                    if(DataBase.reservations.get(i).getGuest().equals(this)){
+                        viewReservation( DataBase.reservations.get(i)) ;
+                        findReservation=true;
+                    }
+                }
+                if(!findReservation){
+                    System.out.println("you have no reservations");
+                    break;
+                }
+            case "4":
+                boolean findPending=false;
+                for(int i=0;i< DataBase.reservations.size();i++){
+                    if(DataBase.reservations.get(i).getGuest().equals(this) && DataBase.reservations.get(i).getReservationStatus().equals("PENDING")){
+
+                        cancelReservation( DataBase.reservations.get(i)) ;
+                        findPending=true;
+                    }
+                }
+                if(!findPending) {
+                    System.out.println("you have no pending reservations");
+                    break;
+                }
+            case "5":
+                boolean findConfirmed=false;
+                for(int i=0;i< DataBase.reservations.size();i++){
+                    if(DataBase.reservations.get(i).getGuest().equals(this) && DataBase.reservations.get(i).getReservationStatus().equals("CONFIRMED")){
+
+                        checkout( DataBase.reservations.get(i)); ;
+                        findConfirmed=true;
+                    }
+                }
+                if(!findConfirmed) {
+                    System.out.println("you have no confirmed reservations");
+                    break;
+                }
+            case "6":
+
+
+
             default  : System.out.println("Invalid number"); 		 return;
         }
     }
