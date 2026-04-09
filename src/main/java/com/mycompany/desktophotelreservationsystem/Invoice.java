@@ -6,7 +6,7 @@ public class Invoice {
     Invoice() {
     }
 
-    Invoice(Reservation reservation, PaymentMethod paymentMethod, Date paymentDate, double amount) {
+    Invoice(Reservation reservation, PaymentMethod paymentMethod, Date paymentDate) {
         this.reservation = reservation;
         this.paymentMethod = paymentMethod;
         this.paymentDate = paymentDate;
@@ -34,7 +34,5 @@ public class Invoice {
 
     public void setPaymentDate(Date paymentDate) { this.paymentDate = paymentDate; }
 
-    public void setAmount(double amount) { this.amount = amount; }
-    
-
+    public void setAmount(double amount) { this.amount = amount;}
 }

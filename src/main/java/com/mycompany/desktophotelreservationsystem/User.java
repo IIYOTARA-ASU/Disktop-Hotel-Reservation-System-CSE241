@@ -1,8 +1,7 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
 public class User {
-    User(){
-    }
+    User(){}
     
     User(String n, String p){
     	userName = n;

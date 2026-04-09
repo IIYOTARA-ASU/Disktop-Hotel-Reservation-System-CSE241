@@ -30,8 +30,14 @@ public class Reservation {
         return room;
     }
 
-    public ReservationStatus getReservationStatus() {
-        return reservationStatus;
+    public String getReservationStatus() {
+        switch (reservationStatus) {
+            case PENDING: return "PENDING";
+            case CONFIRMED: return "CONFIRMED";
+            case CANCELLED: return "CANCELLED";
+            case COMPLETED: return "COMPLETED";
+        }
+        return "";
     }
 
     public Date getCheckInDate() {

@@ -15,7 +15,6 @@ public class Amenity {
     double getprice() {
         return this.price;
     }
-
     String getName() {
         return this.name;
     }
@@ -23,7 +22,6 @@ public class Amenity {
     void setName(String s) {
         this.name = s;
     }
-
     void setPrice(double p) {
         this.price = p;
     }
