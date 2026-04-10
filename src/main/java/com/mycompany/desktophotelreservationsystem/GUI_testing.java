@@ -67,7 +67,6 @@ public class GUI_testing extends Application {
     	return textField;
     }
     
-    
     @Override
     public void start(Stage primaryStage) {
         Color darkSlateGray = Color.rgb(37, 68, 65);
@@ -111,23 +110,74 @@ public class GUI_testing extends Application {
         TextField password = makeTextField("",x*5.5,x*0.6,x*9.5,x*4.7,true);
         password.getStyleClass().add("textBox");
         
-        Button submit = new Button("LOGIN");
-        submit.setLayoutX(x*9.5);
-        submit.setLayoutY(x*5.7);
-        submit.setPrefWidth(x*5.5);
-        submit.setPrefHeight(x*0.7);
-        submit.getStyleClass().add("loginBtn");
-        Hyperlink register = new Hyperlink("Create New Account");
-        register.setLayoutX(x*10.8);
-        register.setLayoutY(x*6.7);
-        register.getStyleClass().add("register");
+        Button loginButton = new Button("LOGIN");
+        loginButton.setLayoutX(x*9.5);
+        loginButton.setLayoutY(x*5.7);
+        loginButton.setPrefWidth(x*5.5);
+        loginButton.setPrefHeight(x*0.7);
+        loginButton.getStyleClass().add("btn-round");
+        Hyperlink registerHyperlink = new Hyperlink("Create New Account");
+        registerHyperlink.setLayoutX(x*10.8);
+        registerHyperlink.setLayoutY(x*6.7);
+        registerHyperlink.getStyleClass().add("hyperlink");
+        
+        Hyperlink loginHyperlink = new Hyperlink("I have an existing account");
+        loginHyperlink.setLayoutX(x*10.5);
+        loginHyperlink.setLayoutY(x*6.7);
+        loginHyperlink.getStyleClass().add("hyperlink");
+        
+        Button registerButton = new Button("REGISTER");
+        registerButton.setLayoutX(x*9.5);
+        registerButton.setLayoutY(x*5.7);
+        registerButton.setPrefWidth(x*5.5);
+        registerButton.setPrefHeight(x*0.7);
+        registerButton.getStyleClass().add("btn-round");
 
-        register.setOnAction(e -> {
-            System.out.println("Link clicked!");
-            // Logic to open a browser goes here
+        registerHyperlink.setOnAction(e -> {
+        	root.getChildren().setAll(
+                    loginImageView,
+                    formRect,
+                    makeRoundRect(x * 2, x / 7, x * 7, x * 1.5, seaGrass, seaGrass, 10, 10),
+                    makeRoundRect(x * 2, x / 7, x * 7, x * 7, seaGrass, seaGrass, 10, 10),
+                    makeRoundRect(x * 3, x / 7, x * 6.5, x * 7.5, beige, beige, 10, 10),
+                    makeRect(x * 3, x / 2.1, x * 9.5, 0, seaGrass, seaGrass),
+                    makeRect(x * 3, x / 8, x * 13.5, x, seaGrass, seaGrass),
+                    makeRect(x * 3, x / 8, x * 14, x * 1.2, beige, beige),
+                    makeText("REGISTER","Verdana",48,FontWeight.BOLD,darkSlateGray,x*10.3,x*2),
+                    makeText("Username","Verdana",16,FontWeight.MEDIUM,darkSlateGray,x*9.5,x*3.4),
+                    makeText("Password","Verdana",16,FontWeight.MEDIUM,darkSlateGray,x*9.5,x*4.6),
+            		username,
+            		password,
+            		registerButton,
+            		loginHyperlink
+            		);
         });	
         
-        root.getChildren().addAll(
+        
+        loginHyperlink.setOnAction(e -> {
+        	root.getChildren().setAll(
+        	       
+        	                loginImageView,
+        	                formRect,
+        	                makeRoundRect(x * 2, x / 7, x * 7, x * 1.5, seaGrass, seaGrass, 10, 10),
+        	                makeRoundRect(x * 2, x / 7, x * 7, x * 7, seaGrass, seaGrass, 10, 10),
+        	                makeRoundRect(x * 3, x / 7, x * 6.5, x * 7.5, beige, beige, 10, 10),
+        	                makeRect(x * 3, x / 2.1, x * 9.5, 0, seaGrass, seaGrass),
+        	                makeRect(x * 3, x / 8, x * 13.5, x, seaGrass, seaGrass),
+        	                makeRect(x * 3, x / 8, x * 14, x * 1.2, beige, beige),
+        	                makeText("WELCOME","Verdana",48,FontWeight.BOLD,darkSlateGray,x*10.3,x*2),
+        	                makeText("Username","Verdana",16,FontWeight.MEDIUM,darkSlateGray,x*9.5,x*3.4),
+        	                makeText("Password","Verdana",16,FontWeight.MEDIUM,darkSlateGray,x*9.5,x*4.6),
+        	        		username,
+        	        		password,
+        	        		loginButton,
+        	        		registerHyperlink
+        	        		);
+        	        		
+        });	
+        
+        
+        root.getChildren().setAll(
                 loginImageView,
                 formRect,
                 makeRoundRect(x * 2, x / 7, x * 7, x * 1.5, seaGrass, seaGrass, 10, 10),
@@ -141,8 +191,8 @@ public class GUI_testing extends Application {
                 makeText("Password","Verdana",16,FontWeight.MEDIUM,darkSlateGray,x*9.5,x*4.6),
         		username,
         		password,
-        		submit,
-        		register
+        		loginButton,
+        		registerHyperlink
         		);
         
         scene.getStylesheets().add(css);

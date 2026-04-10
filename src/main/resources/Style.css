@@ -17,7 +17,7 @@
     -fx-focus-color: #2ecc71;
     -fx-faint-focus-color: #2ecc7122;
 }
-.loginBtn{
+.btn-round{
 	-fx-background-color : darkSlateGray;
 	-fx-text-fill : white;
     -fx-font-size: 18px; 
@@ -25,20 +25,20 @@
     -fx-background-radius : 25px;
     -fx-font-family: "Verdana";
 }
-.loginBtn:hover{
+.btn-round:hover{
 	-fx-cursor: hand;
 	-fx-background-color : #24423F;
 }
 
-.register{
+.hyperlink{
 	-fx-underline : false;
 	-fx-text-fill : darkSlateGray;
 	-fx-font-size : 20px;
 }
-.register:hover{
+.hyperlink:hover{
 	-fx-underline : true;
 }
-.register:focused{
+.hyperlink:focused{
 	-fx-focus-color : transparent;
 	-fx-faint-focus-color : transparent;
 }
