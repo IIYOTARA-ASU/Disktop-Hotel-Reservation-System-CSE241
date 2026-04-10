@@ -48,11 +48,12 @@ public class GUI_testing extends Application {
         scene.getStylesheets().add(css);
 
         // Configure the stage (the main window)
-        primaryStage.setTitle("Hello HADI!");
+        primaryStage.setTitle("Palisade Hotel");
 
         
         scene.getStylesheets().add(css);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Images/palisade.png")));
         primaryStage.show();
     }
 

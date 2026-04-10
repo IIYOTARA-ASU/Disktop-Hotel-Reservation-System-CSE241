@@ -3,7 +3,9 @@ package Screens;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -63,12 +65,40 @@ public class LoginPage extends Pane{
     registerButton.setPrefHeight(x*0.7);
     registerButton.getStyleClass().add("btn-round");
 
+    ///////////////////////////////////////////////////////// RADIO BUTTONS (type of account)
+    double toggleSpacing = x*1.5;
+    double togglePosition = x*10.5;
+    ToggleGroup accountType = new ToggleGroup();
+    
+    RadioButton rAdmin = new RadioButton();
+    RadioButton rGuest = new RadioButton();
+    RadioButton rReceptionist = new RadioButton();
+
+    rAdmin.setToggleGroup(accountType);
+    rGuest.setToggleGroup(accountType);
+    rReceptionist.setToggleGroup(accountType);
+    
+    rAdmin.setLayoutY(x*6.5);
+    rGuest.setLayoutY(x*6.5);
+    rReceptionist.setLayoutY(x*6.5);
+
+    rAdmin.setLayoutX(togglePosition);
+    togglePosition+=toggleSpacing;
+    rGuest.setLayoutX(togglePosition);
+    togglePosition+=toggleSpacing;
+    rReceptionist.setLayoutX(togglePosition);
+    
+    rAdmin.getStyleClass().add("radioButtons");
+    rGuest.getStyleClass().add("radioButtons");
+    rReceptionist.getStyleClass().add("radioButtons");
+    
+    ///////////////////////////////////////////////////////// RADIO BUTTONS END
     registerHyperlink.setOnAction(e -> { /////////// REGISTER
     	double change = x*0.5;
-        loginHyperlink.setLayoutY(loginHyperlink.getLayoutY()+change);
+        loginHyperlink.setLayoutY(loginHyperlink.getLayoutY()+change*2);
         username.setLayoutY(username.getLayoutY()+change);
-        password.setLayoutY(password.getLayoutY()+change);
-        registerButton.setLayoutY(registerButton.getLayoutY()+change);
+        password.setLayoutY(password.getLayoutY()+change/2);
+        registerButton.setLayoutY(registerButton.getLayoutY()+change*2.5);
 
     	this.getChildren().setAll(
                 loginImageView,
@@ -84,12 +114,19 @@ public class LoginPage extends Pane{
                 screenUtil.makeText("Password","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,password.getLayoutX(),password.getLayoutY()-x*0.1),
                 screenUtil.makeText("First Name","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,firstName.getLayoutX(),firstName.getLayoutY()-x*0.1),
                 screenUtil.makeText("Last Name","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,lastName.getLayoutX(),lastName.getLayoutY()-x*0.1),
-        		username,
+                screenUtil.makeText("Account Type","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,firstName.getLayoutX(),rAdmin.getLayoutY()-x*0.7),
+                screenUtil.makeText("Admin","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,rAdmin.getLayoutX()-x*0.3,rAdmin.getLayoutY()-x*0.1),
+                screenUtil.makeText("Guest","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,rGuest.getLayoutX()-x*0.25,rAdmin.getLayoutY()-x*0.1),
+                screenUtil.makeText("Receptionist","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,rReceptionist.getLayoutX()-x*0.5,rAdmin.getLayoutY()-x*0.1),
+                username,
         		password,
         		registerButton,
         		loginHyperlink,
         		firstName,
-        		lastName
+        		lastName,
+        		rAdmin,
+        		rGuest,
+        		rReceptionist
         		);
     });	
     
@@ -97,10 +134,10 @@ public class LoginPage extends Pane{
     loginHyperlink.setOnAction(e ->
     {		            	
     double change = x*0.5;
-    loginHyperlink.setLayoutY(loginHyperlink.getLayoutY()-change);
+    loginHyperlink.setLayoutY(loginHyperlink.getLayoutY()-change*2);
     username.setLayoutY(username.getLayoutY()-change);
-    password.setLayoutY(password.getLayoutY()-change);
-    registerButton.setLayoutY(registerButton.getLayoutY()-change);
+    password.setLayoutY(password.getLayoutY()-change/2);
+    registerButton.setLayoutY(registerButton.getLayoutY()-change*2.5);
     	this.getChildren().setAll(
     	                loginImageView,
     	                formRect,
