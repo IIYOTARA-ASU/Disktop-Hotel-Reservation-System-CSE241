@@ -23,7 +23,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 
 public class GUI_testing extends Application {
