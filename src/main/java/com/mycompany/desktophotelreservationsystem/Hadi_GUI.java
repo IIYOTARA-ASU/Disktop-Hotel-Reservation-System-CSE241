@@ -71,7 +71,7 @@ public class Hadi_GUI extends Application {
         hStage.setTitle("AHMED 67");
         int x=70;
         Parent hroot = FXMLLoader.load(getClass().getResource("/scenebuilder.fxml")); // add fxml file
-        String css= this.getClass().getResource("/hadi.css").toExternalForm();
+        String css= this.getClass().getResource("/hadi.css").toExternalForm(); // add css file
         Scene hscene=new Scene(hroot,550,400,Color.WHITE);
         hscene.getStylesheets().add(css);
         hStage.setScene(hscene);
