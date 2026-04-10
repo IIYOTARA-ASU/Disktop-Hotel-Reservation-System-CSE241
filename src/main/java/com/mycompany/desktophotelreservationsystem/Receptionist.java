@@ -1,5 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -51,6 +52,99 @@ public class Receptionist extends Staff {
 		}
 	}
 	public void receptionistInterface(){
+		Scanner scanner = new Scanner(System.in);
+		int choice;
 
+		System.out.println("=================================================================");
+		System.out.println("=========================== Receptionist MENU ==========================");
+		System.out.println("RECEPTIONIST OPTIONS");
+		System.out.println("[1] Check In  [2] Check out  ");
+
+
+		String inputOption;
+		boolean validOption;
+		do {
+			inputOption = scanner.nextLine().trim();
+			validOption = inputOption.equals("1") || inputOption.equals("2") ;
+			if (!validOption) { System.out.println("Invalid option, please try again"); }
+		} while (!validOption);
+
+		switch(inputOption) {
+			case "1" :
+				Guest selectedGuest = chooseGuest(scanner);
+				if (selectedGuest == null) {
+					System.out.println("Guest not found.");
+					break;
+				}
+
+
+				viewRooms();
+				System.out.println("please enter room number: ");
+				int roomNumber= Integer.parseInt(scanner.nextLine().trim());
+				Room selectedRoom=findRoom(roomNumber);
+				if(selectedRoom==null){
+					System.out.println("room not found:");
+					break;
+				}
+				if (selectedRoom.getOccupied()) {
+					System.out.println("room is already occupied");
+					break;
+				}
+
+
+				Date inDate  = readDate(scanner, "Enter check-in date:");
+				Date outDate = readDate(scanner, "Enter check-out date:");
+
+				checkin(selectedGuest,selectedRoom,inDate,outDate);
+				break;
+			case "2" :
+
+
+
+
+				break;
+			default  : System.out.println("Invalid number"); 		 return;
+		}
+
+
+
+	}
+
+	private Guest chooseGuest(Scanner scanner){
+		for(int i=0;i<DataBase.people.size();i++){
+			if(DataBase.people.get(i)instanceof Guest){
+				System.out.println("registered users:");
+				System.out.println((i+1)+"-"+DataBase.people.get(i).userName);
+
+			}
+		}
+		System.out.println("please enter the Guest's username:");
+		String name = scanner.nextLine().trim();
+		for(int i=0;i<DataBase.people.size();i++){
+			if(DataBase.people.get(i)instanceof Guest && DataBase.people.get(i).userName.equals(name)){
+				return ((Guest) DataBase.people.get(i));
+			}
+		}
+		return (null);
+	}
+
+	private Room findRoom(int numberRoom){
+		for(int i=0;i<DataBase.rooms.size();i++){
+			if(DataBase.rooms.get(i).getRoomNumber()==numberRoom){
+				return(DataBase.rooms.get(i));
+			}
+		}
+		return (null);
+	}
+
+	private Date readDate(Scanner scanner, String prompt) {
+		System.out.println(prompt);
+		System.out.print("Day: ");   int d = Integer.parseInt(scanner.nextLine().trim());
+		System.out.print("Month: "); int m = Integer.parseInt(scanner.nextLine().trim());
+		System.out.print("Year: ");  int y = Integer.parseInt(scanner.nextLine().trim());
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(y, m - 1, d); // month is like an array fa lazem tezabat el index
+		return cal.getTime();
 	}
 }
