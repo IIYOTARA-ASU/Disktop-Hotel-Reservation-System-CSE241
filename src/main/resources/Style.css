@@ -5,3 +5,40 @@
 	-fx-border-radius : 10px;
 	-fx-background-radius: 30px;
 }
+
+.textBox{
+	-fx-border-color : darkSlateGray;
+	-fx-border-radius : 7px;
+	-fx-background-radius : 7px;
+	-fx-border-width : 2px;
+}
+
+.textBox:focused {
+    -fx-focus-color: #2ecc71;
+    -fx-faint-focus-color: #2ecc7122;
+}
+.loginBtn{
+	-fx-background-color : darkSlateGray;
+	-fx-text-fill : white;
+    -fx-font-size: 18px; 
+    -fx-font-weight: bold; 
+    -fx-background-radius : 25px;
+    -fx-font-family: "Verdana";
+}
+.loginBtn:hover{
+	-fx-cursor: hand;
+	-fx-background-color : #24423F;
+}
+
+.register{
+	-fx-underline : false;
+	-fx-text-fill : darkSlateGray;
+	-fx-font-size : 20px;
+}
+.register:hover{
+	-fx-underline : true;
+}
+.register:focused{
+	-fx-focus-color : transparent;
+	-fx-faint-focus-color : transparent;
+}
