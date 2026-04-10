@@ -71,8 +71,8 @@ public class Receptionist extends Staff {
 
 		switch(inputOption) {
 			case "1" :
-				Guest selectedGuest = chooseGuest(scanner);
-				if (selectedGuest == null) {
+				Guest inSelectedGuest = chooseGuest(scanner);
+				if (inSelectedGuest == null) {
 					System.out.println("Guest not found.");
 					break;
 				}
@@ -95,13 +95,30 @@ public class Receptionist extends Staff {
 				Date inDate  = readDate(scanner, "Enter check-in date:");
 				Date outDate = readDate(scanner, "Enter check-out date:");
 
-				checkin(selectedGuest,selectedRoom,inDate,outDate);
+				checkin(inSelectedGuest,selectedRoom,inDate,outDate);
 				break;
 			case "2" :
+				Guest outSelectedGuest = chooseGuest(scanner);
+				if (outSelectedGuest == null) {
+					System.out.println("Guest not found.");
+					break;
+				}
+
+				Reservation reservedGuestRoom=null;
+				for (int i = 0; i < DataBase.reservations.size(); i++) {
+					if(DataBase.reservations.get(i).getGuest().equals(outSelectedGuest) && DataBase.reservations.get(i).getReservationStatus().equals("CONFIRMED")){
+						reservedGuestRoom=DataBase.reservations.get(i);
+						break;
+					}
+
+				}
+				if (reservedGuestRoom==null){
+					System.out.println("no reserved room");
+					break;
+				}
 
 
-
-
+				checkout(outSelectedGuest,reservedGuestRoom);
 				break;
 			default  : System.out.println("Invalid number"); 		 return;
 		}

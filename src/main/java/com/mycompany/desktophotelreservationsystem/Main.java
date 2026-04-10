@@ -82,7 +82,7 @@ public class Main {
             guestMenu(user);
         }
         else if(user instanceof Receptionist) {
-            System.out.println("Hi, receptionist");
+            receptionistMenu(user);
         }
         else if(user instanceof Admin) {
             adminMenu(user);
