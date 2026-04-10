@@ -94,7 +94,7 @@ public class GUI_testing extends Application {
         scene.getStylesheets().add(css);
 
         // Configure the stage (the main window)
-        primaryStage.setTitle("Palisade Hotel");
+        primaryStage.setTitle("Hello HADI!");
 
         Image loginImage = new Image(this.getClass().getResource("/Images/Login.png").toExternalForm());
         ImageView loginImageView = new ImageView(loginImage);
@@ -197,7 +197,6 @@ public class GUI_testing extends Application {
         
         scene.getStylesheets().add(css);
         primaryStage.setScene(scene);
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Images/palisade.png")));
         primaryStage.show();
     }
 
