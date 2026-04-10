@@ -1,5 +1,7 @@
 package com.mycompany.desktophotelreservationsystem;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -21,6 +23,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class GUI_testing extends Application {
 
@@ -68,7 +72,7 @@ public class GUI_testing extends Application {
     }
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         Color darkSlateGray = Color.rgb(37, 68, 65);
         Color seaGrass = Color.rgb(67, 170, 139);
         Color beige = Color.rgb(222, 210, 174);
@@ -83,6 +87,7 @@ public class GUI_testing extends Application {
         // btn.setStyle("--fx--background-color:Color.Red;");
         // Add the button to a layout pane
         Pane root = new Pane();
+        Parent gusetroot = FXMLLoader.load(getClass().getResource("/scenebuilder.fxml"));
         // root.getChildren().add(btn);
 
         // Create a scene with the layout pane, setting dimensions
@@ -91,6 +96,7 @@ public class GUI_testing extends Application {
         primaryStage.setResizable(false);
         String css = this.getClass().getResource("/Style.css").toExternalForm();
         Scene scene = new Scene(root, 16 * x, 9 * x - 2);
+        Scene guest=new Scene(gusetroot);
         scene.getStylesheets().add(css);
 
         // Configure the stage (the main window)
