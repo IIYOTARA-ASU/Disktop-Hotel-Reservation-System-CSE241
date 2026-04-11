@@ -42,3 +42,13 @@
 	-fx-focus-color : transparent;
 	-fx-faint-focus-color : transparent;
 }
+.radioButtons > .radio{
+	-fx-background-color : white;
+	-fx-border-color : darkSlateGray;
+	-fx-border-radius : 10px;
+	-fx-background-radius : 10px;
+}
+
+.radioButtons:hover{
+	-fx-cursor:hand;
+}
