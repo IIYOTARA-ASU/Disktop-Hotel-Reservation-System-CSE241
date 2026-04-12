@@ -65,7 +65,7 @@ public class Receptionist extends Staff {
 		boolean validOption;
 		do {
 			inputOption = scanner.nextLine().trim();
-			validOption = inputOption.equals("1") || inputOption.equals("2") ;
+			validOption = inputOption.equals("1") || inputOption.equals("2") || inputOption.equals("3") || inputOption.equals("4") ;
 			if (!validOption) { System.out.println("Invalid option, please try again"); }
 		} while (!validOption);
 
@@ -121,11 +121,10 @@ public class Receptionist extends Staff {
 				checkout(outSelectedGuest,reservedGuestRoom);
 				break;
 			case "3" :
-
-
+				viewPending();
 				break;
 			case "4":
-
+				acceptPending();
 				break;
 
 			default  : System.out.println("Invalid number"); 		 return;
@@ -173,22 +172,54 @@ public class Receptionist extends Staff {
 		return cal.getTime();
 	}
 
-	public void viewPending(){
+
+	public boolean viewPending(){
 		int size = DataBase.reservations.size();
 		int counter = 0;
 		for (int i = 0 ; i < size ; i++ ){
-			if (DataBase.reservations.get(i).getReservationStatus() == Reservation.ReservationStatus.PENDING)
+			if (DataBase.reservations.get(i).getReservationStatus() == "PENDING")
 				counter++;
 		}
 		if (counter == 0){
 			System.out.println("No pending requests!");
-			return;
+			return false;
 		}
 		for (int i = 0 ; i < size ; i++){
-			if (DataBase.reservations.get(i).getReservationStatus() == Reservation.ReservationStatus.PENDING) {
-				System.out.println("Request" + i + ": " + DataBase.reservations.get(i).getRoom().getRoomNumber()
-						+ "From the guest: " + DataBase.reservations.get(i).getGuest().getUserName());
+			if (DataBase.reservations.get(i).getReservationStatus() == "PENDING") {
+				System.out.println("Request" + i+1 + ": Room number: " + DataBase.reservations.get(i).getRoom().getRoomNumber()
+						+ " From the guest: " + DataBase.reservations.get(i).getGuest().getUserName());
 			}
+		}
+		return true;
+	}
+
+
+	public void acceptPending(){
+		int i = 0;
+		int size = DataBase.reservations.size();
+		if(!viewPending())
+			return;
+		try {
+			System.out.println("Enter the room you want to accept: ");
+			int roomNumber = Integer.parseInt(in.nextLine().trim());
+			Reservation newReservation = null;
+			for (i = 0; i < size; i++) {
+				if (DataBase.reservations.get(i).getRoom().getRoomNumber() == roomNumber) {
+					newReservation = DataBase.reservations.get(i);
+					break;
+				}
+			}
+			if (newReservation == null) {
+				System.out.println("Invalid Input! returning to main menu");
+				acceptPending();
+			}
+			newReservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
+			DataBase.reservations.set(i, newReservation);
+			System.out.println("Request was accepted!");
+		}
+		catch (NumberFormatException e){
+			System.out.println("Input is not a number , Try again!");
+			acceptPending();
 		}
 	}
 }

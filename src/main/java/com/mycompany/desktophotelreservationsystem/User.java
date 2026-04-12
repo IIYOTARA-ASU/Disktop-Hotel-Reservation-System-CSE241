@@ -116,11 +116,7 @@ public class User {
 		return user;	
 
 	}
-	
-	public void addUser(String inputUser, String inputPass,int type, User user) {
 
-	}
-	
     public void viewReservation() {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
 			System.out.println("reservation"+i+": "+ DataBase.reservations.get(i));
