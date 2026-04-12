@@ -8,14 +8,22 @@ public class User {
     	password = p;
     }
     
-    String userName;
-    String password;
-    Date dateOfBirth;
+    private String userName;
+    private String password;
+    private Date dateOfBirth;
     boolean loggedIn = false;
 
-	public void viewRooms() {
+    public String getUserName() {return userName;}
+    public void setUserName(String userName) {this.userName = userName;}
+    public String getPassword() {return password;}
+
+    public void setPassword(String password) {this.password = password;}
+    public Date getDateOfBirth() {return dateOfBirth;}
+    public void setDateOfBirth(Date dateOfBirth) {this.dateOfBirth = dateOfBirth;}
+
+    public void viewRooms() {
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			System.out.println("Room"+i+": "+ DataBase.rooms.get(i));
+			System.out.println("Room"+i+": "+ DataBase.rooms.get(i).getRoomNumber());
 		}
 	}
 	

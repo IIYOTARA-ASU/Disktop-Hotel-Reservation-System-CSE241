@@ -17,7 +17,7 @@ public abstract class Staff extends User {
     public void acceptResevation(Reservation reservation){
         int input;
         do {
-            System.out.println("Do you want to accept this reservation of guest"+reservation.getGuest().userName+":\n1: Yes\n2: No\n");
+            System.out.println("Do you want to accept this reservation of guest"+reservation.getGuest().getUserName()+":\n1: Yes\n2: No\n");
             input = in.nextInt();
         }while(input != 1 && input != 2);
         if (input == 1) {

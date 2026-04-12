@@ -55,10 +55,10 @@ public class Receptionist extends Staff {
 		Scanner scanner = new Scanner(System.in);
 		int choice;
 
-		System.out.println("=================================================================");
+		System.out.println("========================================================================");
 		System.out.println("=========================== Receptionist MENU ==========================");
 		System.out.println("RECEPTIONIST OPTIONS");
-		System.out.println("[1] Check In  [2] Check out  ");
+		System.out.println("[1] Check In  [2] Check out  [3] view pending  [4] Accept pending");
 
 
 		String inputOption;
@@ -120,6 +120,14 @@ public class Receptionist extends Staff {
 
 				checkout(outSelectedGuest,reservedGuestRoom);
 				break;
+			case "3" :
+
+
+				break;
+			case "4":
+
+				break;
+
 			default  : System.out.println("Invalid number"); 		 return;
 		}
 
@@ -131,14 +139,14 @@ public class Receptionist extends Staff {
 		for(int i=0;i<DataBase.people.size();i++){
 			if(DataBase.people.get(i)instanceof Guest){
 				System.out.println("registered users:");
-				System.out.println((i+1)+"-"+DataBase.people.get(i).userName);
+				System.out.println((i+1)+"-"+DataBase.people.get(i).getUserName());
 
 			}
 		}
 		System.out.println("please enter the Guest's username:");
 		String name = scanner.nextLine().trim();
 		for(int i=0;i<DataBase.people.size();i++){
-			if(DataBase.people.get(i)instanceof Guest && DataBase.people.get(i).userName.equals(name)){
+			if(DataBase.people.get(i)instanceof Guest && DataBase.people.get(i).getUserName().equals(name)){
 				return ((Guest) DataBase.people.get(i));
 			}
 		}
@@ -163,5 +171,12 @@ public class Receptionist extends Staff {
 		Calendar cal = Calendar.getInstance();
 		cal.set(y, m - 1, d); // month is like an array fa lazem tezabat el index
 		return cal.getTime();
+	}
+
+	public void viewPending(){
+		int size = DataBase.reservations.size();
+		for (int i = 0 ; i < size ; i++){
+			System.out.println("Request"+i+": "+ DataBase.reservations.get(i).getGuest().getUserName());
+		}
 	}
 }

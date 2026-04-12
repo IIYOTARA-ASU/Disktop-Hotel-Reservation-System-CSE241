@@ -7,7 +7,7 @@ public class Main {
 
 	public static void guestMenu(User user) {
         System.out.println("=================================================================");
-        System.out.println("Welcome, Guest " + user.userName + "!");
+        System.out.println("Welcome, Guest " + user.getUserName() + "!");
         Guest guest = (Guest) user;
         while(true){
         guest.guestInterface();
@@ -23,7 +23,7 @@ public class Main {
 	}
 	public static void adminMenu(User user) {
         System.out.println("=================================================================");
-        System.out.println("Welcome, Admin " + user.userName + "!");
+        System.out.println("Welcome, Admin " + user.getUserName() + "!");
         Admin admin = (Admin) user;
         while(true){
             admin.adminInterface();
@@ -40,7 +40,7 @@ public class Main {
 
     public static void receptionistMenu(User user) {
         System.out.println("=================================================================");
-        System.out.println("Welcome, Receptionist " + user.userName + "!");
+        System.out.println("Welcome, Receptionist " + user.getUserName() + "!");
         Receptionist receptionist = (Receptionist) user;
         while(true){
             receptionist.receptionistInterface();
