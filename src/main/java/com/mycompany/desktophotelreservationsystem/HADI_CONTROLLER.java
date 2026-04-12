@@ -1,31 +1,22 @@
 package com.mycompany.desktophotelreservationsystem;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.scene.shape.Circle;
+import javafx.scene.image.ImageView;
 
 public class HADI_CONTROLLER {
+
     @FXML
-    Circle myCircle=new Circle();
-    double x;
-    double y;
-    public void up(ActionEvent e)
-    {
-        myCircle.setCenterY(y-=5);
-//        System.out.println("UP");
-    }
-    public void down(ActionEvent e)
-    {
-        myCircle.setCenterY(y+=5);
-//        System.out.println("DOWN");
-    }
-    public void left(ActionEvent e)
-    {
-        myCircle.setCenterX(x-=5);
-//        System.out.println("LEFT");
-    }
-    public void right(ActionEvent e)
-    {
-        myCircle.setCenterX(x+=5);
-//        System.out.println("RIGHT");
+    private ImageView myImageView; // Ensure fx:id="myImageView" is set in Scene Builder
+
+    @FXML
+    public void initialize() {
+        if (myImageView != null) {
+            // This allows the image to stretch to the corners
+            myImageView.setPreserveRatio(false);
+
+            // Manually set the size to match your GUI_testing math (x=70)
+            myImageView.setFitWidth(1120);
+            myImageView.setFitHeight(628);
+        }
     }
 }
