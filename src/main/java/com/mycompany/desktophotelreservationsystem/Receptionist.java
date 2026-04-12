@@ -175,8 +175,20 @@ public class Receptionist extends Staff {
 
 	public void viewPending(){
 		int size = DataBase.reservations.size();
+		int counter = 0;
+		for (int i = 0 ; i < size ; i++ ){
+			if (DataBase.reservations.get(i).getReservationStatus() == Reservation.ReservationStatus.PENDING)
+				counter++;
+		}
+		if (counter == 0){
+			System.out.println("No pending requests!");
+			return;
+		}
 		for (int i = 0 ; i < size ; i++){
-			System.out.println("Request"+i+": "+ DataBase.reservations.get(i).getGuest().getUserName());
+			if (DataBase.reservations.get(i).getReservationStatus() == Reservation.ReservationStatus.PENDING) {
+				System.out.println("Request" + i + ": " + DataBase.reservations.get(i).getRoom().getRoomNumber()
+						+ "From the guest: " + DataBase.reservations.get(i).getGuest().getUserName());
+			}
 		}
 	}
 }
