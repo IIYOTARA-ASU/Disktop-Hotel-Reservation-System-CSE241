@@ -2,8 +2,6 @@ package com.mycompany.desktophotelreservationsystem;
 
 import java.util.Scanner;
 
-import com.mycompany.desktophotelreservationsystem.RoomType.roomtype;
-
 public class Admin extends Staff {
 	Admin() {
 	}
@@ -18,7 +16,7 @@ public class Admin extends Staff {
 	public void updateRoom(int index, Room room)                { DataBase.rooms.set(index, room); }
 	public void deleteRoom(Room room)                           { DataBase.rooms.remove(room); }
 
-	public void createAmenities(Amenity amenity)                { DataBase.amenities.add(amenity); System.out.println("Amenity added successfully!"); }
+	public void createAmenities(Amenity amenity)                { DataBase.amenities.add(amenity);  }
 	public void readAmenities(int index)                        { DataBase.amenities.get(index); }
 	public void updateAmenities(int index, Amenity amenity)     { DataBase.amenities.set(index, amenity); }
 	public void deleteAmenities(Amenity amenity)                { DataBase.amenities.remove(amenity); }
@@ -27,15 +25,13 @@ public class Admin extends Staff {
 	public void readRoomTypes(int index)                        { DataBase.roomTypes.get(index); }
 	public void updateRoomTypes(int index, RoomType roomType)   { DataBase.roomTypes.set(index, roomType); }
 	public void deleteRoomTypes(RoomType roomType)              { DataBase.roomTypes.remove(roomType); }
-
-
-	// ############################### INTERFACE ###############################
+	//################################ DISPLAY TABLES ##########################
 	private void displayRoomTable() {
 
-        String format = "%-10s %-10s %-30s %8s%n"; // Some Gemini Sauce for a well formatted table
-        System.out.printf(format, "NUMBER", "TYPE", "AMENITIES", "PRICE");
-        System.out.println("-------------------------------------------------------------");
-        
+		String format = "%-10s %-10s %-30s %8s%n"; // Some Gemini Sauce for a well formatted table
+		System.out.printf(format, "NUMBER", "TYPE", "AMENITIES", "PRICE");
+		System.out.println("-------------------------------------------------------------");
+
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			Room thisRoom = DataBase.rooms.get(i);
 			int roomNumber = thisRoom.getRoomNumber();
@@ -50,6 +46,31 @@ public class Admin extends Staff {
 			System.out.printf(format, roomNumber, roomtype, amenities, roomPrice);
 		}
 	}
+
+	private void displayAmenitiesTable() {
+		if (DataBase.amenities.isEmpty()) { System.out.println("No amenities found."); return; }
+		String format = "%-5s %-25s %10s%n";
+		System.out.printf(format, "ID", "NAME", "PRICE");
+		System.out.println("------------------------------------------");
+		for (int i = 0; i < DataBase.amenities.size(); i++) {
+			Amenity a = DataBase.amenities.get(i);
+			System.out.printf(format, i, a.getName(), a.getprice() + "$");
+		}
+	}
+
+
+	private void displayRoomTypesTable() {
+		if (DataBase.roomTypes.isEmpty()) { System.out.println("No room types found."); return; }
+		String format = "%-5s %-20s%n";
+		System.out.printf(format, "ID", "TYPE NAME");//id is simply the index bas kont 3ayez esm a7san
+		System.out.println("-------------------------");
+		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
+			System.out.printf(format, i, DataBase.roomTypes.get(i).getRoomTypeString());
+		}
+	}
+
+	// ############################### INTERFACE ###############################
+
 
 	public void adminInterface() {
 		Scanner scanner = new Scanner(System.in);
@@ -154,7 +175,10 @@ public class Admin extends Staff {
 		String option = getValidOption(scanner, "1", "2", "3", "4");
 
 		switch (option) {
-			case "1": /*read amenity logic */ break;
+			case "1":
+				displayAmenitiesTable();
+				break;
+
 			case "2":
 				System.out.print("Enter amenity name: ");
 				String newAmenityName = scanner.nextLine().trim();
@@ -163,8 +187,39 @@ public class Admin extends Staff {
 				createAmenities(new Amenity(newAmenityName, newAmenityPrice));
 				System.out.println("Amenity added successfully!");
 				break;
-			case "3": /* update amenity logic */ break;
-			case "4": /* delete amenity logic */ break;
+
+			case "3":
+				displayAmenitiesTable();
+				System.out.print("Enter amenity ID to update: ");
+				int updateAmenityId = Integer.parseInt(scanner.nextLine().trim());
+
+				if (updateAmenityId < 0 || updateAmenityId >= DataBase.amenities.size()) {
+					System.out.println("Invalid ID.");
+					break;
+				}
+
+				System.out.print("Enter new name: ");
+				String updatedAmenityName = scanner.nextLine().trim();
+				System.out.print("Enter new price: ");
+				double updatedAmenityPrice = Double.parseDouble(scanner.nextLine().trim());
+				updateAmenities(updateAmenityId, new Amenity(updatedAmenityName, updatedAmenityPrice));
+				System.out.println("Amenity updated successfully.");
+				break;
+
+			case "4":
+				displayAmenitiesTable();
+
+				System.out.print("Enter amenity ID to delete: ");
+				int deleteAmenityId = Integer.parseInt(scanner.nextLine().trim());
+
+				if (deleteAmenityId < 0 || deleteAmenityId >= DataBase.amenities.size()) {
+					System.out.println("Invalid ID.");
+					break;
+				}
+
+				deleteAmenities(DataBase.amenities.get(deleteAmenityId));
+				System.out.println("Room type deleted successfully");
+				break;
 		}
 	}
 
@@ -173,10 +228,44 @@ public class Admin extends Staff {
 		String option = getValidOption(scanner, "1", "2", "3", "4");
 
 		switch (option) {
-			case "1": ; break;
-			case "2": /* add room type logic */ break;
-			case "3": /* update room type logic */ break;
-			case "4": /* delete room type logic */ break;
+			case "1":
+				displayRoomTypesTable();
+				break;
+			case "2":
+				System.out.print("Enter new room type: ");
+				String createdRoomType = scanner.nextLine().trim();
+				createRoomTypes(new RoomType(createdRoomType));
+				System.out.println("room type added successfully");
+				break;
+			case "3":
+				displayRoomTypesTable();
+				System.out.print("Enter roomtype ID to update: ");
+				int updateRoomTypeId = Integer.parseInt(scanner.nextLine().trim());
+
+				if (updateRoomTypeId < 0 || updateRoomTypeId >= DataBase.amenities.size()) {
+					System.out.println("Invalid ID.");
+					break;
+				}
+
+				System.out.print("Enter new room type name: ");
+				String updatedName = scanner.nextLine().trim();
+				updateRoomTypes(updateRoomTypeId, new RoomType(updatedName));
+				System.out.println("Room type updated successfully");
+				break;
+
+			case "4":
+				displayRoomTypesTable();
+				System.out.print("Enter room type ID to delete: ");
+				int deleteRoomTypeId = Integer.parseInt(scanner.nextLine().trim());
+
+				if (deleteRoomTypeId < 0 || deleteRoomTypeId >= DataBase.amenities.size()) {
+					System.out.println("Invalid ID.");
+					break;
+				}
+
+				deleteRoomTypes(DataBase.roomTypes.get(deleteRoomTypeId));
+				System.out.println("Room type deleted successfully.");
+				break;
 		}
 	}
 
