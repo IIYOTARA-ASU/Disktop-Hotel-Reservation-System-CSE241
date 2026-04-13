@@ -1,136 +1,144 @@
 package com.mycompany.desktophotelreservationsystem;
+
 import java.util.*;
+
 public class User {
-    User(){}
-    
-    User(String n, String p){
-        userName = n;
-        password = p;
-    }
-    
-    private String userName;
-    private String password;
-    private Date dateOfBirth;
-    boolean loggedIn = false;
 
-    public String getUserName() {return userName;}
-    public void setUserName(String userName) {this.userName = userName;}
-    public String getPassword() {return password;}
+	User() {}
 
-    public void setPassword(String password) {this.password = password;}
-    public Date getDateOfBirth() {return dateOfBirth;}
-    public void setDateOfBirth(Date dateOfBirth) {this.dateOfBirth = dateOfBirth;}
-
-    public void viewRooms() {
-		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			System.out.println("Room"+i+": "+ DataBase.rooms.get(i).getRoomNumber());
-		}
-	}
-	
-	public User login() {
-        System.out.println("");
-        Scanner scanner = new Scanner(System.in);
-        String inputUser;
-        boolean usernameAlreadyExists;
-        int userIndex = -1; // Initialize userIndex to an invalid value, It gets set to the correct index if the username is found
-		
-        /////////////////////////////////////////////////////////// TAKE AN EXISTING USERNAME 
-        do {
-            inputUser = Validation.getString(scanner, "Enter your username: ");
-            usernameAlreadyExists = false;
-            for(int i = 0 ; i < DataBase.people.size(); i++ ) {
-                if((DataBase.people.get(i)).userName.equals(inputUser)) {
-                    usernameAlreadyExists = true;
-                    userIndex = i; // Store the index of the user with the matching username
-                }
-            }
-            if (!usernameAlreadyExists) { System.out.println("Username not found, please try again"); } 
-        } while (!usernameAlreadyExists);
-
-        /////////////////////////////////////////////////////////// TAKE USER PASSWORD
-        boolean correctPassword;
-        do {
-            String inputPass = Validation.getString(scanner, "Enter your password: ");
-            correctPassword = DataBase.people.get(userIndex).password.equals(inputPass);
-            if (!correctPassword) { System.out.println("Incorrect password, please try again"); }
-        } while (!correctPassword);
-
-        System.out.println("");
-        return DataBase.people.get(userIndex); // Return the logged-in user object
+	User(String n, String p) {
+		userName = n;
+		password = p;
 	}
 
-	public User register() {
-        System.out.println("");
-		User user;
-		
-		/////////////////////////////////////////////////////////// TAKE A VALID USERNAME 
-		Scanner scanner = new Scanner(System.in);
-        String inputUser;
-        boolean usernameAlreadyExists;
-		
-        do {
-            inputUser = Validation.getString(scanner, "Enter a username: ");
-            
-            // System.out.println("DEBUG] Number of users in database: " + DataBase.people.size());
-            usernameAlreadyExists = false;
-            for(int i = 0 ; i < DataBase.people.size(); i++ ) {
-                if((DataBase.people.get(i)).userName.equals(inputUser)) {
-                    usernameAlreadyExists = true;
-                    System.out.println("Username already taken, please try again");
-                }
-            } 
-        } while (usernameAlreadyExists);
+	private String userName;
+	private String password;
+	private Date dateOfBirth;
+	boolean loggedIn = false;
 
+	public String getUserName()                  { return userName; }
+	public void   setUserName(String userName)   { this.userName = userName; }
+	public String getPassword()                  { return password; }
+	public void   setPassword(String password)   { this.password = password; }
+	public Date   getDateOfBirth()               { return dateOfBirth; }
+	public void   setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
-        /////////////////////////////////////////////////////////// TAKE USER PASSWORD
-		String inputPass = Validation.getString(scanner, "Enter a password: ");
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Room display
+	// ─────────────────────────────────────────────────────────────────────────
+	public void viewRooms() {
+		displayRoomTable();
+	}
 
-
-        /////////////////////////////////////////////////////////// TAKE VALID ACCOUNT TYPE
-        int inputType = Validation.getOption(scanner, 3, "Choose account type: [1] Guest, [2] Admin, [3] Receptionist: ");    
-
-    
-        ///////////////////////////////////////////////////////// CHECK USER TYPE
-		switch(inputType) {
-		case 1 : 	user = new Guest(inputUser,inputPass);			   break;
-		case 2 :	user = new Admin(inputUser,inputPass);		       break;
-		case 3 : 	user = new Receptionist(inputUser,inputPass);	   break;
-		default  : System.out.println("Invalid number"); 		 return null;
+	public void displayRoomTable() {
+		if (DataBase.rooms.isEmpty()) {
+			System.out.println("   [Info] No rooms available.");
+			return;
 		}
 
-		///////////////////////////////////////////////////////// ADD USER TO DATABASE
-		DataBase.people.add(user);
-		System.out.println("User added successfully!");
-		return user;	
-
-	}
-
-    public void viewReservation() {
-		for (int i = 0; i < DataBase.reservations.size(); i++) {
-			System.out.println("reservation"+i+": "+ DataBase.reservations.get(i));
-		}
-	}
-
-    public void displayRoomTable() {
-
-		String format = "%-10s %-10s %-30s %8s%n";
+		String format = "%-10s %-12s %-28s %8s%n";
+		System.out.println();
 		System.out.printf(format, "NUMBER", "TYPE", "AMENITIES", "PRICE");
-		System.out.println("-------------------------------------------------------------");
+		System.out.println("─────────────────────────────────────────────────────────────────");
 
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			Room thisRoom = DataBase.rooms.get(i);
-			int roomNumber = thisRoom.getRoomNumber();
-			String roomtype = thisRoom.getRoomType().getRoomType();
-			String roomPrice = thisRoom.getPrice() + "$";
-			String amenities = "";
-			for (int j = 0; j < thisRoom.getAmenities().size(); j++) {
-				amenities += thisRoom.getAmenities().get(j).getName();
-				amenities += thisRoom.getAmenities().size()-j != 1 ? ", " : ""; // Add a comma after each amenity except the last one
+			Room   room       = DataBase.rooms.get(i);
+			String amenities  = "";
+			for (int j = 0; j < room.getAmenities().size(); j++) {
+				amenities += room.getAmenities().get(j).getName();
+				if (room.getAmenities().size() - j != 1) { amenities += ", "; }
 			}
+			System.out.printf(format,
+				room.getRoomNumber(),
+				room.getRoomType().getRoomType(),
+				amenities,
+				room.getPrice() + "$");
+		}
+		System.out.println("─────────────────────────────────────────────────────────────────");
+	}
 
-			System.out.printf(format, roomNumber, roomtype, amenities, roomPrice);
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Reservation display
+	// ─────────────────────────────────────────────────────────────────────────
+	public void viewReservation() {
+		if (DataBase.reservations.isEmpty()) {
+			System.out.println("   [Info] No reservations on record.");
+			return;
+		}
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			System.out.println("   Reservation " + (i + 1) + ": " + DataBase.reservations.get(i));
 		}
 	}
-	
 
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Login
+	// ─────────────────────────────────────────────────────────────────────────
+	public User login() {
+		System.out.println();
+		Scanner scanner = new Scanner(System.in);
+		String  inputUser;
+		boolean usernameFound;
+		int     userIndex = -1;
+
+		do {
+			inputUser    = Validation.getString(scanner, ">> Enter your username: ");
+			usernameFound = false;
+			for (int i = 0; i < DataBase.people.size(); i++) {
+				if (DataBase.people.get(i).userName.equals(inputUser)) {
+					usernameFound = true;
+					userIndex     = i;
+				}
+			}
+			if (!usernameFound) { System.out.println("   [Error] Username not found. Please try again."); }
+		} while (!usernameFound);
+
+		boolean correctPassword;
+		do {
+			String inputPass  = Validation.getString(scanner, ">> Enter your password: ");
+			correctPassword   = DataBase.people.get(userIndex).password.equals(inputPass);
+			if (!correctPassword) { System.out.println("   [Error] Incorrect password. Please try again."); }
+		} while (!correctPassword);
+
+		System.out.println("   [OK] Login successful.\n");
+		return DataBase.people.get(userIndex);
+	}
+
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Register
+	// ─────────────────────────────────────────────────────────────────────────
+	public User register() {
+		System.out.println();
+		Scanner scanner = new Scanner(System.in);
+		User    user;
+
+		String  inputUser;
+		boolean usernameAlreadyExists;
+
+		do {
+			inputUser = Validation.getString(scanner, ">> Enter a username: ");
+			usernameAlreadyExists = false;
+			for (int i = 0; i < DataBase.people.size(); i++) {
+				if (DataBase.people.get(i).userName.equals(inputUser)) {
+					usernameAlreadyExists = true;
+					System.out.println("   [Error] Username already taken. Please try another.");
+				}
+			}
+		} while (usernameAlreadyExists);
+
+		String inputPass = Validation.getString(scanner, ">> Enter a password: ");
+
+		int inputType = Validation.getOption(scanner, 3,
+			">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+
+		switch (inputType) {
+			case 1:  user = new Guest(inputUser, inputPass);        break;
+			case 2:  user = new Admin(inputUser, inputPass);        break;
+			case 3:  user = new Receptionist(inputUser, inputPass); break;
+			default: System.out.println("   [Error] Invalid option."); return null;
+		}
+
+		DataBase.people.add(user);
+		System.out.println("   [OK] Account created successfully!\n");
+		return user;
+	}
 }

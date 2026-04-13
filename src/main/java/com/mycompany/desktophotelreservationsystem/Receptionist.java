@@ -5,248 +5,216 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Receptionist extends Staff {
-	Scanner in = new Scanner(System.in);
-	Receptionist() {
-	}
 
-    Receptionist(String username, String password){
-		super(username, password);
-    }
+	Receptionist() {}
+	Receptionist(String username, String password) { super(username, password); }
 
-	public void checkin(Guest guest , Room room , Date inDate , Date outDate){
-		if (room.getOccupied() == true){
-			System.out.println("Room Occupied already!");
-		}
-		else {
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Core actions
+	// ─────────────────────────────────────────────────────────────────────────
+	public void checkin(Guest guest, Room room, Date inDate, Date outDate) {
+		if (room.getOccupied()) {
+			System.out.println("   [Error] Room is already occupied.");
+		} else {
 			Reservation reservation = new Reservation(guest, room, inDate, outDate);
 			DataBase.reservations.add(reservation);
 			reservation.setReservationStatus(Reservation.ReservationStatus.CONFIRMED);
-			System.out.println("Room Reserved");
+			System.out.println("   [OK] Room reserved and confirmed.");
 		}
 	}
 
-
-	public void checkout(Guest guest , Reservation reservation){
-		if (guest.getBalance() < reservation.getRoom().getPrice() * reservation.calculateDuration()){
-			System.out.println("Sorry, balance is not enough");
+	public void checkout(Guest guest, Reservation reservation) {
+		double total = reservation.getRoom().getPrice() * reservation.calculateDuration();
+		if (guest.getBalance() < total) {
+			System.out.println("   [Error] Insufficient balance. Checkout failed.");
 			reservation.setReservationStatus(Reservation.ReservationStatus.PENDING);
+			return;
 		}
-		else{
-			Invoice invoice = new Invoice(reservation , null , reservation.getCheckOutDate());
-			int input;
-			do {
-				System.out.println("Enter your payment method:\n1: Cash\n2: Credit Card\n");
-				input = in.nextInt();
-			}while(input != 1 && input != 2);
-			if (input == 1) {
-				invoice.setPaymentMethod(Invoice.PaymentMethod.CASH);
-				System.out.println("Taking Money from Guest by hands");
-			}
-			if (input == 2) {
-				invoice.setPaymentMethod(Invoice.PaymentMethod.CREDIT_CARD);
-				guest.setBalance(guest.getBalance() - invoice.getAmount());
-				System.out.println("Cash Operation Complete");
-			}
-			DataBase.invoices.add(invoice);
-			reservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
-		}
-	}
-	public void receptionistInterface(){
+
 		Scanner scanner = new Scanner(System.in);
-		int choice;
+		Invoice invoice = new Invoice(reservation, null, reservation.getCheckOutDate());
+
+		int input = Validation.getOption(scanner, 2,
+			">> Payment method  [1] Cash  [2] Credit Card: ");
+
+		if (input == 1) {
+			invoice.setPaymentMethod(Invoice.PaymentMethod.CASH);
+			System.out.println("   [OK] Cash collected from guest.");
+		} else {
+			invoice.setPaymentMethod(Invoice.PaymentMethod.CREDIT_CARD);
+			guest.setBalance(guest.getBalance() - invoice.getAmount());
+			System.out.println("   [OK] Payment charged to credit card.");
+		}
+
+		DataBase.invoices.add(invoice);
+		reservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
+		System.out.println("   [OK] Checkout complete.");
+	}
+
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Interface
+	// ─────────────────────────────────────────────────────────────────────────
+	public void receptionistInterface() {
+		Scanner scanner = new Scanner(System.in);
 
 		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
 		System.out.println("║                       RECEPTIONIST MENU                       ║");
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
-		System.out.println("");
-		
-		String prompt = """
-		[1] Check In  [2] Check out  [3] view pending  [4] Accept pending
-		>> Select an option: """;
-		int inputOption = Validation.getOption(scanner, 4, prompt);
+		System.out.println();
 
-		switch(inputOption) {
-			case 1:
-				Guest inSelectedGuest = chooseGuest(scanner);
-				if (inSelectedGuest == null) {
-					System.out.println("Guest not found.");
-					break;
-				}
+		int inputOption = Validation.getOption(scanner, 4,
+			"[1] Check In  [2] Check Out  [3] View Pending  [4] Accept Pending\n" +
+			">> Select an option: ");
+		System.out.println();
 
+		switch (inputOption) {
+
+			case 1: // ── Check In ─────────────────────────────────────────────
+				Guest inGuest = chooseGuest(scanner);
+				if (inGuest == null) { System.out.println("   [Error] Guest not found."); break; }
 
 				viewRooms();
-				System.out.println("please enter room number: ");
-				int roomNumber= Integer.parseInt(scanner.nextLine().trim());
-				Room selectedRoom=findRoom(roomNumber);
-				if(selectedRoom==null){
-					System.out.println("room not found:");
-					break;
-				}
-				if (selectedRoom.getOccupied()) {
-					System.out.println("room is already occupied");
-					break;
-				}
+				int inRoomNumber = Validation.getInt(scanner, ">> Enter room number: ");
+				Room inRoom = findRoom(inRoomNumber);
+				if (inRoom == null)         { System.out.println("   [Error] Room not found."); break; }
+				if (inRoom.getOccupied())   { System.out.println("   [Error] Room is already occupied."); break; }
 
-				Date inDate  = readDate(scanner, "Enter check-in date:");
+				Date inDate  = readDate(scanner, ">> Check-in date:");
 				Date outDate;
-				boolean validOutDate;
 				do {
-					validOutDate = true;
-					outDate = readDate(scanner, "Enter check-out date:");
-					if (outDate.before(inDate)){
-						System.out.println("Outdate is before Indate , try again!");
-						validOutDate = false;
+					outDate = readDate(scanner, ">> Check-out date:");
+					if (outDate.before(inDate)) {
+						System.out.println("   [Error] Check-out date cannot be before check-in date. Please try again.");
 					}
-				}while (!validOutDate);
+				} while (outDate.before(inDate));
 
-
-				checkin(inSelectedGuest,selectedRoom,inDate,outDate);
+				checkin(inGuest, inRoom, inDate, outDate);
 				break;
-			case 2:
-				Guest outSelectedGuest = chooseGuest(scanner);
-				if (outSelectedGuest == null) {
-					System.out.println("Guest not found.");
-					break;
-				}
 
-				Reservation reservedGuestRoom=null;
+			case 2: // ── Check Out ────────────────────────────────────────────
+				Guest outGuest = chooseGuest(scanner);
+				if (outGuest == null) { System.out.println("   [Error] Guest not found."); break; }
+
+				Reservation confirmedRes = null;
 				for (int i = 0; i < DataBase.reservations.size(); i++) {
-					if(DataBase.reservations.get(i).getGuest().equals(outSelectedGuest) && DataBase.reservations.get(i).getReservationStatus().equals("CONFIRMED")){
-						reservedGuestRoom=DataBase.reservations.get(i);
+					Reservation r = DataBase.reservations.get(i);
+					if (r.getGuest().equals(outGuest) && r.getReservationStatus().equals("CONFIRMED")) {
+						confirmedRes = r;
 						break;
 					}
-
 				}
-				if (reservedGuestRoom==null){
-					System.out.println("no reserved room");
-					break;
-				}
+				if (confirmedRes == null) { System.out.println("   [Info] No confirmed reservation found for this guest."); break; }
 
-
-				checkout(outSelectedGuest,reservedGuestRoom);
+				checkout(outGuest, confirmedRes);
 				break;
-			case 3:
+
+			case 3: // ── View Pending ─────────────────────────────────────────
 				viewPending();
 				break;
-			case 4:
-				acceptPending();
+
+			case 4: // ── Accept Pending ───────────────────────────────────────
+				acceptPending(scanner);
 				break;
-
-			default  : System.out.println("Invalid number"); 		 return;
 		}
-
-
-
 	}
 
-	private Guest chooseGuest(Scanner scanner){
-		for(int i=0;i<DataBase.people.size();i++){
-			if(DataBase.people.get(i)instanceof Guest){
-				System.out.println("registered users:");
-				System.out.println((i+1)+"-"+DataBase.people.get(i).getUserName());
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Pending reservations
+	// ─────────────────────────────────────────────────────────────────────────
+	public boolean viewPending() {
+		boolean any = false;
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			if (DataBase.reservations.get(i).getReservationStatus() == "PENDING") {
+				any = true;
+				break;
+			}
+		}
+		if (!any) {
+			System.out.println("   [Info] No pending requests.");
+			return false;
+		}
 
+		String format = "%-12s %-15s %-20s%n";
+		System.out.println();
+		System.out.printf(format, "REQUEST #", "ROOM", "GUEST");
+		System.out.println("─────────────────────────────────────────────");
+		int counter = 1;
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			Reservation r = DataBase.reservations.get(i);
+			if (r.getReservationStatus() == "PENDING") {
+				System.out.printf(format, counter++,
+					r.getRoom().getRoomNumber(),
+					r.getGuest().getUserName());
 			}
 		}
-		String name = Validation.getString(scanner, "Enter the guest's username: ");
-		for(int i=0;i<DataBase.people.size();i++){
-			if(DataBase.people.get(i)instanceof Guest && DataBase.people.get(i).getUserName().equals(name)){
-				return ((Guest) DataBase.people.get(i));
-			}
-		}
-		return (null);
+		System.out.println("─────────────────────────────────────────────");
+		return true;
 	}
 
-	private Room findRoom(int numberRoom){
-		for(int i=0;i<DataBase.rooms.size();i++){
-			if(DataBase.rooms.get(i).getRoomNumber()==numberRoom){
-				return(DataBase.rooms.get(i));
+	public void acceptPending(Scanner scanner) {
+		if (!viewPending()) { return; }
+
+		int roomNumber = Validation.getInt(scanner, ">> Enter room number to accept: ");
+		Reservation target = null;
+		int targetIndex = -1;
+
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			Reservation r = DataBase.reservations.get(i);
+			if (r.getRoom().getRoomNumber() == roomNumber && r.getReservationStatus() == "PENDING") {
+				target      = r;
+				targetIndex = i;
+				break;
 			}
 		}
-		return (null);
+
+		if (target == null) {
+			System.out.println("   [Error] No pending reservation found for that room number.");
+			return;
+		}
+
+		target.setReservationStatus(Reservation.ReservationStatus.CONFIRMED);
+		DataBase.reservations.set(targetIndex, target);
+		System.out.println("   [OK] Reservation accepted and confirmed.");
+	}
+
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Helpers
+	// ─────────────────────────────────────────────────────────────────────────
+	private Guest chooseGuest(Scanner scanner) {
+		System.out.println(">> Registered guests:");
+		System.out.println("   ─────────────────────────────────────────────");
+		int count = 0;
+		for (int i = 0; i < DataBase.people.size(); i++) {
+			if (DataBase.people.get(i) instanceof Guest) {
+				System.out.println("   " + (++count) + ". " + DataBase.people.get(i).getUserName());
+			}
+		}
+		System.out.println("   ─────────────────────────────────────────────");
+
+		String name = Validation.getString(scanner, ">> Enter guest username: ");
+		for (int i = 0; i < DataBase.people.size(); i++) {
+			if (DataBase.people.get(i) instanceof Guest
+					&& DataBase.people.get(i).getUserName().equals(name)) {
+				return (Guest) DataBase.people.get(i);
+			}
+		}
+		return null;
+	}
+
+	private Room findRoom(int number) {
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			if (DataBase.rooms.get(i).getRoomNumber() == number) { return DataBase.rooms.get(i); }
+		}
+		return null;
 	}
 
 	private Date readDate(Scanner scanner, String prompt) {
 		System.out.println(prompt);
-		int d;
-		int m;
-		int y;
-		do{
-			System.out.print("Day: ");
-			d = Integer.parseInt(scanner.nextLine().trim());
-			if (d < 1 || d > 30){
-				System.out.println("Invalid input, try again!");
-			}
-		}while (d < 1 || d > 30);
-
-		do{
-			System.out.print("Month: ");
-			m = Integer.parseInt(scanner.nextLine().trim());
-			if (m < 1 || m > 12){
-				System.out.println("Invalid input, try again!");
-			}
-		}while (m < 1 || m > 12);
-
-		do{
-			System.out.print("year: ");
-			y = Integer.parseInt(scanner.nextLine().trim());
-			if (y < 2026 || y > 2028){
-				System.out.println("Invalid input, try again!");
-			}
-		}while (y < 2026 || y > 2028);
-
+		int d = Validation.getIntInRange(scanner, "   Day   (1-30):  ", 1, 30);
+		int m = Validation.getIntInRange(scanner, "   Month (1-12):  ", 1, 12);
+		int y = Validation.getIntInRange(scanner, "   Year  (2026-2028): ", 2026, 2028);
 		Calendar cal = Calendar.getInstance();
-		cal.set(y, m - 1, d); // month is like an array fa lazem tezabat el index
+		cal.set(y, m - 1, d);
 		return cal.getTime();
-	}
-
-
-	public boolean viewPending(){
-		int size = DataBase.reservations.size();
-		int counter = 0;
-		for (int i = 0 ; i < size ; i++ ){
-			if (DataBase.reservations.get(i).getReservationStatus() == "PENDING")
-				counter++;
-		}
-		if (counter == 0){
-			System.out.println("No pending requests!");
-			return false;
-		}
-		for (int i = 0 ; i < size ; i++){
-			if (DataBase.reservations.get(i).getReservationStatus() == "PENDING") {
-				System.out.println("Request" + i + ": " + DataBase.reservations.get(i).getRoom().getRoomNumber()
-						+ "From the guest: " + DataBase.reservations.get(i).getGuest().getUserName());
-			}
-		}
-		return true;
-	}
-
-
-	public void acceptPending(){
-		int i = 0;
-		int size = DataBase.reservations.size();
-		if(!viewPending())
-			return;
-		try {
-			System.out.println("Enter the room you want to accept: ");
-			int roomNumber = Integer.parseInt(in.nextLine().trim());
-			Reservation newReservation = null;
-			for (i = 0; i < size; i++) {
-				if (DataBase.reservations.get(i).getRoom().getRoomNumber() == roomNumber) {
-					newReservation = DataBase.reservations.get(i);
-					break;
-				}
-			}
-			if (newReservation == null) {
-				System.out.println("Invalid Input! returning to main menu");
-				acceptPending();
-			}
-			newReservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
-			DataBase.reservations.set(i, newReservation);
-			System.out.println("Request was accepted!");
-		}
-		catch (NumberFormatException e){
-			System.out.println("Input is not a number , Try again!");
-			acceptPending();
-		}
 	}
 }
