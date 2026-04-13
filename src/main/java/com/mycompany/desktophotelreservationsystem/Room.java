@@ -5,6 +5,7 @@ public class Room {
 	private RoomType type;
 	private int roomNumber;
 	private int price;
+
 	ArrayList<Amenity> amenities = new ArrayList<>();
 
 	Room() {
@@ -62,4 +63,5 @@ public class Room {
 		this.amenities.add(amenity);
 		return this; // To allow method chaining (according to Gemini) for faster addition of amenities to rooms
 	}
+
 }

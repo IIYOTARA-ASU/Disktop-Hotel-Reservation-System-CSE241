@@ -1,17 +1,21 @@
 package com.mycompany.desktophotelreservationsystem;
+
 public class RoomType {
-	enum roomtype{Single, Double, Suite};
-	roomtype roomType;
-	RoomType(String type){
-		switch(type) {
-		
-		case "Single" : roomType = roomtype.Single; break;
-		case "Double" : roomType = roomtype.Double; break;
-		case "Suite" : roomType = roomtype.Suite; break;
-		}
+	String roomType;
+
+	RoomType() {
 	}
 
-	public String getRoomTypeString() {
-		return roomType.name();
+	RoomType(String roomType) {
+		this.roomType = roomType.toLowerCase();
+	}
+
+	public String getRoomType() {
+		// Capitalize the first letter 
+		return roomType.substring(0, 1).toUpperCase() + roomType.substring(1).toLowerCase(); 
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType.toLowerCase();
 	}
 }

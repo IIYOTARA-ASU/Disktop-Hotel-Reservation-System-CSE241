@@ -1,5 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Admin extends Staff {
@@ -10,32 +11,318 @@ public class Admin extends Staff {
 		super(username, password);
 	}
 
-	// ############################### ABILITIES ###############################//eh kol el method deeeh
-	public void createRoom(Room room)                            { DataBase.rooms.add(room); }
-	public void readRoom(int index)                             { DataBase.rooms.get(index); }
-	public void updateRoom(int index, Room room)                { DataBase.rooms.set(index, room); }
-	public void deleteRoom(Room room)                           { DataBase.rooms.remove(room); }
+	// ############################### ROOM CRUD ###############################
+	
+	public void createRoom() { 
+		Scanner scanner = new Scanner(System.in);
 
-	public void createAmenities(Amenity amenity)                { DataBase.amenities.add(amenity);  }
-	public void readAmenities(int index)                        { DataBase.amenities.get(index); }
-	public void updateAmenities(int index, Amenity amenity)     { DataBase.amenities.set(index, amenity); }
-	public void deleteAmenities(Amenity amenity)                { DataBase.amenities.remove(amenity); }
+		/////////////////////////////////////////////////////////// ROOM NUMBER
+		int newRoomNumber = getValidInt(scanner, ">> Enter room number: ");
 
-	public void createRoomTypes(RoomType roomType)              { DataBase.roomTypes.add(roomType); }
-	public void readRoomTypes(int index)                        { DataBase.roomTypes.get(index); }
-	public void updateRoomTypes(int index, RoomType roomType)   { DataBase.roomTypes.set(index, roomType); }
-	public void deleteRoomTypes(RoomType roomType)              { DataBase.roomTypes.remove(roomType); }
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			if (DataBase.rooms.get(i).getRoomNumber() == newRoomNumber) {
+				System.out.println("   [Error] Room number already exists. Please enter a unique room number.");
+				return;
+			}
+		}
+
+		/////////////////////////////////////////////////////////// ROOM TYPE
+		StringBuilder typePrompt = new StringBuilder(">> Enter room type ");
+		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
+			typePrompt.append("[").append(i + 1).append("] ").append(DataBase.roomTypes.get(i).getRoomType());
+			if (DataBase.roomTypes.size() - i != 1) { typePrompt.append(" "); }
+			else { typePrompt.append(": "); }
+		}
+		int newRoomTypeID = getValidOption(scanner, DataBase.roomTypes.size(), typePrompt.toString());
+		RoomType existingRoomType = DataBase.roomTypes.get(newRoomTypeID - 1);
+
+
+		/////////////////////////////////////////////////////////// ROOM PRICE
+		int newRoomPrice = getValidInt(scanner, ">> Enter room price: ");
+
+
+		/////////////////////////////////////////////////////////// CREATING ROOM
+		DataBase.rooms.add(new Room(newRoomNumber, existingRoomType, newRoomPrice));
+		Room NewRoom = DataBase.rooms.get(DataBase.rooms.size() - 1);
+
+
+		/////////////////////////////////////////////////////////// ROOM AMENITIES
+		System.out.println(">> Room Amenities Checklist: ");
+		for (int i = 0; i < DataBase.amenities.size(); i++) {
+			boolean hasAmenity = getValidYesNo(scanner, "   Should the room have " + DataBase.amenities.get(i).getName() + "? (y/n): ");
+			if (hasAmenity) {
+				NewRoom.addAmenity(DataBase.amenities.get(i));
+			}
+		}
+
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		System.out.println("ROOM CREATED SUCCESSFULLY");
+	}
+
+	public void updateRoom(){
+		Scanner scanner = new Scanner(System.in);
+		displayRoomTable();
+		System.out.println("");
+
+		/////////////////////////////////////////////////////////// ROOM NUMBER
+		int updateIndex = -1;
+		int updateRoomNumber;
+
+		do{
+			updateRoomNumber = getValidInt(scanner, "Enter room number to update: ");
+
+			for (int i = 0; i < DataBase.rooms.size(); i++) {
+				if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) {
+					updateIndex = i;
+					break;
+				}
+			}
+
+			if (updateIndex == -1) {System.out.println("   [Error] Room not found. Please enter a valid existing room number.");}
+		} while (updateIndex == -1);
+
+
+		/////////////////////////////////////////////////////////// ROOM TYPE
+		StringBuilder typePrompt = new StringBuilder(">> Enter room type ");
+		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
+			typePrompt.append("[").append(i + 1).append("] ").append(DataBase.roomTypes.get(i).getRoomType());
+			if (DataBase.roomTypes.size() - i != 1) { typePrompt.append(" "); }
+			else { typePrompt.append(": "); }
+		}
+		int updatedRoomTypeID = getValidOption(scanner, DataBase.roomTypes.size(), typePrompt.toString());
+		RoomType existingRoomType = DataBase.roomTypes.get(updatedRoomTypeID - 1);
+
+		int updatedPrice = getValidInt(scanner, "Enter new price: ");
+
+
+		/////////////////////////////////////////////////////////// UPDATING ROOM
+		Room UpdatedRoom = DataBase.rooms.get(updateIndex);
+		UpdatedRoom.setRoomNumber(updateRoomNumber);
+		UpdatedRoom.setRoomType(existingRoomType);
+		UpdatedRoom.setPrice(updatedPrice);
+		UpdatedRoom.getAmenities().clear();
+
+		/////////////////////////////////////////////////////////// ROOM AMENITIES
+		System.out.println(">> Room Amenities Checklist: ");
+		for (int i = 0; i < DataBase.amenities.size(); i++) {
+			boolean hasAmenity = getValidYesNo(scanner, "   Should the room have " + DataBase.amenities.get(i).getName() + "? (y/n): ");
+			if (hasAmenity) {
+				UpdatedRoom.addAmenity(DataBase.amenities.get(i));
+			}
+		}
+
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		System.out.println("Room updated successfully");
+	}
+	
+	public void deleteRoom(){ 
+		Scanner scanner = new Scanner(System.in);
+		displayRoomTable();
+		System.out.println("");
+
+		int deletedIndex = -1;
+		int deletedRoomNumber;
+
+		do{
+			deletedRoomNumber = getValidInt(scanner, "Enter room number to delete: ");
+
+			for (int i = 0; i < DataBase.rooms.size(); i++) {
+				if (DataBase.rooms.get(i).getRoomNumber() == deletedRoomNumber) {
+					deletedIndex = i;
+					break;
+				}
+			}
+
+			if (deletedIndex == -1) {System.out.println("   [Error] Room not found. Please enter a valid existing room number.");}
+		} while (deletedIndex == -1);
+
+
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			Reservation reservation = DataBase.reservations.get(i);
+			if (reservation.getRoom().getRoomNumber() == deletedRoomNumber && reservation.isReservationActive()) {
+				System.out.println("   [Error] Cannot delete room " + deletedRoomNumber + " because it is currently reserved by guest " + reservation.getGuest().getUserName());
+				return;
+			}
+		}
+		DataBase.rooms.remove(deletedIndex);
+		System.out.println("Room deleted successfully");
+
+	}
+
+	// ############################### AMENITIES CRUD ###############################
+
+	public void createAmenities() {
+		Scanner scanner = new Scanner(System.in);
+
+		/////////////////////////////////////////////////////////// AMENITY NAME
+		String newAmenityName = getNonEmptyString(scanner, "Enter amenity name: ");
+
+		for (int i = 0; i < DataBase.amenities.size(); i++) {
+			Amenity existingAmenity = DataBase.amenities.get(i);
+			if (existingAmenity.getName().equalsIgnoreCase(newAmenityName)) {
+				System.out.println("Amenity with the same name already exists. Updating its price.");
+				return;
+			}
+		}
+
+		/////////////////////////////////////////////////////////// AMENITY PRICE
+		double newAmenityPrice = getValidDouble(scanner, "Enter amenity price: ");
+
+		
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		DataBase.amenities.add(new Amenity(newAmenityName, newAmenityPrice));
+		System.out.println("Amenity added successfully!");
+	}
+
+	public void updateAmenities() {
+		Scanner scanner = new Scanner(System.in);
+		displayAmenitiesTable();
+		System.out.println("");
+		int updateAmenityId = -1;
+		
+		/////////////////////////////////////////////////////////// AMENITY ID
+		do{
+			updateAmenityId = getValidInt(scanner, "Enter amenity ID to update: ");
+
+			if (updateAmenityId < 0 || updateAmenityId >= DataBase.amenities.size()) {
+				System.out.println("   [Error] Amenity not found. Please enter a valid existing amenity ID.");
+				updateAmenityId = -1;
+			}
+		} while (updateAmenityId == -1);
+		
+		Amenity updatedAmenity = DataBase.amenities.get(updateAmenityId);
+
+
+		/////////////////////////////////////////////////////////// AMENITY PRICE
+		double updatedAmenityPrice = getValidDouble(scanner, "Enter new price: ");
+		updatedAmenity.setPrice(updatedAmenityPrice);
+
+
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		System.out.println("Amenity updated successfully.");
+	}
+
+	public void deleteAmenities() {
+		Scanner scanner = new Scanner(System.in);
+		displayAmenitiesTable();
+		System.out.println("");
+
+		int deletedAmenityId = -1;
+
+		do {
+			deletedAmenityId = getValidInt(scanner, "Enter amenity ID to delete: ");
+
+			if (deletedAmenityId < 0 || deletedAmenityId >= DataBase.amenities.size()) {
+				System.out.println("   [Error] Amenity not found. Please enter a valid existing amenity ID.");
+				deletedAmenityId = -1;
+			}
+		} while (deletedAmenityId == -1);
+
+		Amenity deletedAmenity = DataBase.amenities.get(deletedAmenityId);
+
+		// Remove the amenity from all rooms
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			DataBase.rooms.get(i).getAmenities().removeIf(amenity -> amenity.equals(deletedAmenity));
+		}
+
+		// Remove the amenity from the database
+		DataBase.amenities.remove(deletedAmenity);
+
+
+		System.out.println("Amenity deleted successfully and removed from all rooms.");
+	}
+
+	// ############################### ROOM TYPES CRUD ###############################
+
+	public void createRoomTypes() {
+		Scanner scanner = new Scanner(System.in);
+
+		/////////////////////////////////////////////////////////// ROOM TYPE NAME
+		String newTypeName = getNonEmptyString(scanner, "Enter new room type name: ");
+
+		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
+			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(newTypeName)) {
+				System.out.println("   [Error] Room type already exists.");
+				return;
+			}
+		}
+
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		DataBase.roomTypes.add(new RoomType(newTypeName));
+		System.out.println("Room type added successfully!");
+	}
+
+	public void updateRoomTypes() {
+		Scanner scanner = new Scanner(System.in);
+		displayRoomTypesTable();
+		System.out.println("");
+
+		int updateTypeId = -1;
+
+		/////////////////////////////////////////////////////////// ROOM TYPE ID
+		do {
+			updateTypeId = getValidInt(scanner, "Enter room type ID to update: ");
+
+			if (updateTypeId < 0 || updateTypeId >= DataBase.roomTypes.size()) {
+				System.out.println("   [Error] Room type not found. Please enter a valid existing ID.");
+				updateTypeId = -1;
+			}
+		} while (updateTypeId == -1);
+
+		RoomType updatedType = DataBase.roomTypes.get(updateTypeId);
+
+		/////////////////////////////////////////////////////////// NEW NAME
+		String newName = getNonEmptyString(scanner, "Enter new name for this room type: ");
+		updatedType.setRoomType(newName);
+
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		System.out.println("Room type updated successfully.");
+	}
+
+	public void deleteRoomTypes() {
+		Scanner scanner = new Scanner(System.in);
+		displayRoomTypesTable();
+		System.out.println("");
+
+		int deletedTypeId = -1;
+
+		/////////////////////////////////////////////////////////// ROOM TYPE ID
+		do {
+			deletedTypeId = getValidInt(scanner, "Enter room type ID to delete: ");
+
+			if (deletedTypeId < 0 || deletedTypeId >= DataBase.roomTypes.size()) {
+				System.out.println("   [Error] Room type not found. Please enter a valid existing ID.");
+				deletedTypeId = -1;
+			}
+		} while (deletedTypeId == -1);
+
+		RoomType typeToDelete = DataBase.roomTypes.get(deletedTypeId);
+
+		// Check if any rooms are currently using this type
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			if (DataBase.rooms.get(i).getRoomType().equals(typeToDelete)) {
+				System.out.println("   [Error] Cannot delete type '" + typeToDelete.getRoomType() + "' because it is assigned to Room " + DataBase.rooms.get(i).getRoomNumber());
+				return;
+			}
+		}
+
+		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
+		DataBase.roomTypes.remove(deletedTypeId);
+		System.out.println("Room type deleted successfully.");
+	}
+	
 	//################################ DISPLAY TABLES ##########################
+	
 	private void displayRoomTable() {
 
-		String format = "%-10s %-10s %-30s %8s%n"; // Some Gemini Sauce for a well formatted table
+		String format = "%-10s %-10s %-30s %8s%n";
 		System.out.printf(format, "NUMBER", "TYPE", "AMENITIES", "PRICE");
 		System.out.println("-------------------------------------------------------------");
 
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			Room thisRoom = DataBase.rooms.get(i);
 			int roomNumber = thisRoom.getRoomNumber();
-			String roomtype = thisRoom.getRoomType().getRoomTypeString();
+			String roomtype = thisRoom.getRoomType().getRoomType();
 			String roomPrice = thisRoom.getPrice() + "$";
 			String amenities = "";
 			for (int j = 0; j < thisRoom.getAmenities().size(); j++) {
@@ -46,7 +333,7 @@ public class Admin extends Staff {
 			System.out.printf(format, roomNumber, roomtype, amenities, roomPrice);
 		}
 	}
-
+	
 	private void displayAmenitiesTable() {
 		if (DataBase.amenities.isEmpty()) { System.out.println("No amenities found."); return; }
 		String format = "%-5s %-25s %10s%n";
@@ -57,229 +344,153 @@ public class Admin extends Staff {
 			System.out.printf(format, i, a.getName(), a.getprice() + "$");
 		}
 	}
-
-
+	
 	private void displayRoomTypesTable() {
 		if (DataBase.roomTypes.isEmpty()) { System.out.println("No room types found."); return; }
 		String format = "%-5s %-20s%n";
-		System.out.printf(format, "ID", "TYPE NAME");//id is simply the index bas kont 3ayez esm a7san
+		System.out.printf(format, "ID", "TYPE NAME"); //id is simply the index bas kont 3ayez esm a7san
 		System.out.println("-------------------------");
 		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
-			System.out.printf(format, i, DataBase.roomTypes.get(i).getRoomTypeString());
+			System.out.printf(format, i, DataBase.roomTypes.get(i).getRoomType());
 		}
 	}
 
 	// ############################### INTERFACE ###############################
 
-
 	public void adminInterface() {
 		Scanner scanner = new Scanner(System.in);
-		int choice;
 
-
-		System.out.println("=================================================================");
-		System.out.println("=========================== ADMIN MENU ==========================");
-		System.out.println("MANAGEMENT OPTIONS]");
-		System.out.println("[1] Rooms  [2] Amenities  [3] Room Types");
+		System.out.println("┌───────────────────────────────────────────────────────────────┐");
+		System.out.println("│                           ADMIN MENU                          │");
+		System.out.println("└───────────────────────────────────────────────────────────────┘");
+		System.out.println("[====================== MANAGEMENT OPTIONS =====================]");
 		
-		String inputOption;
-		boolean validOption;
-		do {
-			inputOption = scanner.nextLine().trim();
-			validOption = inputOption.equals("1") || inputOption.equals("2") || inputOption.equals("3");
-			if (!validOption) { System.out.println("Invalid option, please try again"); }
-		} while (!validOption);
-
+		String prompt = "             [1] Rooms  [2] Amenities  [3] Room Types\n>> Select an option: ";
+		int inputOption = getValidOption(scanner, 3, prompt);
+		
 		switch(inputOption) {
-			case "1" :
-				roomsMenu(scanner);
-				break;
-			case "2" :	amenitiesMenu(scanner);			break;
-			case "3" : 	roomTypesMenu(scanner); 				break;
-			default  : System.out.println("Invalid number"); 		 return;
+			case 1 :    roomsMenu(scanner);                       break;
+			case 2 :    amenitiesMenu(scanner);                   break;
+			case 3 :    roomTypesMenu(scanner);                   break;
+			default :   System.out.println("Invalid number");  return;
 		}
 	}
 
 	private void roomsMenu(Scanner scanner) {
-		System.out.println("[1] View  [2] Add  [3] Update  [4] Delete");
-		String option = getValidOption(scanner, "1", "2", "3", "4");
+		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
+		int option = getValidOption(scanner, 4, prompt);
 
 		switch (option) {
-			case "1": displayRoomTable(); break;
-			case "2":
-				System.out.print("Enter room number: ");
-				int newRoomNumber = Integer.parseInt(scanner.nextLine().trim());
-				System.out.print("Enter room type (Single / Double / Suite): ");
-				String newRoomType = scanner.nextLine().trim();
-				System.out.print("Enter room price: ");
-				int newRoomPrice = Integer.parseInt(scanner.nextLine().trim());
-				createRoom(new Room(newRoomNumber, new RoomType(newRoomType), newRoomPrice));
-				System.out.println("Room added successfully");
-				break;
-			case "3":
-				displayRoomTable();
-				System.out.print("Enter room number to update: ");
-				int updateRoomNumber = Integer.parseInt(scanner.nextLine().trim());
-				int updateIndex = -1;
-
-				for (int i = 0; i < DataBase.rooms.size(); i++) {
-					if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) {
-						updateIndex = i;
-						break; }
-				}
-
-				if (updateIndex == -1) {
-					System.out.println("Room not found.");
-					break;
-				}
-
-
-				System.out.print("Enter new room type (Single / Double / Suite): ");
-				String updatedType = scanner.nextLine().trim();
-				System.out.print("Enter new price: ");
-				int updatedPrice = Integer.parseInt(scanner.nextLine().trim());
-				updateRoom(updateIndex, new Room(updateRoomNumber, new RoomType(updatedType), updatedPrice));
-
-				System.out.println("Room updated successfully");
-				break;
-
-			case "4":
-				displayRoomTable();
-				System.out.print("Enter room number to delete: ");
-				int deleteRoomNumber = Integer.parseInt(scanner.nextLine().trim());
-				Room roomToDelete = null;
-
-				for (int i = 0; i < DataBase.rooms.size(); i++) {
-					if (DataBase.rooms.get(i).getRoomNumber() == deleteRoomNumber) {
-						roomToDelete = DataBase.rooms.get(i);
-						break;
-					}
-				}
-
-				if (roomToDelete == null) {
-					System.out.println("Room not found.");
-					break;
-				}
-
-				deleteRoom(roomToDelete);
-				System.out.println("Room deleted successfully");
-
-				break;
+			case 1: displayRoomTable();       break;
+			case 2: createRoom();             break;
+			case 3: updateRoom();             break;
+			case 4: deleteRoom();             break;	
 		}
 	}
 
 
-
 	private void amenitiesMenu(Scanner scanner) {
-		System.out.println("[1] View  [2] Add  [3] Update  [4] Delete");
-		String option = getValidOption(scanner, "1", "2", "3", "4");
+		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
+		int option = getValidOption(scanner, 4, prompt);
 
 		switch (option) {
-			case "1":
-				displayAmenitiesTable();
-				break;
-
-			case "2":
-				System.out.print("Enter amenity name: ");
-				String newAmenityName = scanner.nextLine().trim();
-				System.out.print("Enter amenity price: ");
-				double newAmenityPrice = Double.parseDouble(scanner.nextLine().trim());
-				createAmenities(new Amenity(newAmenityName, newAmenityPrice));
-				System.out.println("Amenity added successfully!");
-				break;
-
-			case "3":
-				displayAmenitiesTable();
-				System.out.print("Enter amenity ID to update: ");
-				int updateAmenityId = Integer.parseInt(scanner.nextLine().trim());
-
-				if (updateAmenityId < 0 || updateAmenityId >= DataBase.amenities.size()) {
-					System.out.println("Invalid ID.");
-					break;
-				}
-
-				System.out.print("Enter new name: ");
-				String updatedAmenityName = scanner.nextLine().trim();
-				System.out.print("Enter new price: ");
-				double updatedAmenityPrice = Double.parseDouble(scanner.nextLine().trim());
-				updateAmenities(updateAmenityId, new Amenity(updatedAmenityName, updatedAmenityPrice));
-				System.out.println("Amenity updated successfully.");
-				break;
-
-			case "4":
-				displayAmenitiesTable();
-
-				System.out.print("Enter amenity ID to delete: ");
-				int deleteAmenityId = Integer.parseInt(scanner.nextLine().trim());
-
-				if (deleteAmenityId < 0 || deleteAmenityId >= DataBase.amenities.size()) {
-					System.out.println("Invalid ID.");
-					break;
-				}
-
-				deleteAmenities(DataBase.amenities.get(deleteAmenityId));
-				System.out.println("Room type deleted successfully");
-				break;
+			case 1: displayAmenitiesTable();  break;
+			case 2: createAmenities();        break;
+			case 3: updateAmenities();        break;
+			case 4: deleteAmenities();        break;
 		}
 	}
 
 	private void roomTypesMenu(Scanner scanner) {
-		System.out.println("[1] View  [2] Add  [3] Update  [4] Delete");
-		String option = getValidOption(scanner, "1", "2", "3", "4");
+		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
+		int option = getValidOption(scanner, 4, prompt);
 
 		switch (option) {
-			case "1":
-				displayRoomTypesTable();
-				break;
-			case "2":
-				System.out.print("Enter new room type: ");
-				String createdRoomType = scanner.nextLine().trim();
-				createRoomTypes(new RoomType(createdRoomType));
-				System.out.println("room type added successfully");
-				break;
-			case "3":
-				displayRoomTypesTable();
-				System.out.print("Enter roomtype ID to update: ");
-				int updateRoomTypeId = Integer.parseInt(scanner.nextLine().trim());
-
-				if (updateRoomTypeId < 0 || updateRoomTypeId >= DataBase.amenities.size()) {
-					System.out.println("Invalid ID.");
-					break;
-				}
-
-				System.out.print("Enter new room type name: ");
-				String updatedName = scanner.nextLine().trim();
-				updateRoomTypes(updateRoomTypeId, new RoomType(updatedName));
-				System.out.println("Room type updated successfully");
-				break;
-
-			case "4":
-				displayRoomTypesTable();
-				System.out.print("Enter room type ID to delete: ");
-				int deleteRoomTypeId = Integer.parseInt(scanner.nextLine().trim());
-
-				if (deleteRoomTypeId < 0 || deleteRoomTypeId >= DataBase.amenities.size()) {
-					System.out.println("Invalid ID.");
-					break;
-				}
-
-				deleteRoomTypes(DataBase.roomTypes.get(deleteRoomTypeId));
-				System.out.println("Room type deleted successfully.");
-				break;
+			case 1: displayRoomTypesTable();  break;
+			case 2: createRoomTypes();        break;
+			case 3: updateRoomTypes();        break;
+			case 4: deleteRoomTypes();        break;
 		}
 	}
 
-	private String getValidOption(Scanner scanner, String... validOptions) {
-		String input;
-		boolean valid;
-		do {
-			input = scanner.nextLine().trim();
-			valid = false;
-			for (int i = 0; i < validOptions.length; i++) {
-				if (input.equals(validOptions[i])) { valid = true; break; }
+	// ############################### VALIDATION HELPERS ###############################
+
+	private int getValidInt(Scanner scanner, String prompt) {
+		while (true) {
+			System.out.print(prompt);
+			String input = scanner.nextLine().trim();
+			if (input.isEmpty()) {
+				System.out.println("   [Error] Input cannot be empty. Please enter a number.");
+				continue;
 			}
-			if (!valid) { System.out.println("Invalid option, please try again"); }
-		} while (!valid);
-		return input;
+			try {
+				return Integer.parseInt(input);
+			} catch (NumberFormatException e) {
+				System.out.println("   [Error] Invalid input. Please enter a valid integer.");
+			}
+		}
 	}
+
+	private double getValidDouble(Scanner scanner, String prompt) {
+		while (true) {
+			System.out.print(prompt);
+			String input = scanner.nextLine().trim();
+			if (input.isEmpty()) {
+				System.out.println("   [Error] Input cannot be empty. Please enter a number.");
+				continue;
+			}
+			try {
+				return Double.parseDouble(input);
+			} catch (NumberFormatException e) {
+				System.out.println("   [Error] Invalid input. Please enter a valid decimal number.");
+			}
+		}
+	}
+
+	private String getNonEmptyString(Scanner scanner, String prompt) {
+		while (true) {
+			System.out.print(prompt);
+			String input = scanner.nextLine().trim();
+			if (!input.isEmpty()) {
+				return input;
+			}
+			System.out.println("   [Error] Input cannot be empty. Please try again.");
+		}
+	}
+	
+	private int getValidOption(Scanner scanner, int maxOption, String prompt) {
+		while (true) {
+			System.out.print(prompt);
+			String input = scanner.nextLine().trim();
+			if (input.isEmpty()) {
+				System.out.println("   [Error] Input cannot be empty. Please enter a number between 1 and " + maxOption + ".");
+				continue;
+			}
+			try {
+				int option = Integer.parseInt(input);
+				if (option >= 1 && option <= maxOption) {
+					return option;
+				} else {
+					System.out.println("   [Error] Invalid option. Please enter a number between 1 and " + maxOption + ".");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("   [Error] Invalid input. Please enter a valid number between 1 and " + maxOption + ".");
+			}
+		}
+	}
+
+	private boolean getValidYesNo(Scanner scanner, String prompt) {
+		while (true) {
+			System.out.print(prompt);
+			String input = scanner.nextLine().trim().toLowerCase();
+			if (input.equals("y")) {
+				return true;
+			} else if (input.equals("n")) {
+				return false;
+			} else {
+				System.out.println("   [Error] Invalid input. Please enter 'y' or 'n'.");
+			}
+		}
+	}
+
 }
