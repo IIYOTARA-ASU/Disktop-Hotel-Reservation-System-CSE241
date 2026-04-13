@@ -1,4 +1,3 @@
-
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
 
@@ -22,17 +21,14 @@ public class Guest extends User{
     Room currentRoom = null;
     @Override
     public void viewRooms() {
-        for (int i = 0; i < DataBase.rooms.size(); i++) {
-            if (DataBase.rooms.get(i).getOccupied() == false)
-            System.out.println("Room: "+ DataBase.rooms.get(i).getRoomNumber());
-        }
+        displayRoomTable();
     }
         
     public void makeReservation(Room room , Date inDate , Date outDate){
         Reservation reservation = new Reservation(this, room, inDate, outDate);
         DataBase.reservations.add(reservation);
         reservation.setReservationStatus(Reservation.ReservationStatus.PENDING);
-        System.out.println("Request is Pending");
+        System.out.println(">> Request is Pending");
     }
 
     public void viewReservation(Reservation reservation){
@@ -45,49 +41,47 @@ public class Guest extends User{
         
     public void cancelReservation(Reservation reservation){
         reservation.setReservationStatus(Reservation.ReservationStatus.CANCELLED);
-        System.out.println("Reservation Cancelled");
+        System.out.println(">> Reservation Cancelled");
     }
         
     public void checkout(Reservation reservation) {
         if (this.balance < reservation.getRoom().getPrice() * reservation.calculateDuration()) {
-            System.out.println("Sorry, balance is not enough");
+            System.out.println(">> Sorry, balance is not enough");
             reservation.setReservationStatus(Reservation.ReservationStatus.PENDING);
         } else {
                 this.payInvoice(reservation);
             reservation.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
-            System.out.println("Checkout Operation Complete");
+            System.out.println(">> Checkout Operation Complete");
         }
     }
         private void payInvoice (Reservation reservation) {
             Invoice invoice = new Invoice(reservation, Invoice.PaymentMethod.ONLINE, reservation.getCheckOutDate());
             this.balance -= invoice.getAmount();
             DataBase.invoices.add(invoice);
-            System.out.println("Cash Operation Complete");
+            System.out.println(">> Cash Operation Complete");
         }
 
     public void guestInterface() {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
-        System.out.println("=================================================================");
-        System.out.println("=========================== GUEST MENU ==========================");
-        System.out.println("GUEST OPTIONS]");
-        System.out.println("[1] Available Rooms  [2] Make Reservation  [3] View Reservation  ");
-        System.out.println("[4] Cancel Reservation  [5] Checkout  [6] Pay Invoice");
+        System.out.println("╔═══════════════════════════════════════════════════════════════╗");
+		System.out.println("║                           GUEST MENU                          ║");
+		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
+		System.out.println("");
 
-        String inputOption;
-        boolean validOption;
-        do {
-            inputOption = scanner.nextLine().trim();
-            validOption = inputOption.equals("1") || inputOption.equals("2") || inputOption.equals("3")|| inputOption.equals("4")|| inputOption.equals("5")|| inputOption.equals("6");
-            if (!validOption) { System.out.println("Invalid option, please try again"); }
-        } while (!validOption);
+        String prompt = """
+        [1] Available Rooms     [2] Make Reservation  [3] View Reservation
+        [4] Cancel Reservation  [5] Checkout          [6] Pay Invoice
+        >> Select an option: """;
+		int inputOption = Validation.getOption(scanner, 6, prompt);
+
 
         switch(inputOption) {
-            case "1" : 	viewRooms();			break;
-            case "2" :
+            case 1 : 	viewRooms();			break;
+            case 2 :
                 viewRooms();
-                System.out.println("please enter desired room number");
+                System.out.println(">> Please enter desired room number");
                 int roomNumber = Integer.parseInt(scanner.nextLine().trim());
                 Room selectedRoom = null;
                 for (int i = 0; i < DataBase.rooms.size(); i++) {
@@ -97,11 +91,11 @@ public class Guest extends User{
                     }
                 }
                 if(selectedRoom==null){
-                    System.out.println("room not found");
+                    System.out.println(">> Room not found");
                     break;
                 }
                 if(selectedRoom.getOccupied()){
-                    System.out.println("room is already occupied");
+                    System.out.println(">> Room is already occupied");
                     break;
                 }
 
@@ -113,14 +107,14 @@ public class Guest extends User{
                     validOutDate = true;
                     outDate = readDate(scanner, "Enter check-out date:");
                     if (outDate.before(inDate)){
-                        System.out.println("Outdate is before Indate , try again!");
+                        System.out.println(">> Outdate is before Indate, try again!");
                         validOutDate = false;
                     }
                 }while (!validOutDate);
 
                 makeReservation(selectedRoom , inDate , outDate);
                 break;
-            case "3" :
+            case 3 :
                 boolean findReservation=false;
                 for(int i=0;i< DataBase.reservations.size();i++){
                     if(DataBase.reservations.get(i).getGuest().equals(this)){
@@ -129,11 +123,11 @@ public class Guest extends User{
                     }
                 }
                 if(!findReservation){
-                    System.out.println("you have no reservations");
+                    System.out.println(">> You have no reservations");
                     break;
                 }
                 break;
-            case "4":
+            case 4:
                 boolean findPending=false;
                 for(int i=0;i< DataBase.reservations.size();i++){
                     if(DataBase.reservations.get(i).getGuest().equals(this) && DataBase.reservations.get(i).getReservationStatus().equals("PENDING")){
@@ -143,11 +137,11 @@ public class Guest extends User{
                     }
                 }
                 if(!findPending) {
-                    System.out.println("you have no pending reservations");
+                    System.out.println(">> You have no pending reservations");
                     break;
                 }
                 break;
-            case "5":
+            case 5:
                 boolean findConfirmed=false;
                 for(int i=0;i< DataBase.reservations.size();i++){
                     if(DataBase.reservations.get(i).getGuest().equals(this) && DataBase.reservations.get(i).getReservationStatus().equals("CONFIRMED")){
@@ -157,11 +151,11 @@ public class Guest extends User{
                     }
                 }
                 if(!findConfirmed) {
-                    System.out.println("you have no confirmed reservations");
+                    System.out.println(">> You have no confirmed reservations");
                     break;
                 }
                 break;
-            case "6":
+            case 6:
                 boolean findCompleted=false;
                 for(int i=0;i< DataBase.reservations.size();i++){
                     if(DataBase.reservations.get(i).getGuest().equals(this) && DataBase.reservations.get(i).getReservationStatus().equals("COMPLETED")){
@@ -171,7 +165,7 @@ public class Guest extends User{
                     }
                 }
                 if(!findCompleted) {
-                    System.out.println("you have no confirmed reservations");
+                    System.out.println(">> You have no confirmed reservations");
                     break;
                 }
                 break;

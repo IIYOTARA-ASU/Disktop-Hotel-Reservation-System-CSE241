@@ -82,4 +82,16 @@ public class Validation {
 		}
 	}
 
+    public static void centerText(String text, int width) {
+        if (text.length() >= width) {
+            System.out.println(text);
+            return;
+        }
+
+        int padding = width - text.length();
+        int left = padding / 2;
+        int right = padding - left;
+
+        System.out.println(" ".repeat(left) + text + " ".repeat(right));
+    }
 }

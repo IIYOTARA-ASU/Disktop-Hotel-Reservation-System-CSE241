@@ -55,22 +55,18 @@ public class Receptionist extends Staff {
 		Scanner scanner = new Scanner(System.in);
 		int choice;
 
-		System.out.println("========================================================================");
-		System.out.println("=========================== Receptionist MENU ==========================");
-		System.out.println("RECEPTIONIST OPTIONS");
-		System.out.println("[1] Check In  [2] Check out  [3] view pending  [4] Accept pending");
-
-
-		String inputOption;
-		boolean validOption;
-		do {
-			inputOption = scanner.nextLine().trim();
-			validOption = inputOption.equals("1") || inputOption.equals("2") || inputOption.equals("3") || inputOption.equals("4") ;
-			if (!validOption) { System.out.println("Invalid option, please try again"); }
-		} while (!validOption);
+		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
+		System.out.println("║                       RECEPTIONIST MENU                       ║");
+		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
+		System.out.println("");
+		
+		String prompt = """
+		[1] Check In  [2] Check out  [3] view pending  [4] Accept pending
+		>> Select an option: """;
+		int inputOption = Validation.getOption(scanner, 4, prompt);
 
 		switch(inputOption) {
-			case "1" :
+			case 1:
 				Guest inSelectedGuest = chooseGuest(scanner);
 				if (inSelectedGuest == null) {
 					System.out.println("Guest not found.");
@@ -106,7 +102,7 @@ public class Receptionist extends Staff {
 
 				checkin(inSelectedGuest,selectedRoom,inDate,outDate);
 				break;
-			case "2" :
+			case 2:
 				Guest outSelectedGuest = chooseGuest(scanner);
 				if (outSelectedGuest == null) {
 					System.out.println("Guest not found.");
@@ -129,10 +125,10 @@ public class Receptionist extends Staff {
 
 				checkout(outSelectedGuest,reservedGuestRoom);
 				break;
-			case "3" :
+			case 3:
 				viewPending();
 				break;
-			case "4":
+			case 4:
 				acceptPending();
 				break;
 
@@ -151,8 +147,7 @@ public class Receptionist extends Staff {
 
 			}
 		}
-		System.out.println("please enter the Guest's username:");
-		String name = scanner.nextLine().trim();
+		String name = Validation.getString(scanner, "Enter the guest's username: ");
 		for(int i=0;i<DataBase.people.size();i++){
 			if(DataBase.people.get(i)instanceof Guest && DataBase.people.get(i).getUserName().equals(name)){
 				return ((Guest) DataBase.people.get(i));

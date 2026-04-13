@@ -6,66 +6,69 @@ public class Main {
 	static boolean appRunning = true;
 
 	public static void guestMenu(User user) {
-        System.out.println("=================================================================");
-        System.out.println("Welcome, Guest " + user.getUserName() + "!");
-        Guest guest = (Guest) user;
-        while(true){
-        guest.guestInterface();
-        Scanner scanner=new Scanner(System.in);
-            System.out.println("Do you want to do something else? (yes/no):");
-            String keepGoing = scanner.nextLine().trim();
-        if(keepGoing.equalsIgnoreCase("no")) {
-            System.out.println("logging out");
-            break;
-        }
-        }
+        System.out.println("╔═══════════════════════════════════════════════════════════════╗");
+		System.out.println("║                  WELCOME TO THE PALISADE HOTEL                ║");
+		System.out.println("╚═══════════════════════════════════════════════════════════════╝\n");
+		System.out.println("─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─");
+		Validation.centerText(">> WELCOME, GUEST " + user.getUserName().toUpperCase() + "!", 65);
+		Guest guest = (Guest) user;
+		while(true){
+			guest.guestInterface();
+			Scanner scanner=new Scanner(System.in);
+			boolean continueLoop = Validation.getYesNo(scanner, "Do you want to do something else? (y/n): ");
+			if(!continueLoop) {
+				System.out.println("\n>> Logging out\n");
+				break;
+			}
+		}
 
 	}
 	public static void adminMenu(User user) {
-        System.out.println("=================================================================");
-        System.out.println("Welcome, Admin " + user.getUserName() + "!");
-        Admin admin = (Admin) user;
-        while(true){
-            admin.adminInterface();
-            Scanner scanner=new Scanner(System.in);
-            System.out.println("Do you want to do something else? (yes/no):");
-            String keepGoing = scanner.nextLine().trim();
-            if(keepGoing.equalsIgnoreCase("no")) {
-                System.out.println("logging out");
-                break;
-            }
-        }
+        System.out.println("─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─");
+		Validation.centerText(">> WELCOME, ADMIN " + user.getUserName().toUpperCase() + "!", 65);
+		Admin admin = (Admin) user;
+		while(true){
+			admin.adminInterface();
+			Scanner scanner=new Scanner(System.in);
+			boolean continueLoop = Validation.getYesNo(scanner, "Do you want to do something else? (y/n): ");
+			if(!continueLoop) {
+				System.out.println("\n>> Logging out\n");
+				break;
+			}
+		}
 	}
 
 
     public static void receptionistMenu(User user) {
-        System.out.println("=================================================================");
-        System.out.println("Welcome, Receptionist " + user.getUserName() + "!");
-        Receptionist receptionist = (Receptionist) user;
-        while(true){
-            receptionist.receptionistInterface();
-            Scanner scanner=new Scanner(System.in);
-            System.out.println("Do you want to do something else? (yes/no):");
-            String keepGoing = scanner.nextLine().trim();
-            if(keepGoing.equalsIgnoreCase("no")) {
-                System.out.println("logging out");
-                break;
-            }
-        }
+        System.out.println("─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─");
+		Validation.centerText(">> WELCOME, RECEPTIONIST " + user.getUserName().toUpperCase() + "!", 65);
+		Receptionist receptionist = (Receptionist) user;
+		while(true){
+			receptionist.receptionistInterface();
+			Scanner scanner=new Scanner(System.in);
+			boolean continueLoop = Validation.getYesNo(scanner, "Do you want to do something else? (y/n): ");
+			if(!continueLoop) {
+				System.out.println("\n>> Logging out\n");
+				break;
+			}
+		}
     }
 
 	public static User enterAccount() {
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         User user = new User();
-        System.out.println("=================================================================");
-        System.out.println("Welcome to The Palisade Hotel!");
-        System.out.println("1 : Login ");
-        System.out.println("2 : Register ");
-        String choice = input.next();
-        switch(choice) {
-        case "1" : user = user.login(); break;
-        case "2" : user = user.register(); break;
-        }
+        System.out.println("╔═══════════════════════════════════════════════════════════════╗");
+		System.out.println("║                  WELCOME TO THE PALISADE HOTEL                ║");
+		System.out.println("╚═══════════════════════════════════════════════════════════════╝\n");
+		System.out.println("");
+        String prompt = """
+		[1] Login  [2] Register
+		>> Select an option: """;
+		int inputOption = Validation.getOption(scanner, 2, prompt);
+        
+        switch(inputOption) {
+        case 1 : user = user.login(); break;
+        case 2 : user = user.register(); break; }
         user.loggedIn = true;
         return user;
 	}

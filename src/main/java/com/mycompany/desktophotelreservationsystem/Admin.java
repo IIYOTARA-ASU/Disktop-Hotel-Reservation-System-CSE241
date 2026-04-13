@@ -56,7 +56,7 @@ public class Admin extends Staff {
 		}
 
 		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
-		System.out.println("ROOM CREATED SUCCESSFULLY");
+		System.out.println(">> ROOM CREATED SUCCESSFULLY");
 	}
 
 	public void updateRoom(){
@@ -112,7 +112,7 @@ public class Admin extends Staff {
 		}
 
 		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
-		System.out.println("Room updated successfully");
+		System.out.println(">> Room updated successfully");
 	}
 	
 	public void deleteRoom(){ 
@@ -145,7 +145,7 @@ public class Admin extends Staff {
 			}
 		}
 		DataBase.rooms.remove(deletedIndex);
-		System.out.println("Room deleted successfully");
+		System.out.println(">> Room deleted successfully");
 
 	}
 
@@ -171,7 +171,7 @@ public class Admin extends Staff {
 		
 		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
 		DataBase.amenities.add(new Amenity(newAmenityName, newAmenityPrice));
-		System.out.println("Amenity added successfully!");
+		System.out.println(">> Amenity added successfully!");
 	}
 
 	public void updateAmenities() {
@@ -199,7 +199,7 @@ public class Admin extends Staff {
 
 
 		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
-		System.out.println("Amenity updated successfully.");
+		System.out.println(">> Amenity updated successfully.");
 	}
 
 	public void deleteAmenities() {
@@ -229,7 +229,7 @@ public class Admin extends Staff {
 		DataBase.amenities.remove(deletedAmenity);
 
 
-		System.out.println("Amenity deleted successfully and removed from all rooms.");
+		System.out.println(">> Amenity deleted successfully and removed from all rooms.");
 	}
 
 	// ############################### ROOM TYPES CRUD ###############################
@@ -313,27 +313,6 @@ public class Admin extends Staff {
 	
 	//################################ DISPLAY TABLES ##########################
 	
-	private void displayRoomTable() {
-
-		String format = "%-10s %-10s %-30s %8s%n";
-		System.out.printf(format, "NUMBER", "TYPE", "AMENITIES", "PRICE");
-		System.out.println("-------------------------------------------------------------");
-
-		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			Room thisRoom = DataBase.rooms.get(i);
-			int roomNumber = thisRoom.getRoomNumber();
-			String roomtype = thisRoom.getRoomType().getRoomType();
-			String roomPrice = thisRoom.getPrice() + "$";
-			String amenities = "";
-			for (int j = 0; j < thisRoom.getAmenities().size(); j++) {
-				amenities += thisRoom.getAmenities().get(j).getName();
-				amenities += thisRoom.getAmenities().size()-j != 1 ? ", " : ""; // Add a comma after each amenity except the last one
-			}
-
-			System.out.printf(format, roomNumber, roomtype, amenities, roomPrice);
-		}
-	}
-	
 	private void displayAmenitiesTable() {
 		if (DataBase.amenities.isEmpty()) { System.out.println("No amenities found."); return; }
 		String format = "%-5s %-25s %10s%n";
@@ -360,12 +339,14 @@ public class Admin extends Staff {
 	public void adminInterface() {
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("╭───────────────────────────────────────────────────────────────╮");
-		System.out.println("│                           ADMIN MENU                          │");
-		System.out.println("└───────────────────────────────────────────────────────────────┘");
-		System.out.println("[====================== MANAGEMENT OPTIONS =====================]");
+		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
+		System.out.println("║                           ADMIN MENU                          ║");
+		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
+		System.out.println("");
 		
-		String prompt = "             [1] Rooms  [2] Amenities  [3] Room Types\n>> Select an option: ";
+		String prompt = """
+		[1] Rooms  [2] Amenities  [3] Room Types
+		>> Select an option: """;
 		int inputOption = Validation.getOption(scanner, 3, prompt);
 		
 		switch(inputOption) {
@@ -387,7 +368,6 @@ public class Admin extends Staff {
 			case 4: deleteRoom();             break;	
 		}
 	}
-
 
 	private void amenitiesMenu(Scanner scanner) {
 		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
