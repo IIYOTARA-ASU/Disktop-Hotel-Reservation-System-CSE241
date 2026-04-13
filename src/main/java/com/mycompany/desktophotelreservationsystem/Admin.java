@@ -17,7 +17,7 @@ public class Admin extends Staff {
 		Scanner scanner = new Scanner(System.in);
 
 		/////////////////////////////////////////////////////////// ROOM NUMBER
-		int newRoomNumber = getValidInt(scanner, ">> Enter room number: ");
+		int newRoomNumber = Validation.getInt(scanner, ">> Enter room number: ");
 
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			if (DataBase.rooms.get(i).getRoomNumber() == newRoomNumber) {
@@ -33,12 +33,12 @@ public class Admin extends Staff {
 			if (DataBase.roomTypes.size() - i != 1) { typePrompt.append(" "); }
 			else { typePrompt.append(": "); }
 		}
-		int newRoomTypeID = getValidOption(scanner, DataBase.roomTypes.size(), typePrompt.toString());
+		int newRoomTypeID = Validation.getOption(scanner, DataBase.roomTypes.size(), typePrompt.toString());
 		RoomType existingRoomType = DataBase.roomTypes.get(newRoomTypeID - 1);
 
 
 		/////////////////////////////////////////////////////////// ROOM PRICE
-		int newRoomPrice = getValidInt(scanner, ">> Enter room price: ");
+		int newRoomPrice = Validation.getInt(scanner, ">> Enter room price: ");
 
 
 		/////////////////////////////////////////////////////////// CREATING ROOM
@@ -49,7 +49,7 @@ public class Admin extends Staff {
 		/////////////////////////////////////////////////////////// ROOM AMENITIES
 		System.out.println(">> Room Amenities Checklist: ");
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
-			boolean hasAmenity = getValidYesNo(scanner, "   Should the room have " + DataBase.amenities.get(i).getName() + "? (y/n): ");
+			boolean hasAmenity = Validation.getYesNo(scanner, "   Should the room have " + DataBase.amenities.get(i).getName() + "? (y/n): ");
 			if (hasAmenity) {
 				NewRoom.addAmenity(DataBase.amenities.get(i));
 			}
@@ -69,7 +69,7 @@ public class Admin extends Staff {
 		int updateRoomNumber;
 
 		do{
-			updateRoomNumber = getValidInt(scanner, "Enter room number to update: ");
+			updateRoomNumber = Validation.getInt(scanner, "Enter room number to update: ");
 
 			for (int i = 0; i < DataBase.rooms.size(); i++) {
 				if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) {
@@ -89,10 +89,10 @@ public class Admin extends Staff {
 			if (DataBase.roomTypes.size() - i != 1) { typePrompt.append(" "); }
 			else { typePrompt.append(": "); }
 		}
-		int updatedRoomTypeID = getValidOption(scanner, DataBase.roomTypes.size(), typePrompt.toString());
+		int updatedRoomTypeID = Validation.getOption(scanner, DataBase.roomTypes.size(), typePrompt.toString());
 		RoomType existingRoomType = DataBase.roomTypes.get(updatedRoomTypeID - 1);
 
-		int updatedPrice = getValidInt(scanner, "Enter new price: ");
+		int updatedPrice = Validation.getInt(scanner, "Enter new price: ");
 
 
 		/////////////////////////////////////////////////////////// UPDATING ROOM
@@ -105,7 +105,7 @@ public class Admin extends Staff {
 		/////////////////////////////////////////////////////////// ROOM AMENITIES
 		System.out.println(">> Room Amenities Checklist: ");
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
-			boolean hasAmenity = getValidYesNo(scanner, "   Should the room have " + DataBase.amenities.get(i).getName() + "? (y/n): ");
+			boolean hasAmenity = Validation.getYesNo(scanner, "   Should the room have " + DataBase.amenities.get(i).getName() + "? (y/n): ");
 			if (hasAmenity) {
 				UpdatedRoom.addAmenity(DataBase.amenities.get(i));
 			}
@@ -124,7 +124,7 @@ public class Admin extends Staff {
 		int deletedRoomNumber;
 
 		do{
-			deletedRoomNumber = getValidInt(scanner, "Enter room number to delete: ");
+			deletedRoomNumber = Validation.getInt(scanner, "Enter room number to delete: ");
 
 			for (int i = 0; i < DataBase.rooms.size(); i++) {
 				if (DataBase.rooms.get(i).getRoomNumber() == deletedRoomNumber) {
@@ -155,7 +155,7 @@ public class Admin extends Staff {
 		Scanner scanner = new Scanner(System.in);
 
 		/////////////////////////////////////////////////////////// AMENITY NAME
-		String newAmenityName = getNonEmptyString(scanner, "Enter amenity name: ");
+		String newAmenityName = Validation.getString(scanner, "Enter amenity name: ");
 
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
 			Amenity existingAmenity = DataBase.amenities.get(i);
@@ -166,7 +166,7 @@ public class Admin extends Staff {
 		}
 
 		/////////////////////////////////////////////////////////// AMENITY PRICE
-		double newAmenityPrice = getValidDouble(scanner, "Enter amenity price: ");
+		double newAmenityPrice = Validation.getDouble(scanner, "Enter amenity price: ");
 
 		
 		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
@@ -182,7 +182,7 @@ public class Admin extends Staff {
 		
 		/////////////////////////////////////////////////////////// AMENITY ID
 		do{
-			updateAmenityId = getValidInt(scanner, "Enter amenity ID to update: ");
+			updateAmenityId = Validation.getInt(scanner, "Enter amenity ID to update: ");
 
 			if (updateAmenityId < 0 || updateAmenityId >= DataBase.amenities.size()) {
 				System.out.println("   [Error] Amenity not found. Please enter a valid existing amenity ID.");
@@ -194,7 +194,7 @@ public class Admin extends Staff {
 
 
 		/////////////////////////////////////////////////////////// AMENITY PRICE
-		double updatedAmenityPrice = getValidDouble(scanner, "Enter new price: ");
+		double updatedAmenityPrice = Validation.getDouble(scanner, "Enter new price: ");
 		updatedAmenity.setPrice(updatedAmenityPrice);
 
 
@@ -210,7 +210,7 @@ public class Admin extends Staff {
 		int deletedAmenityId = -1;
 
 		do {
-			deletedAmenityId = getValidInt(scanner, "Enter amenity ID to delete: ");
+			deletedAmenityId = Validation.getInt(scanner, "Enter amenity ID to delete: ");
 
 			if (deletedAmenityId < 0 || deletedAmenityId >= DataBase.amenities.size()) {
 				System.out.println("   [Error] Amenity not found. Please enter a valid existing amenity ID.");
@@ -238,7 +238,7 @@ public class Admin extends Staff {
 		Scanner scanner = new Scanner(System.in);
 
 		/////////////////////////////////////////////////////////// ROOM TYPE NAME
-		String newTypeName = getNonEmptyString(scanner, "Enter new room type name: ");
+		String newTypeName = Validation.getString(scanner, "Enter new room type name: ");
 
 		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
 			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(newTypeName)) {
@@ -261,7 +261,7 @@ public class Admin extends Staff {
 
 		/////////////////////////////////////////////////////////// ROOM TYPE ID
 		do {
-			updateTypeId = getValidInt(scanner, "Enter room type ID to update: ");
+			updateTypeId = Validation.getInt(scanner, "Enter room type ID to update: ");
 
 			if (updateTypeId < 0 || updateTypeId >= DataBase.roomTypes.size()) {
 				System.out.println("   [Error] Room type not found. Please enter a valid existing ID.");
@@ -272,7 +272,7 @@ public class Admin extends Staff {
 		RoomType updatedType = DataBase.roomTypes.get(updateTypeId);
 
 		/////////////////////////////////////////////////////////// NEW NAME
-		String newName = getNonEmptyString(scanner, "Enter new name for this room type: ");
+		String newName = Validation.getString(scanner, "Enter new name for this room type: ");
 		updatedType.setRoomType(newName);
 
 		/////////////////////////////////////////////////////////// SUCCESS MESSAGE
@@ -288,7 +288,7 @@ public class Admin extends Staff {
 
 		/////////////////////////////////////////////////////////// ROOM TYPE ID
 		do {
-			deletedTypeId = getValidInt(scanner, "Enter room type ID to delete: ");
+			deletedTypeId = Validation.getInt(scanner, "Enter room type ID to delete: ");
 
 			if (deletedTypeId < 0 || deletedTypeId >= DataBase.roomTypes.size()) {
 				System.out.println("   [Error] Room type not found. Please enter a valid existing ID.");
@@ -360,13 +360,13 @@ public class Admin extends Staff {
 	public void adminInterface() {
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("┌───────────────────────────────────────────────────────────────┐");
+		System.out.println("╭───────────────────────────────────────────────────────────────╮");
 		System.out.println("│                           ADMIN MENU                          │");
 		System.out.println("└───────────────────────────────────────────────────────────────┘");
 		System.out.println("[====================== MANAGEMENT OPTIONS =====================]");
 		
 		String prompt = "             [1] Rooms  [2] Amenities  [3] Room Types\n>> Select an option: ";
-		int inputOption = getValidOption(scanner, 3, prompt);
+		int inputOption = Validation.getOption(scanner, 3, prompt);
 		
 		switch(inputOption) {
 			case 1 :    roomsMenu(scanner);                       break;
@@ -378,7 +378,7 @@ public class Admin extends Staff {
 
 	private void roomsMenu(Scanner scanner) {
 		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
-		int option = getValidOption(scanner, 4, prompt);
+		int option = Validation.getOption(scanner, 4, prompt);
 
 		switch (option) {
 			case 1: displayRoomTable();       break;
@@ -391,7 +391,7 @@ public class Admin extends Staff {
 
 	private void amenitiesMenu(Scanner scanner) {
 		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
-		int option = getValidOption(scanner, 4, prompt);
+		int option = Validation.getOption(scanner, 4, prompt);
 
 		switch (option) {
 			case 1: displayAmenitiesTable();  break;
@@ -403,93 +403,13 @@ public class Admin extends Staff {
 
 	private void roomTypesMenu(Scanner scanner) {
 		String prompt = "[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ";
-		int option = getValidOption(scanner, 4, prompt);
+		int option = Validation.getOption(scanner, 4, prompt);
 
 		switch (option) {
 			case 1: displayRoomTypesTable();  break;
 			case 2: createRoomTypes();        break;
 			case 3: updateRoomTypes();        break;
 			case 4: deleteRoomTypes();        break;
-		}
-	}
-
-	// ############################### VALIDATION HELPERS ###############################
-
-	private int getValidInt(Scanner scanner, String prompt) {
-		while (true) {
-			System.out.print(prompt);
-			String input = scanner.nextLine().trim();
-			if (input.isEmpty()) {
-				System.out.println("   [Error] Input cannot be empty. Please enter a number.");
-				continue;
-			}
-			try {
-				return Integer.parseInt(input);
-			} catch (NumberFormatException e) {
-				System.out.println("   [Error] Invalid input. Please enter a valid integer.");
-			}
-		}
-	}
-
-	private double getValidDouble(Scanner scanner, String prompt) {
-		while (true) {
-			System.out.print(prompt);
-			String input = scanner.nextLine().trim();
-			if (input.isEmpty()) {
-				System.out.println("   [Error] Input cannot be empty. Please enter a number.");
-				continue;
-			}
-			try {
-				return Double.parseDouble(input);
-			} catch (NumberFormatException e) {
-				System.out.println("   [Error] Invalid input. Please enter a valid decimal number.");
-			}
-		}
-	}
-
-	private String getNonEmptyString(Scanner scanner, String prompt) {
-		while (true) {
-			System.out.print(prompt);
-			String input = scanner.nextLine().trim();
-			if (!input.isEmpty()) {
-				return input;
-			}
-			System.out.println("   [Error] Input cannot be empty. Please try again.");
-		}
-	}
-	
-	private int getValidOption(Scanner scanner, int maxOption, String prompt) {
-		while (true) {
-			System.out.print(prompt);
-			String input = scanner.nextLine().trim();
-			if (input.isEmpty()) {
-				System.out.println("   [Error] Input cannot be empty. Please enter a number between 1 and " + maxOption + ".");
-				continue;
-			}
-			try {
-				int option = Integer.parseInt(input);
-				if (option >= 1 && option <= maxOption) {
-					return option;
-				} else {
-					System.out.println("   [Error] Invalid option. Please enter a number between 1 and " + maxOption + ".");
-				}
-			} catch (NumberFormatException e) {
-				System.out.println("   [Error] Invalid input. Please enter a valid number between 1 and " + maxOption + ".");
-			}
-		}
-	}
-
-	private boolean getValidYesNo(Scanner scanner, String prompt) {
-		while (true) {
-			System.out.print(prompt);
-			String input = scanner.nextLine().trim().toLowerCase();
-			if (input.equals("y")) {
-				return true;
-			} else if (input.equals("n")) {
-				return false;
-			} else {
-				System.out.println("   [Error] Invalid input. Please enter 'y' or 'n'.");
-			}
 		}
 	}
 
