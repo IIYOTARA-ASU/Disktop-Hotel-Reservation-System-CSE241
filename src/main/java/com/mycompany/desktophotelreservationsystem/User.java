@@ -49,10 +49,10 @@ public class User {
 				if (room.getAmenities().size() - j != 1) { amenities += ", "; }
 			}
 			System.out.printf(format,
-				room.getRoomNumber(),
-				room.getRoomType().getRoomType(),
-				amenities,
-				room.getPrice() + "$");
+					room.getRoomNumber(),
+					room.getRoomType().getRoomType(),
+					amenities,
+					room.getPrice() + "$");
 		}
 		System.out.println("─────────────────────────────────────────────────────────────────");
 	}
@@ -128,7 +128,7 @@ public class User {
 		String inputPass = Validation.getString(scanner, ">> Enter a password: ");
 
 		int inputType = Validation.getOption(scanner, 3,
-			">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
 
 		switch (inputType) {
 			case 1:  user = new Guest(inputUser, inputPass);        break;

@@ -2,15 +2,9 @@ package com.mycompany.desktophotelreservationsystem;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -18,9 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static java.awt.Color.red;
 import static javafx.application.Application.launch;
-import static javafx.scene.paint.Color.*;
 
 public class Hadi_GUI extends Application {
 
@@ -70,7 +62,7 @@ public class Hadi_GUI extends Application {
         //skeleton
         hStage.setTitle("AHMED 67");
         int x=70;
-        Parent hroot = FXMLLoader.load(getClass().getResource("/scenebuilder.fxml")); // add fxml file
+        Parent hroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml")); // add fxml file
         String css= this.getClass().getResource("/hadi.css").toExternalForm(); // add css file
         Scene hscene=new Scene(hroot,550,400,Color.WHITE);
         hscene.getStylesheets().add(css);

@@ -1,22 +1,21 @@
 package com.mycompany.desktophotelreservationsystem;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
 public class HADI_CONTROLLER {
 
     @FXML
-    private ImageView myImageView; // Ensure fx:id="myImageView" is set in Scene Builder
+    private Label Adminid; // Added 'private' and ensured it matches fx:id
+
+    User user = new User("hadi", "123");
 
     @FXML
     public void initialize() {
-        if (myImageView != null) {
-            // This allows the image to stretch to the corners
-            myImageView.setPreserveRatio(false);
-
-            // Manually set the size to match your GUI_testing math (x=70)
-            myImageView.setFitWidth(1120);
-            myImageView.setFitHeight(628);
+        // Now Adminid will not be null
+        if (Adminid != null) {
+            Adminid.setText(user.getUserName());
         }
     }
 }
