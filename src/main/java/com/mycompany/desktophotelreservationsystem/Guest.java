@@ -104,8 +104,19 @@ public class Guest extends User{
                     System.out.println("room is already occupied");
                     break;
                 }
+
+
                 Date inDate  = readDate(scanner, "Enter check-in date:");
-                Date outDate = readDate(scanner, "Enter check-out date:");
+                Date outDate;
+                boolean validOutDate;
+                do {
+                    validOutDate = true;
+                    outDate = readDate(scanner, "Enter check-out date:");
+                    if (outDate.before(inDate)){
+                        System.out.println("Outdate is before Indate , try again!");
+                        validOutDate = false;
+                    }
+                }while (!validOutDate);
 
                 makeReservation(selectedRoom , inDate , outDate);
                 break;
@@ -173,9 +184,32 @@ public class Guest extends User{
 
     private Date readDate(Scanner scanner, String prompt) {
         System.out.println(prompt);
-        System.out.print("Day: ");   int d = Integer.parseInt(scanner.nextLine().trim());
-        System.out.print("Month: "); int m = Integer.parseInt(scanner.nextLine().trim());
-        System.out.print("Year: ");  int y = Integer.parseInt(scanner.nextLine().trim());
+        int d;
+        int m;
+        int y;
+        do{
+            System.out.print("Day: ");
+            d = Integer.parseInt(scanner.nextLine().trim());
+            if (d < 1 || d > 30){
+                System.out.println("Invalid input, try again!");
+            }
+        }while (d < 1 || d > 30);
+
+        do{
+            System.out.print("Month: ");
+            m = Integer.parseInt(scanner.nextLine().trim());
+            if (m < 1 || m > 12){
+                System.out.println("Invalid input, try again!");
+            }
+        }while (m < 1 || m > 12);
+
+        do{
+            System.out.print("year: ");
+            y = Integer.parseInt(scanner.nextLine().trim());
+            if (y < 2026 || y > 2028){
+                System.out.println("Invalid input, try again!");
+            }
+        }while (y < 2026 || y > 2028);
 
         Calendar cal = Calendar.getInstance();
         cal.set(y, m - 1, d); // month is like an array fa lazem tezabat el index
