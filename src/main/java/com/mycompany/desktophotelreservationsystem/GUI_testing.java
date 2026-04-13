@@ -206,7 +206,7 @@ public class GUI_testing extends Application {
         		);
         
         scene.getStylesheets().add(css);
-        primaryStage.setScene(guest);
+        primaryStage.setScene(Receptionist);
         primaryStage.show();
     }
 

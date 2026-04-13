@@ -15,7 +15,7 @@ public class HADI_CONTROLLER {
     public void initialize() {
         // Now Adminid will not be null
         if (Adminid != null) {
-            Adminid.setText(user.userName);
+            Adminid.setText(user.getUserName());
         }
     }
 }
