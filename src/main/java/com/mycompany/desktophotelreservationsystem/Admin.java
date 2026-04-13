@@ -281,8 +281,8 @@ public class Admin extends Staff {
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
 		System.out.println();
 
-		int inputOption = Validation.getOption(scanner, 3,
-			"[1] Rooms  [2] Amenities  [3] Room Types\n>> Select an option: ");
+		int inputOption = Validation.getOption(scanner, 4,
+			"[1] Rooms  [2] Amenities  [3] Room Types  [4]Exit\n>> Select an option: ");
 
 		System.out.println();
 
@@ -290,42 +290,50 @@ public class Admin extends Staff {
 			case 1: roomsMenu(scanner);     break;
 			case 2: amenitiesMenu(scanner); break;
 			case 3: roomTypesMenu(scanner); break;
+			case 4: System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 	}
 
 	private void roomsMenu(Scanner scanner) {
-		int option = Validation.getOption(scanner, 4,
-			"[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ");
+		int option = Validation.getOption(scanner, 5,
+			"[1] View  [2] Add  [3] Update  [4] Delete  [5]Exit\n>> Select an option: ");
 		System.out.println();
 		switch (option) {
 			case 1: displayRoomTable(); break;
 			case 2: createRoom();       break;
 			case 3: updateRoom();       break;
 			case 4: deleteRoom();       break;
+			case 5: System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 	}
 
 	private void amenitiesMenu(Scanner scanner) {
-		int option = Validation.getOption(scanner, 4,
-			"[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ");
+		int option = Validation.getOption(scanner, 5,
+			"[1] View  [2] Add  [3] Update  [4] Delete  [5]Exit\n>> Select an option: ");
 		System.out.println();
 		switch (option) {
 			case 1: displayAmenitiesTable(); break;
 			case 2: createAmenities();       break;
 			case 3: updateAmenities();       break;
 			case 4: deleteAmenities();       break;
+			case 5:System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 	}
 
 	private void roomTypesMenu(Scanner scanner) {
-		int option = Validation.getOption(scanner, 4,
-			"[1] View  [2] Add  [3] Update  [4] Delete\n>> Select an option: ");
+		int option = Validation.getOption(scanner, 5,
+			"[1] View  [2] Add  [3] Update  [4] Delete  [5]Exit\n>> Select an option: ");
 		System.out.println();
 		switch (option) {
 			case 1: displayRoomTypesTable(); break;
 			case 2: createRoomTypes();       break;
 			case 3: updateRoomTypes();       break;
 			case 4: deleteRoomTypes();       break;
+			case 5: System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 	}
 

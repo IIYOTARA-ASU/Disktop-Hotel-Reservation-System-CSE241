@@ -80,9 +80,9 @@ public class Guest extends User {
 
 		String prompt =
 			"[1] Available Rooms     [2] Make Reservation  [3] View Reservations\n" +
-			"[4] Cancel Reservation  [5] Checkout          [6] Pay Invoice\n" +
+			"[4] Cancel Reservation  [5] Checkout  [6] Pay Invoice  [7] Exit\n" +
 			">> Select an option: ";
-		int inputOption = Validation.getOption(scanner, 6, prompt);
+		int inputOption = Validation.getOption(scanner, 7, prompt);
 		System.out.println();
 
 		switch (inputOption) {
@@ -166,6 +166,9 @@ public class Guest extends User {
 				}
 				if (!completedFound) { System.out.println("   [Info] You have no completed reservations to pay."); }
 				break;
+			case 7:
+				System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 	}
 

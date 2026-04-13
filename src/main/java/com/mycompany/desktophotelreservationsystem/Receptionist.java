@@ -62,8 +62,8 @@ public class Receptionist extends Staff {
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
 		System.out.println();
 
-		int inputOption = Validation.getOption(scanner, 4,
-			"[1] Check In  [2] Check Out  [3] View Pending  [4] Accept Pending\n" +
+		int inputOption = Validation.getOption(scanner, 5,
+			"[1] Check In  [2] Check Out  [3] View Pending  [4] Accept Pending  [5]Exit\n" +
 			">> Select an option: ");
 		System.out.println();
 
@@ -115,6 +115,9 @@ public class Receptionist extends Staff {
 			case 4: // ── Accept Pending ───────────────────────────────────────
 				acceptPending(scanner);
 				break;
+			case 5:
+				System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 	}
 
