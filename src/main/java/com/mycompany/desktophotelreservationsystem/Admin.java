@@ -282,7 +282,7 @@ public class Admin extends Staff {
 		System.out.println();
 
 		int inputOption = Validation.getOption(scanner, 4,
-			"[1] Rooms  [2] Amenities  [3] Room Types  [4]Exit\n>> Select an option: ");
+			"[1] Rooms  [2] Amenities  [3] Room Types  [4]Exit \n>> Select an option: ");
 
 		System.out.println();
 

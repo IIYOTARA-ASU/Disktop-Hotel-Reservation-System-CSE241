@@ -167,6 +167,7 @@ public class Guest extends User {
 				if (!completedFound) { System.out.println("   [Info] You have no completed reservations to pay."); }
 				break;
 			case 7:
+
 				System.out.println("=========Goodbye=========");
 				System.exit(0);
 		}
