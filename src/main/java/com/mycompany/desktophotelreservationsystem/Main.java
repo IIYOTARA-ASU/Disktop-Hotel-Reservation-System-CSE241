@@ -74,13 +74,16 @@ public class Main {
 		System.out.println();
 
 		String prompt =
-			"[1] Login   [2] Register\n" +
+			"[1] Login   [2] Register   [3] exit\n" +
 			">> Select an option: ";
-		int inputOption = Validation.getOption(scanner, 2, prompt);
+		int inputOption = Validation.getOption(scanner, 3, prompt);
 
 		switch (inputOption) {
 			case 1: user = user.login();    break;
 			case 2: user = user.register(); break;
+			case 3:
+				System.out.println("=========Goodbye=========");
+				System.exit(0);
 		}
 		user.loggedIn = true;
 		return user;
