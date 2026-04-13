@@ -116,8 +116,7 @@ public class Receptionist extends Staff {
 				acceptPending(scanner);
 				break;
 			case 5:
-				System.out.println("=========Goodbye=========");
-				System.exit(0);
+				logOut(this); break;
 		}
 	}
 

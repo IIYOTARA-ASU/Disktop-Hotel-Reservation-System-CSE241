@@ -290,8 +290,7 @@ public class Admin extends Staff {
 			case 1: roomsMenu(scanner);     break;
 			case 2: amenitiesMenu(scanner); break;
 			case 3: roomTypesMenu(scanner); break;
-			case 4: System.out.println("=========Goodbye=========");
-				System.exit(0);
+			case 4: logOut(this); break;
 		}
 	}
 
@@ -304,8 +303,7 @@ public class Admin extends Staff {
 			case 2: createRoom();       break;
 			case 3: updateRoom();       break;
 			case 4: deleteRoom();       break;
-			case 5: System.out.println("=========Goodbye=========");
-				System.exit(0);
+			case 5: logOut(this); break;
 		}
 	}
 
@@ -318,8 +316,7 @@ public class Admin extends Staff {
 			case 2: createAmenities();       break;
 			case 3: updateAmenities();       break;
 			case 4: deleteAmenities();       break;
-			case 5:System.out.println("=========Goodbye=========");
-				System.exit(0);
+			case 5:logOut(this); break;
 		}
 	}
 
@@ -332,8 +329,7 @@ public class Admin extends Staff {
 			case 2: createRoomTypes();       break;
 			case 3: updateRoomTypes();       break;
 			case 4: deleteRoomTypes();       break;
-			case 5: System.out.println("=========Goodbye=========");
-				System.exit(0);
+			case 5: logOut(this); break;
 		}
 	}
 

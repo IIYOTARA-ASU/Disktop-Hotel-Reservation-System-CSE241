@@ -73,15 +73,28 @@ public class User {
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Login
 	// ─────────────────────────────────────────────────────────────────────────
-	public User login() {
+	public User login(String inputUser, String inputPass, boolean GUI) {
 		System.out.println();
 		Scanner scanner = new Scanner(System.in);
-		String  inputUser;
 		boolean usernameFound;
 		int     userIndex = -1;
-
+		
 		do {
-			inputUser    = Validation.getString(scanner, ">> Enter your username: ");
+			if(!GUI) {
+			inputUser = Validation.getString(scanner, ">> Enter your username: ");
+			}			
+			else if(GUI){
+				usernameFound = false;
+				for (int i = 0; i < DataBase.people.size(); i++) {
+					if (DataBase.people.get(i).userName.equals(inputUser)) {
+						usernameFound = true;
+						userIndex     = i;
+					}
+				}
+				if (!usernameFound) { System.out.println("   [Error] Username not found. Please try again."); return null; }
+				
+			}
+			
 			usernameFound = false;
 			for (int i = 0; i < DataBase.people.size(); i++) {
 				if (DataBase.people.get(i).userName.equals(inputUser)) {
@@ -94,7 +107,14 @@ public class User {
 
 		boolean correctPassword;
 		do {
-			String inputPass  = Validation.getString(scanner, ">> Enter your password: ");
+			if(!GUI) {
+			inputPass = Validation.getString(scanner, ">> Enter your password: ");
+			}else {
+				correctPassword   = DataBase.people.get(userIndex).password.equals(inputPass);
+				if (!correctPassword) { System.out.println("   [Error] Incorrect password. Please try again.");};
+				break;
+			}
+				
 			correctPassword   = DataBase.people.get(userIndex).password.equals(inputPass);
 			if (!correctPassword) { System.out.println("   [Error] Incorrect password. Please try again."); }
 		} while (!correctPassword);
@@ -102,20 +122,18 @@ public class User {
 		System.out.println("   [OK] Login successful.\n");
 		return DataBase.people.get(userIndex);
 	}
-
+	
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Register
 	// ─────────────────────────────────────────────────────────────────────────
-	public User register() {
+	public User register(String inputUser,String inputPass,int inputType) {
 		System.out.println();
-		Scanner scanner = new Scanner(System.in);
 		User    user;
 
-		String  inputUser;
 		boolean usernameAlreadyExists;
 
 		do {
-			inputUser = Validation.getString(scanner, ">> Enter a username: ");
+			// Validation.getString(scanner, ">> Enter a username: ");
 			usernameAlreadyExists = false;
 			for (int i = 0; i < DataBase.people.size(); i++) {
 				if (DataBase.people.get(i).userName.equals(inputUser)) {
@@ -125,10 +143,10 @@ public class User {
 			}
 		} while (usernameAlreadyExists);
 
-		String inputPass = Validation.getString(scanner, ">> Enter a password: ");
+		// Validation.getString(scanner, ">> Enter a password: ");
 
-		int inputType = Validation.getOption(scanner, 3,
-				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+		/* = Validation.getOption(scanner, 3,
+				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: "); */
 
 		switch (inputType) {
 			case 1:  user = new Guest(inputUser, inputPass);        break;
@@ -140,5 +158,27 @@ public class User {
 		DataBase.people.add(user);
 		System.out.println("   [OK] Account created successfully!\n");
 		return user;
+	}
+	// take user inputs for login / register
+	
+	public void logOut(User user) {
+		System.out.println("Logged out successfully!");
+		System.out.println("////////////////////////////////////////");
+		user = null;
+		DataBase.demoFill();
+
+		while (true) {
+			do {
+				user = Main.enterAccount();
+			} while (user == null);
+
+			if      (user instanceof Guest)       { Main.guestMenu(user); }
+			else if (user instanceof Receptionist) { Main.receptionistMenu(user); }
+			else if (user instanceof Admin)        { Main.adminMenu(user); }
+		}
+	}
+	
+	public void takeInputsForLogin() {
+		
 	}
 }

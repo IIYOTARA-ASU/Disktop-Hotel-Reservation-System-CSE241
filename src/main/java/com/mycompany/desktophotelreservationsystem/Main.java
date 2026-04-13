@@ -72,15 +72,26 @@ public class Main {
 
 		System.out.println(BANNER);
 		System.out.println();
-
+		
 		String prompt =
 			"[1] Login   [2] Register   [3] exit\n" +
 			">> Select an option: ";
 		int inputOption = Validation.getOption(scanner, 3, prompt);
-
+		String inputName;
+		String inputPass;
+		int inputType;
 		switch (inputOption) {
-			case 1: user = user.login();    break;
-			case 2: user = user.register(); break;
+			case 1: 
+				
+				user = user.login("","",false);    break;
+			
+			case 2:
+				inputName = Validation.getString(scanner, ">> Enter your username: ");
+				inputPass = Validation.getString(scanner, ">> Enter your password: ");
+				inputType = Validation.getOption(scanner, 3,
+						">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+				
+				user = user.register(inputName,inputPass,inputType); break;
 			case 3:
 				System.out.println("=========Goodbye=========");
 				System.exit(0);
@@ -91,7 +102,8 @@ public class Main {
 
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Entry point
-	// ─────────────────────────────────────────────────────────────────────────
+	// ────────────────────────────────────────────────────────────────────────-
+	
 	public static void main(String args[]) {
 		User user = null;
 		DataBase.demoFill();

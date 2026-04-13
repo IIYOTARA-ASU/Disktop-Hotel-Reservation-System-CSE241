@@ -1,5 +1,9 @@
 package Screens;
 
+import com.mycompany.desktophotelreservationsystem.User;
+
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -14,13 +18,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class LoginPage extends Pane{
-	public LoginPage() {
+    boolean login = true;
+    boolean clicked = false;
+    User user;
+	public LoginPage(User user, Stage primaryStage, Scene guest) {
+	this.user = user;
 	ScreenUtility screenUtil = new ScreenUtility();
 	    
     double x = 70;
-
 	Image loginImage = new Image(this.getClass().getResource("/Images/Login.png").toExternalForm());
     ImageView loginImageView = new ImageView(loginImage);
 
@@ -99,7 +107,6 @@ public class LoginPage extends Pane{
         username.setLayoutY(username.getLayoutY()+change);
         password.setLayoutY(password.getLayoutY()+change/2);
         registerButton.setLayoutY(registerButton.getLayoutY()+change*2.5);
-
     	this.getChildren().setAll(
                 loginImageView,
                 formRect,
@@ -130,6 +137,75 @@ public class LoginPage extends Pane{
         		);
     });	
     
+    
+    loginButton.setOnAction(e ->{
+    	String userName = username.getText();
+    	String passWord = password.getText();
+    	if(userName.trim().equals("")) {
+    		username.setStyle("-fx-border-color : red;");
+    		this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+    	}
+    	if(passWord.trim().equals("")) {
+    		password.setStyle("-fx-border-color : red;");
+    		this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
+    	}
+    });
+    
+    loginButton.setOnAction(e ->{
+    	clicked = true;
+    	String userName = username.getText();
+    	String passWord = password.getText();
+    	if(userName.trim().equals("")) {
+    		username.setStyle("-fx-border-color : red;");
+    		this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+    	}else {
+    		username.setStyle("-fx-border-color : darkSlateGray;");
+    		//.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+    	}
+    	
+    	if(passWord.trim().equals("")) {
+    		password.setStyle("-fx-border-color : red;");
+    		this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
+    	}else {
+    		username.setStyle("-fx-border-color : darkSlateGray;");
+    		//this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+    	}
+    	
+    	if(!userName.trim().equals("") && !passWord.trim().equals("") && clicked) {
+    	System.out.println("Diggers");
+    	this.user = user.login(userName, passWord,true);
+    	if(this.user != null) {
+    		primaryStage.setScene(guest);
+    	}
+    	}
+    });
+    
+    registerButton.setOnAction(e ->{
+    	String userName = username.getText();
+    	String passWord = password.getText();
+    	RadioButton selectedAccountType = (RadioButton) accountType.getSelectedToggle();
+    	
+    	
+    	if(selectedAccountType == null) {
+    		rAdmin.getStyleClass().add("unselectedRadioButton");
+    		rGuest.getStyleClass().add("unselectedRadioButton");
+    		rReceptionist.getStyleClass().add("unselectedRadioButton");
+
+    	}else {
+    	String accType = selectedAccountType.getText();
+    	}
+    	
+    	if(userName.trim().equals("")) {
+    		username.setStyle("-fx-border-color : red;");
+    		this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+    	}
+    	if(passWord.trim().equals("")) {
+    		password.setStyle("-fx-border-color : red;");
+    		this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
+    	}
+    	
+    	
+    });
     
     loginHyperlink.setOnAction(e ->
     {		            	

@@ -168,8 +168,7 @@ public class Guest extends User {
 				break;
 			case 7:
 
-				System.out.println("=========Goodbye=========");
-				System.exit(0);
+				logOut(this); break;
 		}
 	}
 

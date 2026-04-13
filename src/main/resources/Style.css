@@ -49,6 +49,10 @@
 	-fx-background-radius : 10px;
 }
 
+.unselectedRadioButtons> .radio{
+	-fx-border-color : red;
+}
+
 .radioButtons:hover{
 	-fx-cursor:hand;
 }
