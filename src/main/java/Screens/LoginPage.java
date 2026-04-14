@@ -2,6 +2,7 @@ package Screens;
 
 import com.mycompany.desktophotelreservationsystem.User;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,9 +25,11 @@ public class LoginPage extends Pane{
     boolean login = true;
     boolean clicked = false;
     User user;
-	public LoginPage(User user, Stage primaryStage, Scene guest) {
+	public LoginPage(User user, Stage primaryStage, Scene guest,Scene receptionist) {
 	this.user = user;
 	ScreenUtility screenUtil = new ScreenUtility();
+	FXMLLoader load= new FXMLLoader(getClass().getResource("/Reseptionists.fxml"));
+
 	    
     double x = 70;
 	Image loginImage = new Image(this.getClass().getResource("/Images/Login.png").toExternalForm());
@@ -179,12 +182,27 @@ public class LoginPage extends Pane{
     	}
     	}
     });
-    
+
     registerButton.setOnAction(e ->{
     	String userName = username.getText();
     	String passWord = password.getText();
     	RadioButton selectedAccountType = (RadioButton) accountType.getSelectedToggle();
-    	
+
+		if(userName.trim().equals("")) {
+			username.setStyle("-fx-border-color : red;");
+			this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+		}else {
+			username.setStyle("-fx-border-color : darkSlateGray;");
+			//.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+		}
+
+		if(passWord.trim().equals("")) {
+			password.setStyle("-fx-border-color : red;");
+			this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
+		}else {
+			username.setStyle("-fx-border-color : darkSlateGray;");
+			//this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+		}
     	
     	if(selectedAccountType == null) {
     		rAdmin.getStyleClass().add("unselectedRadioButton");
@@ -194,7 +212,19 @@ public class LoginPage extends Pane{
     	}else {
     	String accType = selectedAccountType.getText();
     	}
-    	
+		if(rAdmin.isSelected())
+		{
+
+		}
+		if(rReceptionist.isSelected())
+		{
+			primaryStage.setScene(receptionist);
+
+		}
+//		if(rGuest.isSelected())
+//		{
+//
+//		}
     	if(userName.trim().equals("")) {
     		username.setStyle("-fx-border-color : red;");
     		this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
@@ -252,6 +282,7 @@ public class LoginPage extends Pane{
     		loginButton,
     		registerHyperlink
     		);
+
     ////////// ORIGINAL LOGIN SCREEN END
 	}
 }
