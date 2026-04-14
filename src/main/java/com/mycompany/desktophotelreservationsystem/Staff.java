@@ -11,8 +11,14 @@ public abstract class Staff extends User {
         super(n,p);
     }
     public enum roll {ADMIN, RECEPTIONIST}
-    int workingHours;
+    private int workingHours;
 
+    public void setWorkingHours(int workingHours) {
+    	this.workingHours = workingHours;
+    }
+    public int getWorkingHours() {
+    	return workingHours;
+    }
 	public void viewGuests() {
 		for (int i = 0; i < DataBase.people.size(); i++) {
 			System.out.println("Guest"+i+": "+ DataBase.people.get(i));

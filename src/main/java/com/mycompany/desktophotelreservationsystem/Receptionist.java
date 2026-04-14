@@ -61,6 +61,7 @@ public class Receptionist extends Staff {
 		System.out.println("║                       RECEPTIONIST MENU                       ║");
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
 		System.out.println();
+		System.out.println("Working Hours : " + this.getWorkingHours() + " hrs");
 
 		int inputOption = Validation.getOption(scanner, 5,
 			"[1] Check In  [2] Check Out  [3] View Pending  [4] Accept Pending  [5]Exit \n" +
@@ -212,9 +213,9 @@ public class Receptionist extends Staff {
 
 	private Date readDate(Scanner scanner, String prompt) {
 		System.out.println(prompt);
-		int d = Validation.getIntInRange(scanner, "   Day   (1-30):  ", 1, 30);
-		int m = Validation.getIntInRange(scanner, "   Month (1-12):  ", 1, 12);
-		int y = Validation.getIntInRange(scanner, "   Year  (2026-2028): ", 2026, 2028);
+		int d = Validation.getIntInRange(scanner, "   Day   (1~30):  ", 1, 30);
+		int m = Validation.getIntInRange(scanner, "   Month (1~12):  ", 1, 12);
+		int y = Validation.getIntInRange(scanner, "   Year  (2026~2028): ", 2026, 2028);
 		Calendar cal = Calendar.getInstance();
 		cal.set(y, m - 1, d);
 		return cal.getTime();

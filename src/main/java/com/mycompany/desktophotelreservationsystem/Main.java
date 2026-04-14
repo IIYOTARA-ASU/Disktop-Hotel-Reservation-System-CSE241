@@ -86,11 +86,7 @@ public class Main {
 				user = user.login("","",false);    break;
 			
 			case 2:
-//				inputName = Validation.getString(scanner, ">> Enter your username: ");
-//				inputPass = Validation.getString(scanner, ">> Enter your password: ");
-//				inputType = Validation.getOption(scanner, 3,
-//						">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
-				
+
 				user = user.register("","",0,false); break;
 			case 3:
 				System.out.println("=========Goodbye=========");
@@ -112,7 +108,7 @@ public class Main {
 			do {
 				user = enterAccount();
 			} while (user == null);
-
+			
 			if      (user instanceof Guest)       { guestMenu(user); }
 			else if (user instanceof Receptionist) { receptionistMenu(user); }
 			else if (user instanceof Admin)        { adminMenu(user); }

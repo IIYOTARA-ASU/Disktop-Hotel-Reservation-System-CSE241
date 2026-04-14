@@ -15,7 +15,9 @@ public class User {
 	private String password;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-
+	private String adminCode = "badrEhabByakolFera5Masloo2a";
+	String inputCode;
+	
 	public String getUserName()                  { return userName; }
 	public void   setUserName(String userName)   { this.userName = userName; }
 	public String getPassword()                  { return password; }
@@ -129,22 +131,22 @@ public class User {
 	public User register(String inputUser,String inputPass,int inputType, boolean GUI) {
 		System.out.println();
 		Scanner scanner = new Scanner(System.in);
-		User    user;
+		User user;
 
 		boolean usernameAlreadyExists;
 
 		do {
 			if(!GUI) {
-			inputUser =  Validation.getString(scanner, ">> Enter a username: ");
+			inputUser = Validation.getString(scanner, ">> Enter a username: ");
 			}else {
-				usernameAlreadyExists = false;
-				for (int i = 0; i < DataBase.people.size(); i++) {
-					if (DataBase.people.get(i).userName.equals(inputUser)) {
-						usernameAlreadyExists = true;
-						System.out.println("   [Error] Username already taken. Please try another.");
-						return null;
-					}
+			usernameAlreadyExists = false;
+			for (int i = 0; i < DataBase.people.size(); i++) {
+				if (DataBase.people.get(i).userName.equals(inputUser)) {
+					usernameAlreadyExists = true;
+					System.out.println("   [Error] Username already taken. Please try another.");
+					return null;
 				}
+			}
 			}
 			usernameAlreadyExists = false;
 			for (int i = 0; i < DataBase.people.size(); i++) {
@@ -155,21 +157,56 @@ public class User {
 			}
 		} while (usernameAlreadyExists);
 
-		// Validation.getString(scanner, ">> Enter a password: ");
+		
 		if(!GUI) {
-		inputType = Validation.getOption(scanner, 3,
-				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+		inputPass = Validation.getString(scanner, ">> Enter a password: ");
 		}
-		switch (inputType) {
-			case 1:  user = new Guest(inputUser, inputPass);        break;
-			case 2:  user = new Admin(inputUser, inputPass);        break;
-			case 3:  user = new Receptionist(inputUser, inputPass); break;
-			default: System.out.println("   [Error] Invalid option."); return null;
+		
+		if(!GUI) {inputType = Validation.getOption(scanner, 3,
+				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: "); 
 		}
-
+		
+			switch (inputType) {
+				case 1:  
+					if(!GUI) {
+						int balance = Validation.getIntInRange(scanner, ">> Enter Account Balance : ", 0, 1000000000);
+						user = new Guest(inputUser, inputPass);
+						((Guest)user).setBalance((double)balance);       
+						break;
+					}
+					
+				case 2:  
+					
+					inputCode = Validation.getString(scanner, "Enter Admin Code : ");
+					if(inputCode.equals(adminCode)) {
+					user = new Admin(inputUser, inputPass);        
+					}else {
+					  System.out.println("You are not authorised to make a Staff account... GET OUT");
+					  System.exit(0);
+					  return null;
+					}
+					break;
+				case 3:
+						if(!GUI) {
+						inputCode = Validation.getString(scanner, "Enter Admin Code : ");
+						if(inputCode.equals(adminCode)) {
+						user = new Receptionist(inputUser, inputPass); 
+						}else {
+						  System.out.println("You are not authorised to make a Staff account... GET OUT");
+						  System.exit(0);
+						  return null;
+						}
+						int workingHours = Validation.getIntInRange(scanner, ">> Enter Working Hours (0~15) : ", 0, 15);
+						((Receptionist)user).setWorkingHours(workingHours);
+						break;
+						}
+				default: System.out.println("   [Error] Invalid option."); return null;
+			}
+			
 		DataBase.people.add(user);
 		System.out.println("   [OK] Account created successfully!\n");
 		return user;
+		
 	}
 	// take user inputs for login / register
 	
@@ -177,7 +214,6 @@ public class User {
 		System.out.println("Logged out successfully!");
 		System.out.println("////////////////////////////////////////");
 		user = null;
-		DataBase.demoFill();
 
 		while (true) {
 			do {
@@ -188,9 +224,5 @@ public class User {
 			else if (user instanceof Receptionist) { Main.receptionistMenu(user); }
 			else if (user instanceof Admin)        { Main.adminMenu(user); }
 		}
-	}
-	
-	public void takeInputsForLogin() {
-		
 	}
 }
