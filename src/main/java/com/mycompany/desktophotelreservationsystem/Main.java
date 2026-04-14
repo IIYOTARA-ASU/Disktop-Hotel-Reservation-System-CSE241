@@ -86,12 +86,12 @@ public class Main {
 				user = user.login("","",false);    break;
 			
 			case 2:
-				inputName = Validation.getString(scanner, ">> Enter your username: ");
-				inputPass = Validation.getString(scanner, ">> Enter your password: ");
-				inputType = Validation.getOption(scanner, 3,
-						">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+//				inputName = Validation.getString(scanner, ">> Enter your username: ");
+//				inputPass = Validation.getString(scanner, ">> Enter your password: ");
+//				inputType = Validation.getOption(scanner, 3,
+//						">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
 				
-				user = user.register(inputName,inputPass,inputType); break;
+				user = user.register("","",0,false); break;
 			case 3:
 				System.out.println("=========Goodbye=========");
 				System.exit(0);

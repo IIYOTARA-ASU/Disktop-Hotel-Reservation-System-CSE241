@@ -25,7 +25,7 @@ public class LoginPage extends Pane{
     boolean clicked = false;
     User user;
 	public LoginPage(User user, Stage primaryStage, Scene guest) {
-	this.user = user;
+	this.user = null;
 	ScreenUtility screenUtil = new ScreenUtility();
 	    
     double x = 70;
@@ -78,9 +78,9 @@ public class LoginPage extends Pane{
     double togglePosition = x*10.5;
     ToggleGroup accountType = new ToggleGroup();
     
-    RadioButton rAdmin = new RadioButton();
-    RadioButton rGuest = new RadioButton();
-    RadioButton rReceptionist = new RadioButton();
+    RadioButton rAdmin = new RadioButton("Admin");
+    RadioButton rGuest = new RadioButton("Guest");
+    RadioButton rReceptionist = new RadioButton("Receptionist");
 
     rAdmin.setToggleGroup(accountType);
     rGuest.setToggleGroup(accountType);
@@ -184,17 +184,19 @@ public class LoginPage extends Pane{
     	String userName = username.getText();
     	String passWord = password.getText();
     	RadioButton selectedAccountType = (RadioButton) accountType.getSelectedToggle();
-    	
-    	
-    	if(selectedAccountType == null) {
-    		rAdmin.getStyleClass().add("unselectedRadioButton");
-    		rGuest.getStyleClass().add("unselectedRadioButton");
-    		rReceptionist.getStyleClass().add("unselectedRadioButton");
-
-    	}else {
-    	String accType = selectedAccountType.getText();
+    	int accType = -1;
+    	if(selectedAccountType != null) {
+		    switch(selectedAccountType.getText().trim()) {
+			case "Guest" : accType = 0; break;
+			case "Admin" : accType = 1; break;
+			case "Receptionist" : accType = 2; break;
+			default :   accType = -1;  		
+			rAdmin.getStyleClass().add("unselectedRadioButtons");
+			rGuest.getStyleClass().add("unselectedRadioButtons");
+			rReceptionist.getStyleClass().add("unselectedRadioButtons"); 
+			break;
+		    }
     	}
-    	
     	if(userName.trim().equals("")) {
     		username.setStyle("-fx-border-color : red;");
     		this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
@@ -204,7 +206,13 @@ public class LoginPage extends Pane{
     		this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
     	}
     	
+    	if(!userName.trim().equals("") && !passWord.trim().equals("") && selectedAccountType != null&& accType!= -1) {
+    		this.user = user.register(userName, passWord, accType, true);
+    	}
     	
+    	if(this.user != null) {
+    		primaryStage.setScene(guest);
+    	}
     });
     
     loginHyperlink.setOnAction(e ->

@@ -126,14 +126,26 @@ public class User {
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Register
 	// ─────────────────────────────────────────────────────────────────────────
-	public User register(String inputUser,String inputPass,int inputType) {
+	public User register(String inputUser,String inputPass,int inputType, boolean GUI) {
 		System.out.println();
+		Scanner scanner = new Scanner(System.in);
 		User    user;
 
 		boolean usernameAlreadyExists;
 
 		do {
-			// Validation.getString(scanner, ">> Enter a username: ");
+			if(!GUI) {
+			inputUser =  Validation.getString(scanner, ">> Enter a username: ");
+			}else {
+				usernameAlreadyExists = false;
+				for (int i = 0; i < DataBase.people.size(); i++) {
+					if (DataBase.people.get(i).userName.equals(inputUser)) {
+						usernameAlreadyExists = true;
+						System.out.println("   [Error] Username already taken. Please try another.");
+						return null;
+					}
+				}
+			}
 			usernameAlreadyExists = false;
 			for (int i = 0; i < DataBase.people.size(); i++) {
 				if (DataBase.people.get(i).userName.equals(inputUser)) {
@@ -144,10 +156,10 @@ public class User {
 		} while (usernameAlreadyExists);
 
 		// Validation.getString(scanner, ">> Enter a password: ");
-
-		/* = Validation.getOption(scanner, 3,
-				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: "); */
-
+		if(!GUI) {
+		inputType = Validation.getOption(scanner, 3,
+				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
+		}
 		switch (inputType) {
 			case 1:  user = new Guest(inputUser, inputPass);        break;
 			case 2:  user = new Admin(inputUser, inputPass);        break;
