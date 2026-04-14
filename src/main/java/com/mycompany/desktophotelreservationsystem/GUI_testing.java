@@ -38,7 +38,8 @@ public class GUI_testing extends Application {
         Parent guestroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml"));
         Parent receproot = FXMLLoader.load(getClass().getResource("/Receptionists.fxml"));
         Scene guest=new Scene(guestroot);
-        Pane loginroot = new LoginPage(user,primaryStage,guest);
+        Scene sceneReceptionist=new Scene(receproot);
+        Pane loginroot = new LoginPage(user,primaryStage,guest,sceneReceptionist);
         
         double x = 70;
         getClass().getResource("/Style.css");
@@ -46,9 +47,9 @@ public class GUI_testing extends Application {
         String css = this.getClass().getResource("/Style.css").toExternalForm();
         String recep=this.getClass().getResource("/hadi.css").toExternalForm();
         Scene scene = new Scene(loginroot, 16 * x, 9 * x - 2);
-        Scene Receptionist=new Scene(receproot);
+
         guest.getStylesheets().add(css);
-        Receptionist.getStylesheets().add(recep);
+        sceneReceptionist.getStylesheets().add(recep);
         scene.getStylesheets().add(css);
         // root.getChildren().add(btn);
 

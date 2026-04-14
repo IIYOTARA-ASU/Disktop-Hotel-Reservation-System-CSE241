@@ -40,7 +40,7 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Label fx:id="Adminid" layoutX="856.0" layoutY="34.0" style="-fx-font-style: regular;" stylesheets="@hadi.css" text="Label" />
+      <Label fx:id="recepname" layoutX="856.0" layoutY="34.0" style="-fx-font-style: regular;" stylesheets="@hadi.css" text="Label" />
       <Label layoutX="710.0" layoutY="175.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="Label" />
       <Label fx:id="date" layoutX="626.0" layoutY="37.0" text="Date" />
    </children>
