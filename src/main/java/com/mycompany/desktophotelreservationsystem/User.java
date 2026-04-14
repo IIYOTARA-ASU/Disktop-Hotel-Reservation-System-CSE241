@@ -15,7 +15,7 @@ public class User {
 	private String password;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-	private String adminCode = "badrEhabByakolFera5Masloo2a";
+	private String adminCode = "1";
 	String inputCode;
 	
 	public String getUserName()                  { return userName; }
