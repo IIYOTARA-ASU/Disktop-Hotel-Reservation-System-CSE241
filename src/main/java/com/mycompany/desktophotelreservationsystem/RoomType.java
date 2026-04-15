@@ -1,6 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
 
-public class RoomType {
+public class RoomType implements roomstuff {
 	String roomType;
 
 	RoomType() {

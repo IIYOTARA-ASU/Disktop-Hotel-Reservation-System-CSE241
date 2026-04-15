@@ -3,7 +3,7 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.Scanner;
 
 
-public abstract class Staff extends User {
+public abstract class Staff extends User implements users{
     Scanner in = new Scanner(System.in);
     Staff(){
     }

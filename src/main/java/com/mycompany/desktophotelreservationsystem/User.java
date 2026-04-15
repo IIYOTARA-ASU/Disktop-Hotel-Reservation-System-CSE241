@@ -2,7 +2,7 @@ package com.mycompany.desktophotelreservationsystem;
 
 import java.util.*;
 
-public class User {
+public class User implements users {
 
 	User() {}
 

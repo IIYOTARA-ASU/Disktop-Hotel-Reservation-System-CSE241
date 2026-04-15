@@ -1,7 +1,7 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.Date;
 
-public class Invoice {
+public class Invoice implements reservationProcess{
     public enum PaymentMethod { CASH, CREDIT_CARD, ONLINE }
     Invoice() {
     }

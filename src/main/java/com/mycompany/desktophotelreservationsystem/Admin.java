@@ -2,7 +2,7 @@ package com.mycompany.desktophotelreservationsystem;
 
 import java.util.Scanner;
 
-public class Admin extends Staff {
+public class Admin extends Staff implements users{
 
 	Admin() {}
 	Admin(String username, String password) { super(username, password); }

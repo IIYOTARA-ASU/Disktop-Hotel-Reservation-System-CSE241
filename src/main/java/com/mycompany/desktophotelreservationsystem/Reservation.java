@@ -1,7 +1,7 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.Date;
 
-public class Reservation {
+public class Reservation implements reservationProcess{
     public enum ReservationStatus { PENDING, CONFIRMED, CANCELLED, COMPLETED }
     
     Reservation() {

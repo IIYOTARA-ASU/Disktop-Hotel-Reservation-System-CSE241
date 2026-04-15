@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Receptionist extends Staff {
+public class Receptionist extends Staff implements users{
 
 	Receptionist() {}
 	Receptionist(String username, String password) { super(username, password); }

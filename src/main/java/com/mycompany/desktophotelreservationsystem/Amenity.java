@@ -1,6 +1,6 @@
 package com.mycompany.desktophotelreservationsystem;
 
-public class Amenity {
+public class Amenity implements roomstuff{
     private double price;
     private String name;
 

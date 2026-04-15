@@ -1,7 +1,7 @@
 package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
 
-public class Room {
+public class Room implements roomstuff {
 	private RoomType type;
 	private int roomNumber;
 	private int price;
