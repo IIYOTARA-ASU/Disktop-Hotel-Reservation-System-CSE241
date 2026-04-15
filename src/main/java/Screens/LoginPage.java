@@ -20,6 +20,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import com.mycompany.desktophotelreservationsystem.HADI_CONTROLLER;
+
+import java.io.IOException;
 
 public class LoginPage extends Pane{
     boolean login = true;
@@ -28,7 +31,7 @@ public class LoginPage extends Pane{
 	public LoginPage(User user, Stage primaryStage, Scene guest,Scene receptionist) {
 	this.user = user;
 	ScreenUtility screenUtil = new ScreenUtility();
-	FXMLLoader load= new FXMLLoader(getClass().getResource("/Reseptionists.fxml"));
+
 
 	    
     double x = 70;
@@ -184,58 +187,82 @@ public class LoginPage extends Pane{
     });
 
     registerButton.setOnAction(e ->{
-    	String userName = username.getText();
+
+		String userName = username.getText();
     	String passWord = password.getText();
     	RadioButton selectedAccountType = (RadioButton) accountType.getSelectedToggle();
 
-		if(userName.trim().equals("")) {
-			username.setStyle("-fx-border-color : red;");
-			this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
-		}else {
-			username.setStyle("-fx-border-color : darkSlateGray;");
-			//.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
-		}
+		//styling stuff
 
-		if(passWord.trim().equals("")) {
-			password.setStyle("-fx-border-color : red;");
-			this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
-		}else {
-			username.setStyle("-fx-border-color : darkSlateGray;");
-			//this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
-		}
     	
     	if(selectedAccountType == null) {
-    		rAdmin.getStyleClass().add("unselectedRadioButton");
-    		rGuest.getStyleClass().add("unselectedRadioButton");
-    		rReceptionist.getStyleClass().add("unselectedRadioButton");
+			rAdmin.getStyleClass().add("unselectedRadioButton");
+			rGuest.getStyleClass().add("unselectedRadioButton");
+			rReceptionist.getStyleClass().add("unselectedRadioButton");
 
-    	}else {
+		}else {
     	String accType = selectedAccountType.getText();
     	}
-		if(rAdmin.isSelected())
-		{
 
-		}
-		if(rReceptionist.isSelected())
-		{
-			primaryStage.setScene(receptionist);
+		//taking input from login screens
 
-		}
-//		if(rGuest.isSelected())
-//		{
+		//2
+
+			String data = username.getText();
+			if(userName.trim().equals("")) {
+				username.setStyle("-fx-border-color : red;");
+				this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+			}else {
+				username.setStyle("-fx-border-color : darkSlateGray;");
+				//.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+			}
+
+			if(passWord.trim().equals("")) {
+				password.setStyle("-fx-border-color : red;");
+				this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
+			}else {
+				username.setStyle("-fx-border-color : darkSlateGray;");
+				//this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
+			}
+			//1
+			FXMLLoader load = new FXMLLoader(getClass().getResource("/Receptionists.fxml"));
+
+			//2
+                Parent receproot = null;
+                try {
+                    receproot = load.load();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                //3
+			HADI_CONTROLLER recepcontroller = load.getController();
+			//4
+				receptionist.setRoot(receproot);
+			// 5 step
+				recepcontroller.setUsername(data);
+//			if (rAdmin.isSelected()) {
 //
-//		}
-    	if(userName.trim().equals("")) {
-    		username.setStyle("-fx-border-color : red;");
-    		this.getChildren().add(screenUtil.makeText("Username is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,username.getLayoutX(),username.getLayoutY()+x*0.75));
-    	}
-    	if(passWord.trim().equals("")) {
-    		password.setStyle("-fx-border-color : red;");
-    		this.getChildren().add(screenUtil.makeText("Password is empty.","Verdana",12,FontWeight.MEDIUM,Color.RED,password.getLayoutX(),password.getLayoutY()+x*0.75));
-    	}
-    	
-    	
-    });
+//			}
+			if (rReceptionist.isSelected()) {
+				receptionist.setRoot(receproot);
+				primaryStage.setScene(receptionist);
+			}
+			if (rGuest.isSelected()) {
+				primaryStage.setScene(guest);
+			}
+			if (userName.trim().equals("")) {
+				username.setStyle("-fx-border-color : red;");
+				this.getChildren().add(screenUtil.makeText("Username is empty.", "Verdana", 12, FontWeight.MEDIUM, Color.RED, username.getLayoutX(), username.getLayoutY() + x * 0.75));
+			}
+			if (passWord.trim().equals("")) {
+				password.setStyle("-fx-border-color : red;");
+				this.getChildren().add(screenUtil.makeText("Password is empty.", "Verdana", 12, FontWeight.MEDIUM, Color.RED, password.getLayoutX(), password.getLayoutY() + x * 0.75));
+			}
+		}
+
+
+
+    );
     
     loginHyperlink.setOnAction(e ->
     {		            	

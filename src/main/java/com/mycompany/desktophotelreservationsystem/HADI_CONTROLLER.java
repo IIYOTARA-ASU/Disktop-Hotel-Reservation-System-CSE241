@@ -9,13 +9,16 @@ public class HADI_CONTROLLER {
 
     @FXML
     private Label recepname;
-    String passedn;
-    // Added 'private' and ensured it matches fx:id
+    public void setUsername(String recepname)
+    {
+        this.recepname.setText(recepname);
+        System.out.println("recepname is copied in controller");
+    }
 
 
     @FXML
     public void initialize() {
-        // Now Adminid will not be null
+        // Now recepname will not be null
         if ( recepname!= null) {
 
         }
