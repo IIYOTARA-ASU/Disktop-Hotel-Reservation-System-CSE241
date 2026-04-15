@@ -37,8 +37,12 @@ public class GUI_testing extends Application {
     	DataBase.demoFill();
         Parent guestroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml"));
         Parent receproot = FXMLLoader.load(getClass().getResource("/Receptionists.fxml"));
+        Parent theGoatRoot = FXMLLoader.load(getClass().getResource("/theGoat.fxml"));
+        Parent adminAmenitiesRoot = FXMLLoader.load(getClass().getResource("/adminAmenities.fxml"));
         Scene guest=new Scene(guestroot);
         Scene sceneReceptionist=new Scene(receproot);
+        Scene thegoat = new Scene(theGoatRoot);
+        Scene adminAmenities = new Scene(adminAmenitiesRoot);
         Pane loginroot = new LoginPage(user,primaryStage,guest,sceneReceptionist);
         
         double x = 70;
@@ -46,6 +50,7 @@ public class GUI_testing extends Application {
         primaryStage.setResizable(false);
         String css = this.getClass().getResource("/Style.css").toExternalForm();
         String recep=this.getClass().getResource("/hadi.css").toExternalForm();
+        
         Scene scene = new Scene(loginroot, 16 * x, 9 * x - 2);
 
         guest.getStylesheets().add(css);
@@ -60,7 +65,7 @@ public class GUI_testing extends Application {
         primaryStage.setTitle("Hello HADI!");
         
         scene.getStylesheets().add(css);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(thegoat);
         primaryStage.show();
     }
 
