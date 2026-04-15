@@ -12,9 +12,9 @@
    <children>
       <Button layoutX="92.0" layoutY="267.0" mnemonicParsing="false" onAction="#up" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="View" />
       <Button layoutX="92.0" layoutY="410.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Update" />
-      <Button layoutX="693.0" layoutY="267.0" mnemonicParsing="false" onAction="#toAddAmenities" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
+      <Button layoutX="693.0" layoutY="267.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
       <Button layoutX="693.0" layoutY="410.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Delete" />
-      <Text layoutX="417.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 32; -fx-font-weight: bold;" text="Amenities Menu">
+      <Text layoutX="372.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 32; -fx-font-weight: bold;" text="Rooms Menu" textAlignment="CENTER" wrappingWidth="377.92181396484375">
          <font>
             <Font size="30.0" />
          </font>
@@ -24,9 +24,9 @@
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#254441" height="107.0" layoutX="12.0" stroke="BLACK" strokeType="INSIDE" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" width="1097.0" />
       <Text fill="WHITE" layoutX="335.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 67; -fx-font-weight: bolder; -fx-font-family: verdana;" text="ADMIN MENU" />
       <Button layoutX="401.0" layoutY="509.0" mnemonicParsing="false" onAction="#toAdmin" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Back" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="486.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="485.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Images/amenities.png" />
+            <Image url="@Images/roomicon.png" />
          </image>
       </ImageView>
    </children>
