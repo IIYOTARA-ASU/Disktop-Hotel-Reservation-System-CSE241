@@ -7,7 +7,7 @@ public class Amenity {
     Amenity() {
     }
 
-    Amenity(String name, double price) {
+    public Amenity(String name, double price) {
         this.name = name;
         this.price = price;
     }
@@ -15,7 +15,7 @@ public class Amenity {
     double getprice() {
         return this.price;
     }
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
