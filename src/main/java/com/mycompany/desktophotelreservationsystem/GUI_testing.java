@@ -65,7 +65,7 @@ public class GUI_testing extends Application {
         primaryStage.setTitle("Hello HADI!");
         
         scene.getStylesheets().add(css);
-        primaryStage.setScene(thegoat);
+        primaryStage.setScene(guest);
         primaryStage.show();
     }
 
