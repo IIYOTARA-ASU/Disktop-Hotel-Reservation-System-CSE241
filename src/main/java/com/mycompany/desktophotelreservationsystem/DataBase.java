@@ -5,11 +5,11 @@ public class DataBase {
     public static ArrayList<Room> rooms = new ArrayList<>();
     static ArrayList<Reservation> reservations = new ArrayList<>();
     static ArrayList<Invoice> invoices = new ArrayList<>();
-    static ArrayList<User> people = new ArrayList<>();
+    public static ArrayList<User> people = new ArrayList<>();
     static ArrayList<Guest> guests = new ArrayList<>();
     public static ArrayList<RoomType> roomTypes = new ArrayList<>();
     public static ArrayList<Amenity> amenities = new ArrayList<>();
-
+    public static User currentUser;
 
     DataBase(){
 

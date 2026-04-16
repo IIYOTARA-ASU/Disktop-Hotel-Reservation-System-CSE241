@@ -4,14 +4,14 @@ import java.util.*;
 
 public class User implements users {
 
-	User() {}
+	public User() {}
 
-	User(String n, String p) {
+	public User(String n, String p) {
 		userName = n;
 		password = p;
 	}
 
-	private String userName;
+	public String userName;
 	private String password;
 	private Date dateOfBirth;
 	boolean loggedIn = false;

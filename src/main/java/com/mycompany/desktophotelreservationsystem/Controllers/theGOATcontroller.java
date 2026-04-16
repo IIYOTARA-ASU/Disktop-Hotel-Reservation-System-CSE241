@@ -7,6 +7,8 @@ import java.util.InputMismatchException;
 import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
+import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.Receptionist;
 import com.mycompany.desktophotelreservationsystem.Room;
 import com.mycompany.desktophotelreservationsystem.RoomType;
 import com.mycompany.desktophotelreservationsystem.User;
@@ -28,8 +30,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class theGOATcontroller {
-
-    private Admin admin;
+	
+	User user = new User();
+	User currentUser;
     
     private Stage stage;
     private Scene scene;
@@ -37,6 +40,10 @@ public class theGOATcontroller {
 
     @FXML
     private Label dynamicText; 
+    @FXML
+    private Label usernameErrorMessage; 
+    @FXML
+    private Label passwordErrorMessage; 
     @FXML
     private Label amenityNameError;
     @FXML
@@ -89,6 +96,10 @@ public class theGOATcontroller {
     private TextField roomNumber;
     @FXML
     private TextField roomPrice;
+    @FXML
+    private TextField username;
+    @FXML
+    private TextField password;
     @FXML
     private FlowPane amenityContainer;
     @FXML
@@ -202,6 +213,7 @@ public class theGOATcontroller {
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
+    		
     		roomTypeContainer.getChildren().add(roomTypeLabel);
     		
     		roomTypeID++;
@@ -210,7 +222,7 @@ public class theGOATcontroller {
     @FXML
     public void initialize() {
     	if (dynamicText != null) {
-            dynamicText.setText("Welcome, " + s);
+            dynamicText.setText("Welcome, " + DataBase.currentUser.getUserName());
         } else {
             System.out.println("No dynamicText label found on this screen. Skipping text update.");
         }
@@ -307,6 +319,69 @@ public class theGOATcontroller {
     @FXML
     public void toViewRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypesView.fxml",e);
+    }
+    
+    @FXML
+    public void loginGui(ActionEvent e) {
+		username.setStyle("-fx-border-color : darkSlateGray");
+		password.setStyle("-fx-border-color : darkSlateGray");
+		passwordErrorMessage.setText("");
+		usernameErrorMessage.setText("");
+
+    	String loginPass = password.getText().trim();
+    	String loginUser = username.getText().trim();
+    	
+    	if(loginUser.equals("")) {
+    		username.setStyle("-fx-border-color : red");
+    		username.setText("");
+    		usernameErrorMessage.setText("Username is empty");
+    	}
+    	if(loginPass.equals("")) {
+    		password.setStyle("-fx-border-color : red");
+    		password.setText("");
+    		passwordErrorMessage.setText("Password is empty");
+    	}
+    	if(loginUser.equals("") || loginPass.equals("")) {
+    		return;
+    	}
+    	boolean usernameFound = false;
+    	int userIndex = -1;
+		for (int i = 0; i < DataBase.people.size(); i++) {
+			if (DataBase.people.get(i).userName.equals(loginUser)) {
+				usernameFound = true;
+				userIndex = i;
+			}
+		}
+		if (!usernameFound) { 
+    		username.setStyle("-fx-border-color : red");
+    		username.setText("");
+    		usernameErrorMessage.setText("Username not found.");
+		return; }
+    	
+		boolean correctPassword   = DataBase.people.get(userIndex).getPassword().equals(loginPass);
+		if (!correctPassword) {
+		password.setStyle("-fx-border-color : red");
+		password.setText("");
+		passwordErrorMessage.setText("Wrong Password");
+		return;
+		};
+    	
+		
+    	DataBase.currentUser = user.login(loginUser, loginPass, true);
+	    	if(DataBase.currentUser instanceof Admin) {
+	    		toAdmin(e);
+	    	}
+	    	if(DataBase.currentUser instanceof Receptionist) {
+	    		//
+	    		System.out.println("Hi receptionist");
+	    	}
+	    	if(DataBase.currentUser instanceof Guest) {
+	    		//
+	    		System.out.println("Hi Guest");
+	    	}
+    }
+    @FXML
+    public void toRegister(ActionEvent e) {
     }
     @FXML
     public void toAddRoomTypes(ActionEvent e) {

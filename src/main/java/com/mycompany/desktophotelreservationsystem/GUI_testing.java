@@ -37,7 +37,7 @@ public class GUI_testing extends Application {
     	DataBase.demoFill();
         Parent guestroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml"));
         Parent receproot = FXMLLoader.load(getClass().getResource("/Receptionists.fxml"));
-        Parent theGoatRoot = FXMLLoader.load(getClass().getResource("/theGoat.fxml"));
+        Parent theGoatRoot = FXMLLoader.load(getClass().getResource("/Login.fxml"));
         Parent adminAmenitiesRoot = FXMLLoader.load(getClass().getResource("/adminAmenities.fxml"));
         Scene guest=new Scene(guestroot);
         Scene sceneReceptionist=new Scene(receproot);
