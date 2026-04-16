@@ -44,6 +44,8 @@ public class theGOATcontroller {
     @FXML
     private Label amenityDeleteMessage;
     @FXML
+    private Label roomDeleteMessage;
+    @FXML
     private Label updateIDError;
     @FXML
     private Label updateSuccessMessage;
@@ -571,7 +573,43 @@ public class theGOATcontroller {
     
     ///////////////////////////////////// ROOMS FUNCTIONS START
     
-    public void roomDelete(){}
+    public void deleteRoom(){
+    	int deletedNumber = -1;
+    	int deletedIndex = -1;
+    	
+
+    	
+    	try {
+    		deletedNumber = Integer.parseInt(deleteID.getText().trim());
+    	}catch(Exception e){
+    		deleteID.setStyle("-fx-border-color : red;");
+    		roomDeleteMessage.setText("Room not found. Please enter a valid number.");
+    		roomDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+    	}
+    	roomDeleteMessage.setText("");
+		deleteID.setStyle("-fx-border-color : darkSlateGray;");
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+		if (DataBase.rooms.get(i).getRoomNumber() == deletedNumber) { deletedIndex = i; break; }
+		}if(deletedIndex == -1) {
+			deleteID.setStyle("-fx-border-color : red;");
+    		roomDeleteMessage.setText("Room not found. Please enter a valid number.");
+    		roomDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+		}
+	
+		
+		Room toDelete = DataBase.rooms.get(deletedIndex);
+		DataBase.rooms.remove(toDelete);
+		roomDeleteMessage.setStyle("-fx-text-fill: green;");
+		roomDeleteMessage.setText("Room deleted successfully!");
+		deleteID.setStyle("-fx-border-color : darkSlateGray");
+		deleteID.setText("");
+		
+		displayRooms();
+    }
     
     ///////////////////////////////////// ROOMS FUNCTIONS END
 }
