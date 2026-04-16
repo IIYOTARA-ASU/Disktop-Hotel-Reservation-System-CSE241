@@ -6,7 +6,7 @@ public class RoomType implements roomstuff {
 	RoomType() {
 	}
 
-	RoomType(String roomType) {
+	public RoomType(String roomType) {
 		this.roomType = roomType.toLowerCase();
 	}
 

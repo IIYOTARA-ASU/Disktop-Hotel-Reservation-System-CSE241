@@ -7,7 +7,7 @@ public class DataBase {
     static ArrayList<Invoice> invoices = new ArrayList<>();
     static ArrayList<User> people = new ArrayList<>();
     static ArrayList<Guest> guests = new ArrayList<>();
-    static ArrayList<RoomType> roomTypes = new ArrayList<>();
+    public static ArrayList<RoomType> roomTypes = new ArrayList<>();
     public static ArrayList<Amenity> amenities = new ArrayList<>();
 
 

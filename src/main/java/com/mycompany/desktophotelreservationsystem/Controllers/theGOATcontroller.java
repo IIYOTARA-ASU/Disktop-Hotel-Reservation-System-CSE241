@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
+import com.mycompany.desktophotelreservationsystem.RoomType;
 import com.mycompany.desktophotelreservationsystem.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +47,11 @@ public class theGOATcontroller {
     @FXML
     private Label updatePriceError;
     @FXML
+    private Label roomTypeNameMessage;
+    @FXML
     private TextField amenityName;
+    @FXML
+    private TextField roomTypeName;
     @FXML
     private TextField amenityPrice;
     @FXML
@@ -57,6 +62,8 @@ public class theGOATcontroller {
     private TextField updatePrice;
     @FXML
     private FlowPane amenityContainer;
+    @FXML
+    private FlowPane roomTypeContainer;
     
     boolean amenities = false;
     public theGOATcontroller() {}
@@ -89,6 +96,30 @@ public class theGOATcontroller {
     }
     
     @FXML
+    public void displayRoomTypes() {
+    	int roomTypeID = 0;
+    	roomTypeContainer.getChildren().clear();
+    	
+    	roomTypeContainer.setHgap(20); 
+        roomTypeContainer.setVgap(20);
+        roomTypeContainer.setPadding(new Insets(20));
+        
+    	for(RoomType r : DataBase.roomTypes) {
+    		String roomTypeInfo = "ID : "+ roomTypeID + "\nName : "+r.getRoomType();
+    	
+    		Label roomTypeLabel = new Label(roomTypeInfo);
+    		
+    		roomTypeLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
+    		roomTypeContainer.getChildren().add(roomTypeLabel);
+    		
+    		roomTypeID++;
+    	}
+    }
+    
+    @FXML
     public void initialize() {
     	if (dynamicText != null) {
             dynamicText.setText("Welcome, " + s);
@@ -97,6 +128,9 @@ public class theGOATcontroller {
         }
     	if(amenityContainer != null) {
     	displayAmenities();
+    	}
+    	if(roomTypeContainer != null) {
+    	displayRoomTypes();
     	}
     }
     
@@ -150,6 +184,15 @@ public class theGOATcontroller {
     public void toUpdateAmenities(ActionEvent e) {
     	loadScreen("/adminAmenitiesUpdate.fxml",e);
     }
+    @FXML
+    public void toViewRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesView.fxml",e);
+    }
+    @FXML
+    public void toAddRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesAdd.fxml",e);
+    }
+    ////////////////////////////////////// AMENITIES FUNCTIONS START
     @FXML
     public void addAmenity() {	
     	amenityAddSuccess.setText("");
@@ -209,6 +252,7 @@ public class theGOATcontroller {
 
     	
     }
+    
     
     @FXML
     public void updateAmenity() {
@@ -331,5 +375,35 @@ public class theGOATcontroller {
 		deleteID.setText("");
 		
 		displayAmenities();
+    }
+    ///////////////////////////////////// AMENITIES FUNCTIONS END
+    
+    @FXML
+    public void addRoomType() {
+    	String addName = roomTypeName.getText().trim();
+    	if(addName.equals("")) {
+    		roomTypeName.setStyle("-fx-border-color : red;");
+    		roomTypeNameMessage.setText("Room type name is empty.");
+    		roomTypeNameMessage.setStyle("-fx-font-color : red;");
+    		return;
+    	}else {
+			roomTypeName.setStyle("-fx-border-color : darkSlateGray;");
+			roomTypeNameMessage.setText("");
+    		roomTypeName.setText("");
+    	}
+		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
+			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(addName)) {
+	    		roomTypeName.setStyle("-fx-border-color : red;");
+	    		roomTypeNameMessage.setStyle("-fx-font-color : red;");				
+	    		roomTypeNameMessage.setText("Room type already exists.");
+	    		return;
+			}
+		}
+		
+		DataBase.roomTypes.add(new RoomType(addName));
+		roomTypeNameMessage.setStyle("-fx-font-color : green;");
+		roomTypeNameMessage.setText(addName + " added successfully!");
+		roomTypeName.setStyle("-fx-border-color : green");
+		displayRoomTypes();
     }
 }
