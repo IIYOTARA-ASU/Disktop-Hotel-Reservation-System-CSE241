@@ -12,7 +12,7 @@ public class Amenity implements roomstuff{
         this.price = price;
     }
 
-    double getprice() {
+    public double getPrice() {
         return this.price;
     }
     public String getName() {

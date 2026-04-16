@@ -252,7 +252,7 @@ public class Admin extends Staff implements users{
 		System.out.println("─────────────────────────────────────────────");
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
 			Amenity a = DataBase.amenities.get(i);
-			System.out.printf(format, i, a.getName(), a.getprice() + "$");
+			System.out.printf(format, i, a.getName(), a.getPrice() + "$");
 		}
 		System.out.println("─────────────────────────────────────────────");
 	}

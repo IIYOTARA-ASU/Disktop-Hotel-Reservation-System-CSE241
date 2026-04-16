@@ -10,12 +10,15 @@ import com.mycompany.desktophotelreservationsystem.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class theGOATcontroller {
@@ -35,9 +38,16 @@ public class theGOATcontroller {
     @FXML
     private Label amenityAddSuccess;
     @FXML
+    private Label amenityDeleteMessage;
+    @FXML
     private TextField amenityName;
     @FXML
     private TextField amenityPrice;
+    @FXML
+    private TextField deleteID;
+    @FXML
+    private FlowPane amenityContainer;
+    
     boolean amenities = false;
     public theGOATcontroller() {}
 
@@ -45,19 +55,36 @@ public class theGOATcontroller {
     String s = "Baller";
 
     @FXML
+    public void displayAmenities() {
+    	int amenityID = 0;
+    	amenityContainer.getChildren().clear();
+    	
+    	amenityContainer.setHgap(20); 
+        amenityContainer.setVgap(20);
+        amenityContainer.setPadding(new Insets(20));
+        
+    	for(Amenity a : DataBase.amenities) {
+    		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $"+a.getPrice();
+    	
+    		Label amenityLabel = new Label(amenityInfo);
+    		
+    		amenityLabel.setStyle("-fx-text-fill : beige; -fx-font-size : 16px; -fx-font-weight : bolder; -fx-padding : 10px; -fx-text-alignment : CENTER;");
+    		
+    		amenityContainer.getChildren().add(amenityLabel);
+    		
+    		amenityID++;
+    	}
+    }
+    
+    @FXML
     public void initialize() {
     	if (dynamicText != null) {
             dynamicText.setText("Welcome, " + s);
         } else {
             System.out.println("No dynamicText label found on this screen. Skipping text update.");
         }
-    	
-    	if(amenityNameError != null) {
-    		//amenityNameError.setText("Enter name");
-    	}
-    	
-    	if(amenityPriceError != null) {
-    		//amenityPriceError.setText("Enter price");
+    	if(amenityContainer != null) {
+    	displayAmenities();
     	}
     }
     
@@ -98,6 +125,13 @@ public class theGOATcontroller {
     @FXML
     public void toAddAmenities(ActionEvent e) {
     	loadScreen("/adminAmenitiesAdd.fxml",e);
+    }
+    @FXML
+    public void toViewAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesView.fxml",e);
+    }
+    public void toDeleteAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesDelete.fxml",e);
     }
     @FXML
     public void addAmenity() {	
@@ -157,5 +191,43 @@ public class theGOATcontroller {
     	}
 
     	
+    }
+    
+    @FXML
+    public void deleteAmenity() {
+    	int deletedId = -1;
+    	
+    	try {
+    		deletedId = Integer.parseInt(deleteID.getText().trim());
+    	}catch(Exception e){
+    		deleteID.setStyle("-fx-border-color : red;");
+    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
+    		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+    	}
+		amenityDeleteMessage.setText("");
+		deleteID.setStyle("-fx-border-color : darkSlateGray;");
+
+		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
+			deleteID.setStyle("-fx-border-color : red;");
+    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
+    		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+		}
+		
+		Amenity toDelete = DataBase.amenities.get(deletedId);
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			DataBase.rooms.get(i).getAmenities().removeIf(a -> a.equals(toDelete));
+		}
+		DataBase.amenities.remove(toDelete);
+		System.out.println("   [OK] Amenity deleted and removed from all rooms.");
+		amenityDeleteMessage.setStyle("-fx-text-fill: green;");
+		amenityDeleteMessage.setText("Amenity deleted and removed from all rooms!");
+		deleteID.setStyle("-fx-border-color : darkSlateGray");
+		deleteID.setText("");
+		
+		displayAmenities();
     }
 }

@@ -2,7 +2,7 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.*; 
 
 public class DataBase {
-    static ArrayList<Room> rooms = new ArrayList<>();
+    public static ArrayList<Room> rooms = new ArrayList<>();
     static ArrayList<Reservation> reservations = new ArrayList<>();
     static ArrayList<Invoice> invoices = new ArrayList<>();
     static ArrayList<User> people = new ArrayList<>();
