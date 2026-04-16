@@ -39,6 +39,8 @@ public class theGOATcontroller {
     @FXML
     private Label amenityAddSuccess;
     @FXML
+    private Label roomTypeDeleteMessage;
+    @FXML
     private Label amenityDeleteMessage;
     @FXML
     private Label updateIDError;
@@ -215,6 +217,10 @@ public class theGOATcontroller {
     @FXML
     public void toAddRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypesAdd.fxml",e);
+    }
+    @FXML
+    public void toDeleteRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesDelete.fxml",e);
     }
     @FXML
     public void toUpdateRoomTypes(ActionEvent e) {
@@ -491,6 +497,49 @@ public class theGOATcontroller {
     	updateIDError.setText("");
     	updateSuccessMessage.setText("Roomtype updated successfully!");
     	displayRoomTypes();
+    }
+    
+    @FXML
+    public void deleteRoomType() {
+    	int deletedId = -1;
+    	
+    	try {
+    		deletedId = Integer.parseInt(deleteID.getText().trim());
+    	}catch(Exception e){
+    		deleteID.setStyle("-fx-border-color : red;");
+    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
+    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+    	}
+    	roomTypeDeleteMessage.setText("");
+		deleteID.setStyle("-fx-border-color : darkSlateGray;");
+
+		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
+			deleteID.setStyle("-fx-border-color : red;");
+    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
+    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+		}
+		
+		RoomType toDelete = DataBase.roomTypes.get(deletedId);
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+			if (DataBase.rooms.get(i).getRoomType().equals(toDelete)) {
+				deleteID.setStyle("-fx-border-color : red;");
+	    		roomTypeDeleteMessage.setText("Room Type already belongs to a room.");
+	    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
+				return;
+			}
+		}
+		
+		DataBase.roomTypes.remove(toDelete);
+		roomTypeDeleteMessage.setStyle("-fx-text-fill: green;");
+		roomTypeDeleteMessage.setText("Room Type deleted and removed from all rooms!");
+		deleteID.setStyle("-fx-border-color : darkSlateGray");
+		deleteID.setText("");
+		
+		displayRoomTypes();
     }
     ///////////////////////////////////// ROOMTYPES FUNCTIONS END
 }
