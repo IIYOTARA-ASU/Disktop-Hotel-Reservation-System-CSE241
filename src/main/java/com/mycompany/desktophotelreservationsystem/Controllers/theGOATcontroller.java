@@ -384,7 +384,7 @@ public class theGOATcontroller {
     	if(addName.equals("")) {
     		roomTypeName.setStyle("-fx-border-color : red;");
     		roomTypeNameMessage.setText("Room type name is empty.");
-    		roomTypeNameMessage.setStyle("-fx-font-color : red;");
+    		roomTypeNameMessage.setStyle("-fx-text-fill : red;");
     		return;
     	}else {
 			roomTypeName.setStyle("-fx-border-color : darkSlateGray;");
@@ -394,14 +394,14 @@ public class theGOATcontroller {
 		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
 			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(addName)) {
 	    		roomTypeName.setStyle("-fx-border-color : red;");
-	    		roomTypeNameMessage.setStyle("-fx-font-color : red;");				
+	    		roomTypeNameMessage.setStyle("-fx-text-fill : red;");				
 	    		roomTypeNameMessage.setText("Room type already exists.");
 	    		return;
 			}
 		}
 		
 		DataBase.roomTypes.add(new RoomType(addName));
-		roomTypeNameMessage.setStyle("-fx-font-color : green;");
+		roomTypeNameMessage.setStyle("-fx-text-fill : green;");
 		roomTypeNameMessage.setText(addName + " added successfully!");
 		roomTypeName.setStyle("-fx-border-color : green");
 		displayRoomTypes();
