@@ -28,7 +28,7 @@
          </content>
       </ScrollPane>
       <TextField fx:id="deleteID" layoutX="537.0" layoutY="444.0" prefHeight="30.0" prefWidth="69.0" styleClass="textBox" stylesheets="@Style.css" />
-      <Text layoutX="440.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 18;" text="Type Amenity ID to Delete it">
+      <Text layoutX="427.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 18;" text="Type Room Number to Delete it">
          <font>
             <Font size="17.0" />
          </font>
