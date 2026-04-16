@@ -68,6 +68,6 @@
     -fx-background-color: #43AA8B;
     -fx-background-radius: 10px;
 }
-.radioButtons:hover{
+.roomTypesRadio:hover{
 	-fx-cursor:hand;
 }

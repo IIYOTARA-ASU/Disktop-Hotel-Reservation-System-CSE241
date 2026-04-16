@@ -28,7 +28,7 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button layoutX="720.0" layoutY="459.0" mnemonicParsing="false" onAction="#addRoomType" prefHeight="48.0" prefWidth="260.0" style="-fx-background-radius: 30; -fx-background-color: #43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
+      <Button layoutX="720.0" layoutY="459.0" mnemonicParsing="false" onAction="#addRoom" prefHeight="48.0" prefWidth="260.0" style="-fx-background-radius: 30; -fx-background-color: #43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
       <ScrollPane layoutX="51.0" layoutY="230.0" prefHeight="75.0" prefWidth="528.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
          <content>
             <VBox fx:id="roomTypesAddList" prefHeight="110.0" prefWidth="507.0" stylesheets="@Style.css" />
@@ -55,7 +55,18 @@
             <Font size="30.0" />
          </font>
       </Text>
-      <Label fx:id="roomNumberError" layoutX="720.0" layoutY="289.0" prefHeight="18.0" prefWidth="260.0" />
-      <Label fx:id="roomPriceError" layoutX="720.0" layoutY="422.0" prefHeight="18.0" prefWidth="260.0" />
+      <Label fx:id="roomNumberError" layoutX="720.0" layoutY="289.0" prefHeight="18.0" prefWidth="260.0" textFill="RED" />
+      <Label fx:id="roomPriceError" layoutX="720.0" layoutY="422.0" prefHeight="18.0" prefWidth="260.0" textFill="RED" />
+      <Label fx:id="roomAddSuccess" layoutX="719.0" layoutY="507.0" prefHeight="18.0" prefWidth="260.0" textFill="GREEN" />
+      <Label fx:id="roomTypeError" layoutX="51.0" layoutY="309.0" prefHeight="25.0" prefWidth="528.0" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="roomAmenityError" layoutX="51.0" layoutY="565.0" prefHeight="25.0" prefWidth="528.0" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

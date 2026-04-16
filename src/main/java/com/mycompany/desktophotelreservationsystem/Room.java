@@ -8,10 +8,10 @@ public class Room implements roomstuff {
 
 	ArrayList<Amenity> amenities = new ArrayList<>();
 
-	Room() {
+	public Room() {
 	}
 
-	Room(int roomNumber, RoomType type, int price) {
+	public Room(int roomNumber, RoomType type, int price) {
 		this.roomNumber = roomNumber;
 		this.type = type;
 		this.price = price;
