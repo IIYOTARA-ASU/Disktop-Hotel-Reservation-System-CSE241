@@ -56,3 +56,18 @@
 .radioButtons:hover{
 	-fx-cursor:hand;
 }
+
+.roomTypesRadio > .radio{
+	-fx-background-color : transparent;
+	-fx-border-color : #43AA8B;
+	-fx-border-radius : 10px;
+	-fx-background-radius : 10px;
+}
+
+.roomTypesRadio:selected .radio .dot {
+    -fx-background-color: #43AA8B;
+    -fx-background-radius: 10px;
+}
+.roomTypesRadio:hover{
+	-fx-cursor:hand;
+}

@@ -60,6 +60,16 @@ public class theGOATcontroller {
     @FXML
     private Label roomTypeNameMessage;
     @FXML
+    private Label roomNumberError;
+    @FXML
+    private Label roomPriceError;
+    @FXML
+    private Label roomAmenityError;
+    @FXML
+    private Label roomTypeError;
+    @FXML
+    private Label roomAddSuccess;
+    @FXML
     private TextField amenityName;
     @FXML
     private TextField roomTypeName;
@@ -73,6 +83,10 @@ public class theGOATcontroller {
     private TextField updatePrice;
     @FXML
     private TextField updateName;
+    @FXML
+    private TextField roomNumber;
+    @FXML
+    private TextField roomPrice;
     @FXML
     private FlowPane amenityContainer;
     @FXML
@@ -111,6 +125,7 @@ public class theGOATcontroller {
     	roomTypesAddList.getChildren().clear();
     	for(RoomType r : DataBase.roomTypes) {
     	RadioButton rb = new RadioButton(r.getRoomType());
+    	rb.getStyleClass().add("roomTypesRadio");
     	rb.setToggleGroup(roomTypeRadios);
     	rb.setUserData(r);
     	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
@@ -654,6 +669,82 @@ public class theGOATcontroller {
 		deleteID.setText("");
 		
 		displayRooms();
+    }
+    
+    public void addRoom() {
+		roomNumber.setStyle("-fx-border-color : darkSlateGray;");
+		roomPrice.setStyle("-fx-border-color : darkSlateGray;");
+		roomNumberError.setText("");
+		roomPriceError.setText("");
+		roomTypeError.setText("");
+		roomAmenityError.setText("");
+
+		RadioButton selectedRoomTypeRadio = (RadioButton) roomTypeRadios.getSelectedToggle();
+		RoomType addRoomType = null;
+    	String roomNumberString = roomNumber.getText().trim();
+    	String roomPriceString = roomPrice.getText().trim();
+    	int addRoomNumber = -1;
+    	int addRoomPrice = -1;
+    	try {
+    		addRoomNumber = Integer.parseInt(roomNumberString);
+        	if(addRoomNumber < 0) {
+        		throw new Exception();
+        	}
+    	}catch(Exception e) {
+    		roomNumber.setStyle("-fx-border-color : red;");
+    		roomNumberError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	for(Room r : DataBase.rooms) {
+    		if(r.getRoomNumber() == addRoomNumber) {
+        		roomNumber.setStyle("-fx-border-color : red;");
+        		roomNumber.setText("");
+        		roomNumberError.setText("Room already exists.");
+    			return;
+    		}
+    	}
+    	try {
+    		addRoomPrice = Integer.parseInt(roomPriceString);
+    		if(addRoomPrice < 0) {
+    			throw new Exception();
+    		}
+    	}catch(Exception e) {
+    		roomPrice.setStyle("-fx-border-color : red;");
+    		roomPrice.setText("");
+    		roomPriceError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	if(selectedRoomTypeRadio != null) {
+    		addRoomType = (RoomType)(selectedRoomTypeRadio.getUserData());
+    	}else {
+    		roomTypeError.setText("You must select a room type.");
+    		return;
+    	}
+    	
+    	ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
+    	for(CheckBox cb : amenityCheckBoxes) {
+    		if(cb.isSelected()) {
+    			Amenity amenity = (Amenity)cb.getUserData();
+    			amenitiesSelected.add(amenity);
+    		}
+    	}
+    	
+    	if(amenitiesSelected.size() == 0) {
+    		roomAmenityError.setText("You must select an amenity.");
+    		return;
+    	}
+    	
+    	Room addRoom = new Room(addRoomNumber,addRoomType,addRoomPrice);
+    	for(Amenity a : amenitiesSelected) {
+    		addRoom.addAmenity(a);
+    	}
+    	DataBase.rooms.add(addRoom);
+    	
+		roomAddSuccess.setText("Room added successfully!");
+		
+		roomNumber.setText("");
+		roomPrice.setText("");
+		
     }
     
     ///////////////////////////////////// ROOMS FUNCTIONS END
