@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -83,7 +84,7 @@ public class theGOATcontroller {
     @FXML
     private VBox amenitiesAddList;
     @FXML
-    private ToggleGroup roomTypeRadios;
+    private ToggleGroup roomTypeRadios = new ToggleGroup();
     @FXML
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
     
@@ -103,6 +104,17 @@ public class theGOATcontroller {
     	cb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
     	amenityCheckBoxes.add(cb);
     	amenitiesAddList.getChildren().add(cb);
+    	}
+    }
+    @FXML
+    public void chooseRoomTypes() {
+    	roomTypesAddList.getChildren().clear();
+    	for(RoomType r : DataBase.roomTypes) {
+    	RadioButton rb = new RadioButton(r.getRoomType());
+    	rb.setToggleGroup(roomTypeRadios);
+    	rb.setUserData(r);
+    	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+    	roomTypesAddList.getChildren().add(rb);
     	}
     }
     @FXML
@@ -196,6 +208,9 @@ public class theGOATcontroller {
     	}
     	if(amenitiesAddList != null) {
     	chooseAmenities();
+    	}
+    	if (roomTypesAddList != null) {
+    	    chooseRoomTypes();
     	}
     }
 
