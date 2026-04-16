@@ -111,6 +111,7 @@ public class theGOATcontroller {
     	roomTypesAddList.getChildren().clear();
     	for(RoomType r : DataBase.roomTypes) {
     	RadioButton rb = new RadioButton(r.getRoomType());
+    	rb.getStyleClass().add("roomTypesRadio");
     	rb.setToggleGroup(roomTypeRadios);
     	rb.setUserData(r);
     	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
