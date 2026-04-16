@@ -227,7 +227,7 @@ public class theGOATcontroller {
     	chooseAmenities();
     	}
     	if (roomTypesAddList != null) {
-    	    chooseRoomTypes();
+    	chooseRoomTypes();
     	}
     }
 
