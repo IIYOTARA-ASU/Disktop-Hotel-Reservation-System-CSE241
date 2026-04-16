@@ -40,11 +40,21 @@ public class theGOATcontroller {
     @FXML
     private Label amenityDeleteMessage;
     @FXML
+    private Label updateIDError;
+    @FXML
+    private Label updateSuccessMessage;
+    @FXML
+    private Label updatePriceError;
+    @FXML
     private TextField amenityName;
     @FXML
     private TextField amenityPrice;
     @FXML
     private TextField deleteID;
+    @FXML
+    private TextField updateID;
+    @FXML
+    private TextField updatePrice;
     @FXML
     private FlowPane amenityContainer;
     
@@ -68,8 +78,10 @@ public class theGOATcontroller {
     	
     		Label amenityLabel = new Label(amenityInfo);
     		
-    		amenityLabel.setStyle("-fx-text-fill : beige; -fx-font-size : 16px; -fx-font-weight : bolder; -fx-padding : 10px; -fx-text-alignment : CENTER;");
-    		
+    		amenityLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
     		amenityContainer.getChildren().add(amenityLabel);
     		
     		amenityID++;
@@ -130,8 +142,13 @@ public class theGOATcontroller {
     public void toViewAmenities(ActionEvent e) {
     	loadScreen("/adminAmenitiesView.fxml",e);
     }
+    @FXML
     public void toDeleteAmenities(ActionEvent e) {
     	loadScreen("/adminAmenitiesDelete.fxml",e);
+    }
+    @FXML
+    public void toUpdateAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesUpdate.fxml",e);
     }
     @FXML
     public void addAmenity() {	
@@ -190,6 +207,91 @@ public class theGOATcontroller {
     		}
     	}
 
+    	
+    }
+    
+    @FXML
+    public void updateAmenity() {
+    	String priceString = updatePrice.getText().trim();
+    	String idString = updateID.getText().trim();
+    	int price=-1;
+    	int updateId=-1;
+    	if(priceString.equals("")) {
+    		updatePrice.setStyle("-fx-border-color : red;");
+    		updatePriceError.setText("Price is Empty.");
+    	}
+    	if(idString.equals("")) {
+    		updateID.setStyle("-fx-border-color : red");
+    		updateIDError.setText("ID is Empty.");
+    	}
+
+    	try {
+    		updateId = Integer.parseInt(idString);
+			updateIDError.setText("");
+			updateID.setStyle("-fx-border-color : darkSlateGray;");
+    	}catch(Exception e){
+    		updateID.setStyle("-fx-border-color : red;");
+    		updateIDError.setText("Amenity not found. Please enter a valid ID.");
+    		updateIDError.setStyle("-fx-text-fill : red;");
+    		updateID.setText("");
+    		updateSuccessMessage.setText("");
+    		return;
+    	}
+		updateIDError.setText("");
+		updateID.setStyle("-fx-border-color : darkSlateGray;");
+		updatePriceError.setText("");
+		updatePrice.setStyle("-fx-border-color : darkSlateGray;");
+
+		if (updateId < 0 || updateId > DataBase.amenities.size()) {
+			updateID.setStyle("-fx-border-color : red;");
+    		updateIDError.setText("Invalid ID.");
+    		updateIDError.setStyle("-fx-text-fill : red;");
+    		updateID.setText("");
+    		updateSuccessMessage.setText("");
+    		return;
+		}
+		
+		Amenity toUpdate = DataBase.amenities.get(updateId);
+		
+		
+			try {
+	    		price = Integer.parseInt(priceString);
+				updatePriceError.setText("");
+				updatePrice.setStyle("-fx-border-color : darkSlateGray;");
+	    	}catch(Exception e){
+	    		updatePrice.setStyle("-fx-border-color : red;");
+	    		updatePriceError.setText("Invalid Price.");
+	    		updatePriceError.setStyle("-fx-text-fill : red;");
+	    		updatePrice.setText("");
+	    		updateSuccessMessage.setText("");
+
+	    		return;
+	    	}
+			updatePriceError.setText("");
+			updatePrice.setStyle("-fx-border-color : darkSlateGray;");
+			
+
+			if(price < 0) {
+				updatePrice.setStyle("-fx-border-color : red;");
+	    		updatePriceError.setText("Invalid Price.");
+	    		updatePriceError.setStyle("-fx-text-fill : red;");
+	    		updatePrice.setText("");
+	    		updateSuccessMessage.setText("");
+	    		return;
+			}
+			
+			
+		toUpdate.setPrice(price);
+		
+		updateSuccessMessage.setStyle("-fx-text-fill: green;");
+		updateSuccessMessage.setText("Amenity Updated Successfully!");
+		updateID.setStyle("-fx-border-color : darkSlateGray");
+		updatePrice.setStyle("-fx-border-color : darkSlateGray");
+		updateID.setText("");
+		updatePrice.setText("");
+		
+		
+		displayAmenities();
     	
     }
     

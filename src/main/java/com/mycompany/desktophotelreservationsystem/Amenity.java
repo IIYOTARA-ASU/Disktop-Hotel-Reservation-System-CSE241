@@ -22,7 +22,7 @@ public class Amenity implements roomstuff{
     void setName(String s) {
         this.name = s;
     }
-    void setPrice(double p) {
+    public void setPrice(double p) {
         this.price = p;
     }
 }
