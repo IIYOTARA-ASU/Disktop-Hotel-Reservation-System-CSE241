@@ -12,7 +12,7 @@
    <children>
       <Button layoutX="92.0" layoutY="267.0" mnemonicParsing="false" onAction="#toViewRooms" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="View" />
       <Button layoutX="92.0" layoutY="410.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Update" />
-      <Button layoutX="693.0" layoutY="267.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
+      <Button layoutX="693.0" layoutY="267.0" mnemonicParsing="false" onAction="#toAddRooms" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
       <Button layoutX="693.0" layoutY="410.0" mnemonicParsing="false" onAction="#toDeleteRooms" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Delete" />
       <Text layoutX="372.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 32; -fx-font-weight: bold;" text="Rooms Menu" textAlignment="CENTER" wrappingWidth="377.92181396484375">
          <font>

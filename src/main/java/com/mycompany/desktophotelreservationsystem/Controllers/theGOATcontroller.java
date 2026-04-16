@@ -1,6 +1,7 @@
 package com.mycompany.desktophotelreservationsystem.Controllers; 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 import com.mycompany.desktophotelreservationsystem.Admin;
@@ -16,9 +17,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -75,6 +78,14 @@ public class theGOATcontroller {
     private FlowPane roomTypeContainer;
     @FXML
     private FlowPane roomContainer;
+    @FXML
+    private VBox roomTypesAddList;
+    @FXML
+    private VBox amenitiesAddList;
+    @FXML
+    private ToggleGroup roomTypeRadios;
+    @FXML
+    private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
     
     boolean amenities = false;
     public theGOATcontroller() {}
@@ -82,6 +93,18 @@ public class theGOATcontroller {
     
     String s = "Baller";
 
+    @FXML
+    public void chooseAmenities() {
+    	amenitiesAddList.getChildren().clear();
+    	amenityCheckBoxes.clear();
+    	for(Amenity a : DataBase.amenities) {
+    	CheckBox cb = new CheckBox(a.getName() + " ($" + a.getPrice() + ")");
+    	cb.setUserData(a);
+    	cb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+    	amenityCheckBoxes.add(cb);
+    	amenitiesAddList.getChildren().add(cb);
+    	}
+    }
     @FXML
     public void displayAmenities() {
     	int amenityID = 0;
@@ -171,6 +194,9 @@ public class theGOATcontroller {
     	if(roomContainer != null) {
     	displayRooms();
     	}
+    	if(amenitiesAddList != null) {
+    	chooseAmenities();
+    	}
     }
 
     @FXML void loadScreen(String path, ActionEvent e) {
@@ -208,6 +234,10 @@ public class theGOATcontroller {
     @FXML
     public void toDeleteRooms(ActionEvent e) {
     	loadScreen("/adminRoomsDelete.fxml",e);
+    }
+    @FXML
+    public void toAddRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsAdd.fxml",e);
     }
     @FXML
     public void toRoomTypes(ActionEvent e) {

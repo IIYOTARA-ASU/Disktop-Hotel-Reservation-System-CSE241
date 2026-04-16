@@ -5,13 +5,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1120.0" style="-fx-background-color: #DED2AE;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller">
    <children>
-      <Text layoutX="414.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 32; -fx-font-weight: bold;" text="Add Room Types">
+      <Text layoutX="472.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 32; -fx-font-weight: bold;" text="Add Room">
          <font>
             <Font size="30.0" />
          </font>
@@ -20,33 +21,43 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="641.0" layoutX="1086.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#254441" height="107.0" layoutX="12.0" stroke="BLACK" strokeType="INSIDE" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" width="1097.0" />
       <Text fill="WHITE" layoutX="335.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 67; -fx-font-weight: bolder; -fx-font-family: verdana;" text="ADMIN MENU" />
-      <Button layoutX="845.0" layoutY="531.0" mnemonicParsing="false" onAction="#toRoomTypes" prefHeight="48.0" prefWidth="134.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Back" />
-      <TextField fx:id="roomTypeName" layoutX="780.0" layoutY="231.0" prefHeight="40.0" prefWidth="260.0" styleClass="textBox" stylesheets="@Style.css" />
-      <Text layoutX="828.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-text-alignment: center;" text="Room Number" wrappingWidth="157.33341064453134">
+      <Button layoutX="782.0" layoutY="534.0" mnemonicParsing="false" onAction="#toRooms" prefHeight="48.0" prefWidth="134.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Back" />
+      <TextField fx:id="roomNumber" layoutX="720.0" layoutY="245.0" prefHeight="40.0" prefWidth="260.0" styleClass="textBox" stylesheets="@Style.css" />
+      <Text layoutX="753.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-text-alignment: center;" text="Room Number" wrappingWidth="193.5999511718751">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <Button layoutX="781.0" layoutY="466.0" mnemonicParsing="false" onAction="#addRoomType" prefHeight="48.0" prefWidth="260.0" style="-fx-background-radius: 30; -fx-background-color: #43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
+      <Button layoutX="720.0" layoutY="459.0" mnemonicParsing="false" onAction="#addRoomType" prefHeight="48.0" prefWidth="260.0" style="-fx-background-radius: 30; -fx-background-color: #43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
       <Label fx:id="roomTypeNameMessage" layoutX="434.0" layoutY="431.0" prefHeight="18.0" prefWidth="260.0" />
       <Label fx:id="amenityAddSuccess" layoutX="434.0" layoutY="537.0" prefHeight="18.0" prefWidth="260.0" style="-fx-font-weight: bolder;" textFill="#43aa8b" />
-      <ScrollPane layoutX="57.0" layoutY="405.0" prefHeight="187.0" prefWidth="564.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;" />
-      <TextField fx:id="roomTypeName1" layoutX="785.0" layoutY="336.0" prefHeight="40.0" prefWidth="260.0" styleClass="textBox" stylesheets="@Style.css" />
-      <Text layoutX="836.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-text-alignment: center;" text="Room Price" wrappingWidth="157.33341064453134">
+      <ScrollPane layoutX="51.0" layoutY="230.0" prefHeight="75.0" prefWidth="528.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="roomTypesAddList" prefHeight="110.0" prefWidth="514.0" />
+         </content>
+      </ScrollPane>
+      <TextField fx:id="roomPrice" layoutX="720.0" layoutY="379.0" prefHeight="40.0" prefWidth="260.0" styleClass="textBox" stylesheets="@Style.css" />
+      <Text layoutX="753.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-text-alignment: center;" text="Room Price" wrappingWidth="193.5999511718751">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <ScrollPane layoutX="58.0" layoutY="239.0" prefHeight="117.0" prefWidth="570.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;" />
-      <Text layoutX="60.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 28;" text="Choose Amenities">
+      <ScrollPane layoutX="51.0" layoutY="375.0" prefHeight="182.0" prefWidth="528.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="amenitiesAddList" prefHeight="200.0" prefWidth="528.0" />
+         </content>
+      </ScrollPane>
+      <Text layoutX="51.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 20;" text="Choose Room Type">
          <font>
-            <Font size="28.0" />
+            <Font size="30.0" />
          </font>
       </Text>
-      <Text layoutX="63.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 28;" text="Choose Amenities">
+      <Text layoutX="51.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 20;" text="Choose Amenity">
          <font>
-            <Font size="28.0" />
+            <Font size="30.0" />
          </font>
       </Text>
+      <Label fx:id="roomNumberError" layoutX="720.0" layoutY="289.0" prefHeight="18.0" prefWidth="260.0" />
+      <Label fx:id="roomPriceError" layoutX="720.0" layoutY="422.0" prefHeight="18.0" prefWidth="260.0" />
    </children>
 </AnchorPane>
