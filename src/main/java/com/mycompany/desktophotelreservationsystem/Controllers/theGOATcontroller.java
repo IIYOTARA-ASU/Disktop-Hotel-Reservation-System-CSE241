@@ -791,22 +791,14 @@ public class theGOATcontroller {
     	}
     	if(selectedRoomTypeRadio != null) {
     		updateRoomType = (RoomType)(selectedRoomTypeRadio.getUserData());
-    	}else {
-    		roomTypeError.setText("You must select a room type.");
-    		return;
     	}
-    	
+    
     	ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
     	for(CheckBox cb : amenityCheckBoxes) {
     		if(cb.isSelected()) {
     			Amenity amenity = (Amenity)cb.getUserData();
     			amenitiesSelected.add(amenity);
     		}
-    	}
-    	
-    	if(amenitiesSelected.size() == 0) {
-    		roomAmenityError.setText("You must select an amenity.");
-    		return;
     	}
     	
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
@@ -822,9 +814,13 @@ public class theGOATcontroller {
 		Room updateRoom = DataBase.rooms.get(roomIndex);
 		updateRoom.setRoomNumber(updateRoomNumber);
 		updateRoom.setPrice(updateRoomPrice);
+		if(updateRoomType != null) {
 		updateRoom.setRoomType(updateRoomType);
+		}
+		if(amenitiesSelected.size() != 0) {
 		updateRoom.getAmenities().clear();
 		updateRoom.getAmenities().addAll(amenitiesSelected);
+		}
 		roomChangeMessage.setText("Room Updated successfully!");
 		
 		roomNumber.setText("");
