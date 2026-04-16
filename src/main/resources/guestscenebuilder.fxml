@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,16 +15,47 @@
             <Image url="@Images/guestimage.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#f5f5f57b" height="509.0" layoutX="405.0" layoutY="100.0" stroke="BLACK" strokeType="INSIDE" width="702.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffffff7a" height="509.0" layoutX="405.0" layoutY="100.0" stroke="BLACK" strokeType="INSIDE" width="702.0" />
       <Label fx:id="welcomelabel" layoutX="676.0" layoutY="144.0" text="Welcome" textFill="#254441">
          <font>
             <Font name="Verdana Bold" size="34.0" />
          </font>
       </Label>
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffffff4a" height="641.0" layoutX="-14.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="231.0" />
-      <ImageView fitHeight="58.0" fitWidth="67.0" layoutX="454.0" layoutY="435.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="471.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@/Images/Wallet.png" />
+            <Image url="@Images/cancelReservation.png" />
          </image></ImageView>
+      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="689.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/checkout.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="91.0" fitWidth="98.0" layoutX="476.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/roomicon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="127.0" layoutX="676.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/viewReservation.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="907.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/makeReservation.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="904.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/payInvoice.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="448.0" layoutY="319.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="148.0" styleClass="btn-round" stylesheets="@Style.css" text="view rooms" textAlignment="CENTER" textFill="#fcfcfb" />
+      <Button layoutX="641.0" layoutY="319.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="view reservation" />
+      <Button layoutX="863.0" layoutY="319.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="203.0" styleClass="btn-round" stylesheets="@Style.css" text="make reservation" />
+      <Button layoutX="417.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="cancel reservation" />
+      <Button layoutX="680.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="checkout" />
+      <Button layoutX="888.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="pay invoice" />
    </children>
 </AnchorPane>
