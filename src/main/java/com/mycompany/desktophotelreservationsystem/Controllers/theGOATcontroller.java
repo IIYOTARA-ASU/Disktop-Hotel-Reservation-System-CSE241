@@ -70,6 +70,8 @@ public class theGOATcontroller {
     @FXML
     private Label roomAddSuccess;
     @FXML
+    private Label roomChangeMessage;
+    @FXML
     private TextField amenityName;
     @FXML
     private TextField roomTypeName;
@@ -225,7 +227,7 @@ public class theGOATcontroller {
     	chooseAmenities();
     	}
     	if (roomTypesAddList != null) {
-    	    chooseRoomTypes();
+    	chooseRoomTypes();
     	}
     }
 
@@ -268,6 +270,10 @@ public class theGOATcontroller {
     @FXML
     public void toAddRooms(ActionEvent e) {
     	loadScreen("/adminRoomsAdd.fxml",e);
+    }
+    @FXML
+    public void toUpdateRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsUpdate.fxml",e);
     }
     @FXML
     public void toRoomTypes(ActionEvent e) {
@@ -747,5 +753,79 @@ public class theGOATcontroller {
 		
     }
     
+    public void updateRoom() {
+		roomNumber.setStyle("-fx-border-color : darkSlateGray;");
+		roomPrice.setStyle("-fx-border-color : darkSlateGray;");
+		roomNumberError.setText("");
+		roomPriceError.setText("");
+		roomTypeError.setText("");
+		roomAmenityError.setText("");
+		
+		int roomIndex = -1;
+		RadioButton selectedRoomTypeRadio = (RadioButton) roomTypeRadios.getSelectedToggle();
+		RoomType updateRoomType = null;
+    	String roomNumberString = roomNumber.getText().trim();
+    	String roomPriceString = roomPrice.getText().trim();
+    	int updateRoomNumber = -1;
+    	int updateRoomPrice = -1;
+    	try {
+    		updateRoomNumber = Integer.parseInt(roomNumberString);
+        	if(updateRoomNumber < 0) {
+        		throw new Exception();
+        	}
+    	}catch(Exception e) {
+    		roomNumber.setStyle("-fx-border-color : red;");
+    		roomNumberError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	try {
+    		updateRoomPrice = Integer.parseInt(roomPriceString);
+    		if(updateRoomPrice < 0) {
+    			throw new Exception();
+    		}
+    	}catch(Exception e) {
+    		roomPrice.setStyle("-fx-border-color : red;");
+    		roomPrice.setText("");
+    		roomPriceError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	if(selectedRoomTypeRadio != null) {
+    		updateRoomType = (RoomType)(selectedRoomTypeRadio.getUserData());
+    	}
+    
+    	ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
+    	for(CheckBox cb : amenityCheckBoxes) {
+    		if(cb.isSelected()) {
+    			Amenity amenity = (Amenity)cb.getUserData();
+    			amenitiesSelected.add(amenity);
+    		}
+    	}
+    	
+		for (int i = 0; i < DataBase.rooms.size(); i++) {
+		if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) { roomIndex = i; break; }
+		}if(roomIndex == -1) {
+			roomNumber.setStyle("-fx-border-color : red;");
+    		roomChangeMessage.setText("Room not found. Please enter a valid number.");
+    		roomChangeMessage.setStyle("-fx-text-fill : red;");
+    		roomNumber.setText("");
+    		return;
+		}
+    	
+		Room updateRoom = DataBase.rooms.get(roomIndex);
+		updateRoom.setRoomNumber(updateRoomNumber);
+		updateRoom.setPrice(updateRoomPrice);
+		if(updateRoomType != null) {
+		updateRoom.setRoomType(updateRoomType);
+		}
+		if(amenitiesSelected.size() != 0) {
+		updateRoom.getAmenities().clear();
+		updateRoom.getAmenities().addAll(amenitiesSelected);
+		}
+		roomChangeMessage.setText("Room Updated successfully!");
+		
+		roomNumber.setText("");
+		roomPrice.setText("");
+		
+    }
     ///////////////////////////////////// ROOMS FUNCTIONS END
 }
