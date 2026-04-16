@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
+import com.mycompany.desktophotelreservationsystem.Room;
 import com.mycompany.desktophotelreservationsystem.RoomType;
 import com.mycompany.desktophotelreservationsystem.User;
 import javafx.event.ActionEvent;
@@ -70,6 +71,8 @@ public class theGOATcontroller {
     private FlowPane amenityContainer;
     @FXML
     private FlowPane roomTypeContainer;
+    @FXML
+    private FlowPane roomContainer;
     
     boolean amenities = false;
     public theGOATcontroller() {}
@@ -102,6 +105,32 @@ public class theGOATcontroller {
     }
     
     @FXML
+    public void displayRooms() {
+    	roomContainer.getChildren().clear();
+    	
+    	roomContainer.setHgap(20); 
+        roomContainer.setVgap(20);
+        roomContainer.setPadding(new Insets(20));
+        
+    	for(Room r : DataBase.rooms) {
+    		String roomInfo = "Room Number : " + r.getRoomNumber() +"\n Room Type : " +r.getRoomType().getRoomType() + "\n Room Amenities : ";
+			for (int j = 0; j < r.getAmenities().size(); j++) {
+				roomInfo += r.getAmenities().get(j).getName();
+				if (r.getAmenities().size() - j != 1) { roomInfo += ", "; }
+			}
+			roomInfo+="\n Price : $"+ r.getPrice();
+    	
+    		Label roomLabel = new Label(roomInfo);
+    		
+    		roomLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
+    		roomContainer.getChildren().add(roomLabel);
+    		
+    	}
+    }
+    @FXML
     public void displayRoomTypes() {
     	int roomTypeID = 0;
     	roomTypeContainer.getChildren().clear();
@@ -124,7 +153,6 @@ public class theGOATcontroller {
     		roomTypeID++;
     	}
     }
-    
     @FXML
     public void initialize() {
     	if (dynamicText != null) {
@@ -138,20 +166,11 @@ public class theGOATcontroller {
     	if(roomTypeContainer != null) {
     	displayRoomTypes();
     	}
+    	if(roomContainer != null) {
+    	displayRooms();
+    	}
     }
-    @FXML void resetUpdateMessages() {
-    	updatePriceError.setText("");
-    	updateNameError.setText("");
-    	updateIDError.setText("");
-    	
-    	updateID.setStyle("-fx-border-color : darkSlateGray");
-    	updateName.setStyle("-fx-border-color : darkSlateGray");
-    	updatePrice.setStyle("-fx-border-color : darkSlateGray");
-    	
-       	updatePrice.setText("");
-    	updateName.setText("");
-    	updateID.setText("");
-    }
+
     @FXML void loadScreen(String path, ActionEvent e) {
   	  try {
 			root = FXMLLoader.load(getClass().getResource(path));
@@ -180,7 +199,14 @@ public class theGOATcontroller {
     public void toRooms(ActionEvent e) {
     	loadScreen("/adminRooms.fxml",e);
     }
-    
+    @FXML
+    public void toViewRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsView.fxml",e);
+    }
+    @FXML
+    public void toDeleteRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsDelete.fxml",e);
+    }
     @FXML
     public void toRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypes.fxml",e);
@@ -542,4 +568,10 @@ public class theGOATcontroller {
 		displayRoomTypes();
     }
     ///////////////////////////////////// ROOMTYPES FUNCTIONS END
+    
+    ///////////////////////////////////// ROOMS FUNCTIONS START
+    
+    public void roomDelete(){}
+    
+    ///////////////////////////////////// ROOMS FUNCTIONS END
 }

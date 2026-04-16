@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1120.0" style="-fx-background-color: #DED2AE;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller">
    <children>
-      <Button layoutX="92.0" layoutY="267.0" mnemonicParsing="false" onAction="#up" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="View" />
+      <Button layoutX="92.0" layoutY="267.0" mnemonicParsing="false" onAction="#toViewRooms" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="View" />
       <Button layoutX="92.0" layoutY="410.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Update" />
       <Button layoutX="693.0" layoutY="267.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Add" />
       <Button layoutX="693.0" layoutY="410.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Delete" />
