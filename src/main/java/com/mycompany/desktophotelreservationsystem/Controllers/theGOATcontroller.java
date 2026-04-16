@@ -47,6 +47,8 @@ public class theGOATcontroller {
     @FXML
     private Label updatePriceError;
     @FXML
+    private Label updateNameError;
+    @FXML
     private Label roomTypeNameMessage;
     @FXML
     private TextField amenityName;
@@ -60,6 +62,8 @@ public class theGOATcontroller {
     private TextField updateID;
     @FXML
     private TextField updatePrice;
+    @FXML
+    private TextField updateName;
     @FXML
     private FlowPane amenityContainer;
     @FXML
@@ -133,7 +137,19 @@ public class theGOATcontroller {
     	displayRoomTypes();
     	}
     }
-    
+    @FXML void resetUpdateMessages() {
+    	updatePriceError.setText("");
+    	updateNameError.setText("");
+    	updateIDError.setText("");
+    	
+    	updateID.setStyle("-fx-border-color : darkSlateGray");
+    	updateName.setStyle("-fx-border-color : darkSlateGray");
+    	updatePrice.setStyle("-fx-border-color : darkSlateGray");
+    	
+       	updatePrice.setText("");
+    	updateName.setText("");
+    	updateID.setText("");
+    }
     @FXML void loadScreen(String path, ActionEvent e) {
   	  try {
 			root = FXMLLoader.load(getClass().getResource(path));
@@ -183,6 +199,14 @@ public class theGOATcontroller {
     @FXML
     public void toUpdateAmenities(ActionEvent e) {
     	loadScreen("/adminAmenitiesUpdate.fxml",e);
+    	if(updateID != null && updateIDError != null) {
+    	updateIDError.setText("");
+    	
+    	updateID.setStyle("-fx-border-color : darkSlateGray");
+    	
+    	updateID.setText("");
+    	}
+    	
     }
     @FXML
     public void toViewRoomTypes(ActionEvent e) {
@@ -191,6 +215,17 @@ public class theGOATcontroller {
     @FXML
     public void toAddRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypesAdd.fxml",e);
+    }
+    @FXML
+    public void toUpdateRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesUpdate.fxml",e);
+    	if(updateID != null && updateIDError != null) {
+    	updateIDError.setText("");
+    	
+    	updateID.setStyle("-fx-border-color : darkSlateGray");
+    	
+    	updateID.setText("");
+    	}
     }
     ////////////////////////////////////// AMENITIES FUNCTIONS START
     @FXML
@@ -378,6 +413,7 @@ public class theGOATcontroller {
     }
     ///////////////////////////////////// AMENITIES FUNCTIONS END
     
+    ///////////////////////////////////// ROOMTYPES FUNCTIONS START
     @FXML
     public void addRoomType() {
     	String addName = roomTypeName.getText().trim();
@@ -406,4 +442,55 @@ public class theGOATcontroller {
 		roomTypeName.setStyle("-fx-border-color : green");
 		displayRoomTypes();
     }
+    
+    @FXML
+    public void updateRoomType() {
+    	String idString = updateID.getText().trim();
+    	String newName = updateName.getText().trim();
+    	int updateId = -1;
+    	try {
+    		updateId = Integer.parseInt(idString); 
+    	}catch(Exception e){
+    		updateIDError.setText("ID is invalid.");
+    		updateID.setText("");
+    		updateID.setStyle("-fx-border-color : red;");
+    		return;
+    	}
+		updateID.setStyle("-fx-border-color : darkSlateGray;");
+    	if(updateId < 0 || updateId > DataBase.roomTypes.size()) {
+    		updateIDError.setText("ID not found.");
+    		updateID.setStyle("-fx-border-color : red;");
+    		updateID.setText("");
+    		return;
+    	}
+		updateID.setStyle("-fx-border-color : darkSlateGray;");
+		updateIDError.setText("");
+    	if(newName.equals("")) {
+    		updateName.setStyle("-fx-border-color : red;");
+    		updateNameError.setText("Room type name is empty.");
+    		updateNameError.setStyle("-fx-text-fill : red;");
+    		return;
+    	}else {
+    		updateName.setStyle("-fx-border-color : darkSlateGray;");
+			updateNameError.setText("");
+			updateName.setText("");
+    	}
+		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
+			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(newName)) {
+				updateName.setStyle("-fx-border-color : red;");
+				updateNameError.setStyle("-fx-text-fill : red;");				
+				updateNameError.setText("Room type already exists.");
+	    		return;
+			}
+		}
+    	
+		DataBase.roomTypes.get(updateId).setRoomType(newName);
+    	updateName.setText("");
+    	updateNameError.setText("");
+    	updateID.setText("");
+    	updateIDError.setText("");
+    	updateSuccessMessage.setText("Roomtype updated successfully!");
+    	displayRoomTypes();
+    }
+    ///////////////////////////////////// ROOMTYPES FUNCTIONS END
 }
