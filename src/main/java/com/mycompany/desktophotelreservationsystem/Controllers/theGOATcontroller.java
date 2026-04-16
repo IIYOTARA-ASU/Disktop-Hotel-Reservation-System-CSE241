@@ -812,10 +812,10 @@ public class theGOATcontroller {
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 		if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) { roomIndex = i; break; }
 		}if(roomIndex == -1) {
-			deleteID.setStyle("-fx-border-color : red;");
+			roomNumber.setStyle("-fx-border-color : red;");
     		roomChangeMessage.setText("Room not found. Please enter a valid number.");
     		roomChangeMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
+    		roomNumber.setText("");
     		return;
 		}
     	
