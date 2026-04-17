@@ -1,6 +1,7 @@
 package com.mycompany.desktophotelreservationsystem.Controllers;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.Reservation;
 import com.mycompany.desktophotelreservationsystem.Room;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -99,6 +101,9 @@ public class GuestController {
         if (roomContainer != null) {
             displayRooms();
         }
+        if (reservationListContainer != null) {
+            displayUserReservations();
+        }
 
     }
 
@@ -148,6 +153,15 @@ public class GuestController {
         }
     }
 
+    @FXML private VBox reservationListContainer;
+
+    @FXML
+    public void displayUserReservations() {
+        if (reservationListContainer != null && Guest.currentLoggedInGuest != null) {
+            Guest.currentLoggedInGuest.populateReservationContainer(reservationListContainer);
+        }
+    }
+
     @FXML
     public void toGuestMenu(ActionEvent e) {
         loadScreen("/guestscenebuilder.fxml", e);
@@ -160,6 +174,10 @@ public class GuestController {
     @FXML
     public void switchToMakeReservations(ActionEvent event){
         loadScreen("/guestMakeReservations.fxml",event);
+    }
+    @FXML
+    public void switchToViewReservations(ActionEvent event){
+        loadScreen("/guestViewReservation.fxml",event);
     }
 
 }

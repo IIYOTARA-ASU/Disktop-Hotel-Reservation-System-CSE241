@@ -5,6 +5,50 @@ import java.util.*;
 public class Guest extends User implements users {
 	public static Guest currentLoggedInGuest;
 
+	/// /////////////////////////////////GUI method to access reservation class
+	public void populateReservationContainer(javafx.scene.layout.VBox container) {
+		container.getChildren().clear();
+
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			Reservation res = DataBase.reservations.get(i);
+
+			if (res.getGuest().equals(this)) {
+
+				String statusColor = "#f39c12"; // Orange for Pending
+				String statusStr = res.getReservationStatus().toString();
+
+				if (statusStr.equals("CONFIRMED")) {
+					statusColor = "#27ae60"; // Green
+				} else if (statusStr.equals("CANCELLED")) {
+					statusColor = "#c0392b"; // Red
+				}
+
+				String info = "Room: " + res.getRoom().getRoomNumber() +
+						"\nCheck-in: " + res.getCheckInDate() +
+						"\nStatus: " + statusStr;
+
+				javafx.scene.control.Label card = new javafx.scene.control.Label(info);
+
+				card.setStyle(
+						"-fx-text-fill: beige; " +
+								"-fx-font-size: 15px; " +
+								"-fx-font-weight: bold; " +
+								"-fx-background-color: #24423f; " + // Teal to match your Reservation Header
+								"-fx-padding: 10; " +
+								"-fx-background-radius: 10; " +
+								"-fx-text-alignment: center; " +
+								"-fx-min-width: 500; " +
+								"-fx-border-color: " + statusColor + "; " + // Dynamic status color
+								"-fx-border-width: 0 0 0 10; " +           // Left-side highlight
+								"-fx-border-radius: 10;"
+				);
+
+				container.getChildren().add(card);
+			}
+		}
+	}
+	/// //////////////////////////////////////////////////////////////////
+
 	private double balance;
 	private String address;
 

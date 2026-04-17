@@ -28,7 +28,7 @@
       <Button layoutX="139.0" layoutY="500.0" mnemonicParsing="false" onAction="#toGuestMenu" styleClass="btn-round" stylesheets="@Style.css" text="Back" />
       <ScrollPane fx:id="roomReservatinContainer" layoutX="390.0" layoutY="137.0" prefHeight="393.0" prefWidth="317.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
          <content>
-            <FlowPane fx:id="roomContainer" prefHeight="390.0" prefWidth="314.0" />
+            <FlowPane fx:id="roomContainer" prefHeight="390.0" prefWidth="314.0" stylesheets="@Style.css" />
          </content>
       </ScrollPane>
    </children>
