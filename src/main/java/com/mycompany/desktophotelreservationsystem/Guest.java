@@ -3,6 +3,7 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.*;
 
 public class Guest extends User implements users {
+	public static Guest currentLoggedInGuest;
 
 	private double balance;
 	private String address;

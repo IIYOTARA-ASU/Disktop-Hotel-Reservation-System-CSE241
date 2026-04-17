@@ -375,10 +375,13 @@ public class theGOATcontroller {
 	    		//
 	    		System.out.println("Hi receptionist");
 	    	}
-	    	if(DataBase.currentUser instanceof Guest) {
-	    		//
-	    		System.out.println("Hi Guest");
-	    	}
+			if(DataBase.currentUser instanceof Guest) {
+				// Save the session inside the Guest class
+				Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
+
+				// Redirect to the Guest Menu
+				loadScreen("/guestscenebuilder.fxml", e);
+		}
     }
     @FXML
     public void toRegister(ActionEvent e) {
