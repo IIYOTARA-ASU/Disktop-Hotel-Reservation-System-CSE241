@@ -5,7 +5,7 @@ import java.util.*;
 public class Guest extends User implements users {
 	public static Guest currentLoggedInGuest;
 
-	/// /////////////////////////////////GUI method to access reservation class
+	/// /////////////////////////////////GUI methods to access reservation class
 	public void populateReservationContainer(javafx.scene.layout.VBox container) {
 		container.getChildren().clear();
 
@@ -21,6 +21,8 @@ public class Guest extends User implements users {
 					statusColor = "#27ae60"; // Green
 				} else if (statusStr.equals("CANCELLED")) {
 					statusColor = "#c0392b"; // Red
+				}else if (statusStr.equals("COMPLETED")) {
+					statusColor = "#3498db"; // Blue
 				}
 
 				String info = "Room: " + res.getRoom().getRoomNumber() +
@@ -33,7 +35,7 @@ public class Guest extends User implements users {
 						"-fx-text-fill: beige; " +
 								"-fx-font-size: 15px; " +
 								"-fx-font-weight: bold; " +
-								"-fx-background-color: #24423f; " + // Teal to match your Reservation Header
+								"-fx-background-color: #24423f; " + // Teal
 								"-fx-padding: 10; " +
 								"-fx-background-radius: 10; " +
 								"-fx-text-alignment: center; " +
@@ -63,9 +65,24 @@ public class Guest extends User implements users {
 		}
 		return false; // No match found
 	}
+/// //////////////////////////////////////////////////////////////handle PayInvoice for GUI
+	public boolean payInvoiceByRoomNumber(int roomNumber) {
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			Reservation r = DataBase.reservations.get(i);
 
+			if (r.getGuest().equals(this) &&
+					r.getRoom().getRoomNumber() == roomNumber &&
+					r.getReservationStatus().toString().equals("CONFIRMED")) {
 
-	/// //////////////////////////////////////////////////////////////////
+				// Call checkout/payInvoice logic homa nafs e7aga m4 fahem eh el e5telaf aslan
+				this.checkout(r);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private double balance;
 	private String address;
