@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Receptionist extends Staff implements users{
 
 	Receptionist() {}
-	Receptionist(String username, String password) { super(username, password); }
+	public Receptionist(String username, String password) { super(username, password); }
 
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Core actions

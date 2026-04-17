@@ -13,7 +13,7 @@ public class Guest extends User implements users {
 	public void   setAddress(String a)      { this.address = a; }
 
 	Guest() {}
-	Guest(String username, String password) { super(username, password); }
+	public Guest(String username, String password) { super(username, password); }
 
 	public enum gender { MALE, FEMALE }
 	Room currentRoom = null;

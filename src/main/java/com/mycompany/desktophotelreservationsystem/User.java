@@ -15,9 +15,11 @@ public class User implements users {
 	private String password;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-	private String adminCode = "badrEhabByakolFera5Masloo2a";
+	private static String adminCode = "badrEhabByakolFera5Masloo2a";
 	String inputCode;
 	
+	public static String getAdminCode()                 { return adminCode; }
+
 	public String getUserName()                  { return userName; }
 	public void   setUserName(String userName)   { this.userName = userName; }
 	public String getPassword()                  { return password; }
