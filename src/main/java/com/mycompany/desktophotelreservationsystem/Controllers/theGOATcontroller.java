@@ -406,12 +406,7 @@ public class theGOATcontroller {
 	    		//
 	    		toReceptionist(e);
 	    	}
-<<<<<<< HEAD
-	    	if(DataBase.currentUser instanceof Guest) {
-	    		//
-	    		toGuest(e);
-	    	}
-=======
+
 			if(DataBase.currentUser instanceof Guest) {
 				// Save the session inside the Guest class
 				Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
@@ -419,7 +414,7 @@ public class theGOATcontroller {
 				// Redirect to the Guest Menu
 				loadScreen("/guestscenebuilder.fxml", e);
 		}
->>>>>>> branch 'master' of https://github.com/IIYOTARA-ASU/Disktop-Hotel-Reservation-System-CSE241
+
     }
     @FXML
     public void Register(ActionEvent e) {
