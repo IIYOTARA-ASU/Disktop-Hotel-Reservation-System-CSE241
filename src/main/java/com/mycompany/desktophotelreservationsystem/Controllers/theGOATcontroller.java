@@ -27,30 +27,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class theGOATcontroller {
-	
+
 	User user = new User();
 	User currentUser;
-    
+
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     @FXML
-    private Text staffCodeText; 
+    private Label dynamicText;
     @FXML
-    private Label dynamicText; 
+    private Label usernameErrorMessage;
     @FXML
-    private Label usernameErrorMessage; 
-    @FXML
-    private Label passwordErrorMessage; 
-    @FXML
-    private Label staffCodeErrorMessage; 
-    @FXML
-    private Label accountTypeErrorMessage; 
+    private Label passwordErrorMessage;
     @FXML
     private Label amenityNameError;
     @FXML
@@ -108,8 +101,6 @@ public class theGOATcontroller {
     @FXML
     private TextField password;
     @FXML
-    private TextField staffCode;
-    @FXML
     private FlowPane amenityContainer;
     @FXML
     private FlowPane roomTypeContainer;
@@ -122,14 +113,12 @@ public class theGOATcontroller {
     @FXML
     private ToggleGroup roomTypeRadios = new ToggleGroup();
     @FXML
-    private ToggleGroup accountType;
-    @FXML
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
-    
+
     boolean amenities = false;
     public theGOATcontroller() {}
 
-    
+
     String s = "Baller";
 
     @FXML
@@ -160,34 +149,34 @@ public class theGOATcontroller {
     public void displayAmenities() {
     	int amenityID = 0;
     	amenityContainer.getChildren().clear();
-    	
-    	amenityContainer.setHgap(20); 
+
+    	amenityContainer.setHgap(20);
         amenityContainer.setVgap(20);
         amenityContainer.setPadding(new Insets(20));
-        
+
     	for(Amenity a : DataBase.amenities) {
     		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $"+a.getPrice();
-    	
+
     		Label amenityLabel = new Label(amenityInfo);
-    		
+
     		amenityLabel.
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
     		amenityContainer.getChildren().add(amenityLabel);
-    		
+
     		amenityID++;
     	}
     }
-    
+
     @FXML
     public void displayRooms() {
     	roomContainer.getChildren().clear();
-    	
-    	roomContainer.setHgap(20); 
+
+    	roomContainer.setHgap(20);
         roomContainer.setVgap(20);
         roomContainer.setPadding(new Insets(20));
-        
+
     	for(Room r : DataBase.rooms) {
     		String roomInfo = "Room Number : " + r.getRoomNumber() +"\n Room Type : " +r.getRoomType().getRoomType() + "\n Room Amenities : ";
 			for (int j = 0; j < r.getAmenities().size(); j++) {
@@ -195,38 +184,38 @@ public class theGOATcontroller {
 				if (r.getAmenities().size() - j != 1) { roomInfo += ", "; }
 			}
 			roomInfo+="\n Price : $"+ r.getPrice();
-    	
+
     		Label roomLabel = new Label(roomInfo);
-    		
+
     		roomLabel.
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
     		roomContainer.getChildren().add(roomLabel);
-    		
+
     	}
     }
     @FXML
     public void displayRoomTypes() {
     	int roomTypeID = 0;
     	roomTypeContainer.getChildren().clear();
-    	
-    	roomTypeContainer.setHgap(20); 
+
+    	roomTypeContainer.setHgap(20);
         roomTypeContainer.setVgap(20);
         roomTypeContainer.setPadding(new Insets(20));
-        
+
     	for(RoomType r : DataBase.roomTypes) {
     		String roomTypeInfo = "ID : "+ roomTypeID + "\nName : "+r.getRoomType();
-    	
+
     		Label roomTypeLabel = new Label(roomTypeInfo);
-    		
+
     		roomTypeLabel.
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
-    		
+
     		roomTypeContainer.getChildren().add(roomTypeLabel);
-    		
+
     		roomTypeID++;
     	}
     }
@@ -265,19 +254,19 @@ public class theGOATcontroller {
   	  stage = (Stage)((Node)e.getSource()).getScene().getWindow();
   	  scene = new Scene(root);
   	  stage.setScene(scene);
-  	  stage.show();    
+  	  stage.show();
     }
-    
+
     @FXML
     public void toAmenities(ActionEvent e) {
     	loadScreen("/adminAmenities.fxml",e);
     }
-	
+
     @FXML
     public void toAdmin(ActionEvent e) {
     	loadScreen("/theGoat.fxml",e);
     }
-    
+
     @FXML
     public void toRooms(ActionEvent e) {
     	loadScreen("/adminRooms.fxml",e);
@@ -302,7 +291,7 @@ public class theGOATcontroller {
     public void toRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypes.fxml",e);
     }
-    
+
     @FXML
     public void toAddAmenities(ActionEvent e) {
     	loadScreen("/adminAmenitiesAdd.fxml",e);
@@ -320,38 +309,18 @@ public class theGOATcontroller {
     	loadScreen("/adminAmenitiesUpdate.fxml",e);
     	if(updateID != null && updateIDError != null) {
     	updateIDError.setText("");
-    	
+
     	updateID.setStyle("-fx-border-color : darkSlateGray");
-    	
+
     	updateID.setText("");
     	}
-    	
+
     }
     @FXML
     public void toViewRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypesView.fxml",e);
     }
-    @FXML 
-    public void clickRadioButton(ActionEvent e) {
-    	RadioButton selectedType = (RadioButton) accountType.getSelectedToggle();
-    	switch(selectedType.getText()) {
-    	case "g" :     	
-    	staffCode.setVisible(false); 
-    	staffCodeErrorMessage.setVisible(false);
-    	staffCodeText.setVisible(false);
-    	break;
-    	case "a" : 
-    	staffCode.setVisible(true); 
-    	staffCodeErrorMessage.setVisible(true);
-    	staffCodeText.setVisible(true);
-    	break;
-    	case "r" : 
-        	staffCode.setVisible(true); 
-        	staffCodeErrorMessage.setVisible(true);
-        	staffCodeText.setVisible(true);
-        	break;
-    	}
-    }
+
     @FXML
     public void loginGui(ActionEvent e) {
 		username.setStyle("-fx-border-color : darkSlateGray");
@@ -361,7 +330,7 @@ public class theGOATcontroller {
 
     	String loginPass = password.getText().trim();
     	String loginUser = username.getText().trim();
-    	
+
     	if(loginUser.equals("")) {
     		username.setStyle("-fx-border-color : red");
     		username.setText("");
@@ -383,12 +352,12 @@ public class theGOATcontroller {
 				userIndex = i;
 			}
 		}
-		if (!usernameFound) { 
+		if (!usernameFound) {
     		username.setStyle("-fx-border-color : red");
     		username.setText("");
     		usernameErrorMessage.setText("Username not found.");
 		return; }
-    	
+
 		boolean correctPassword   = DataBase.people.get(userIndex).getPassword().equals(loginPass);
 		if (!correctPassword) {
 		password.setStyle("-fx-border-color : red");
@@ -396,111 +365,26 @@ public class theGOATcontroller {
 		passwordErrorMessage.setText("Wrong Password");
 		return;
 		};
-    	
-		
+
+
     	DataBase.currentUser = user.login(loginUser, loginPass, true);
 	    	if(DataBase.currentUser instanceof Admin) {
 	    		toAdmin(e);
 	    	}
 	    	if(DataBase.currentUser instanceof Receptionist) {
 	    		//
-	    		toReceptionist(e);
+	    		System.out.println("Hi receptionist");
 	    	}
-
 			if(DataBase.currentUser instanceof Guest) {
-				// Save the session inside the Guest class
+
 				Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
 
-				// Redirect to the Guest Menu
+
 				loadScreen("/guestscenebuilder.fxml", e);
 		}
-
-    }
-    @FXML
-    public void Register(ActionEvent e) {
-		username.setStyle("-fx-border-color : darkSlateGray");
-		password.setStyle("-fx-border-color : darkSlateGray");
-		staffCode.setStyle("-fx-border-color : darkSlateGray");
-		passwordErrorMessage.setText("");
-		usernameErrorMessage.setText("");
-		usernameErrorMessage.setText("");
-		staffCodeErrorMessage.setText("");
-
-    	String registerPass = password.getText().trim();
-    	String registerUser = username.getText().trim();
-    	String registerStaffCode = staffCode.getText().trim();
-    	
-    	if(registerUser.equals("")) {
-    		username.setStyle("-fx-border-color : red");
-    		username.setText("");
-    		usernameErrorMessage.setText("Username is empty");
-    	}
-    	if(registerPass.equals("")) {
-    		password.setStyle("-fx-border-color : red");
-    		password.setText("");
-    		passwordErrorMessage.setText("Password is empty");
-    	}
-    	if(registerUser.equals("") || registerPass.equals("")) {
-    		return;
-    	}
-    	boolean usernameFound = false;
-		for (int i = 0; i < DataBase.people.size(); i++) {
-			if (DataBase.people.get(i).userName.equals(registerUser)) {
-				usernameFound = true;
-			}
-		}
-		if (usernameFound) { 
-    		username.setStyle("-fx-border-color : red");
-    		username.setText("");
-    		usernameErrorMessage.setText("Username already taken.");
-		return; 
-		}
-		if(staffCode.isVisible()) {
-			if(!registerStaffCode.equals(User.getAdminCode())) {
-	    		staffCode.setStyle("-fx-border-color : red");
-	    		staffCode.setText("");
-	    		staffCodeErrorMessage.setText("Wrong Staff Code.");
-	    		return;
-			}
-		}
-		
-		RadioButton selectedAccType = (RadioButton)accountType.getSelectedToggle();
-		String newAccType = selectedAccType.getText();
-		switch(newAccType) {
-		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(100); break;
-		case "a" : DataBase.currentUser = new Admin(registerUser, registerPass); break;
-		case "r" : DataBase.currentUser = new Receptionist(registerUser, registerPass); ((Receptionist)DataBase.currentUser).setWorkingHours(7); break;
-		}
-		DataBase.people.add(DataBase.currentUser);
-		
-		if(DataBase.currentUser instanceof Admin) {
-    		toAdmin(e);
-    	}
-    	if(DataBase.currentUser instanceof Receptionist) {
-    		//
-    		toReceptionist(e);
-    	}
-    	if(DataBase.currentUser instanceof Guest) {
-    		//
-    		toGuest(e);
-    	}
-		
     }
     @FXML
     public void toRegister(ActionEvent e) {
-    	loadScreen("/Register.fxml",e);
-    }
-    @FXML
-    public void toLogin(ActionEvent e) {
-    	loadScreen("/Login.fxml",e);
-    }
-    @FXML
-    public void toGuest(ActionEvent e){
-    	loadScreen("/guestscenebuilder.fxml",e);
-    }
-    @FXML
-    public void toReceptionist(ActionEvent e){
-    	loadScreen("/Receptionists.fxml",e);
     }
     @FXML
     public void toAddRoomTypes(ActionEvent e) {

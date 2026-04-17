@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -38,7 +37,7 @@ public class GuestController {
 
             // Validation
             if (roomNumStr.isEmpty() || inDate == null || outDate == null) {
-                System.out.println("Please fill all fields!"); // Replace with a Label for better UI
+                System.out.println("Please fill all fields!"); // Replace with a Label for better GUI
                 return;
             }
 
@@ -78,6 +77,38 @@ public class GuestController {
         }
     }
 
+    @FXML
+    public void handleCancelReservation(ActionEvent event) {
+        try {
+            String roomNumStr = roomTextFiel.getText();
+            LocalDate inLocalDate = checkinDatepicker.getValue();
+            LocalDate outLocalDate = checkoutDatePicker.getValue();
+
+            if (roomNumStr.isEmpty() || inLocalDate == null || outLocalDate == null) {
+                System.out.println("Please fill all fields for cancellation.");
+                return;
+            }
+
+            int roomNumber = Integer.parseInt(roomNumStr);
+            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
+            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
+
+            if (Guest.currentLoggedInGuest != null) {
+                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber, finalIn, finalOut);
+
+                if (success) {
+                    System.out.println("Reservation cancelled successfully.");
+                    displayUserReservations();
+                    toGuestMenu(event);
+                } else {
+                    System.out.println("No matching reservation found to cancel.");
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid Room Number format.");
+        }
+    }
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -96,13 +127,18 @@ public class GuestController {
     private Button buttonPayInvoice;
 
     @FXML
+    private Label balanceLabel;
+
+    @FXML
     public void initialize() {
-        // This runs automatically when guestViewRooms.fxml is loaded
         if (roomContainer != null) {
             displayRooms();
         }
         if (reservationListContainer != null) {
             displayUserReservations();
+        }
+        if (balanceLabel != null && Guest.currentLoggedInGuest != null) {
+            balanceLabel.setText("Balance: $" + Guest.currentLoggedInGuest.getBalance());
         }
 
     }
@@ -153,6 +189,33 @@ public class GuestController {
         }
     }
 
+    @FXML
+    public void handlePayInvoice(ActionEvent event) {
+        try {
+            String roomNumStr = roomTextFiel.getText();
+            if (roomNumStr.isEmpty()) {
+                System.out.println("Please enter a room number.");
+                return;
+            }
+
+            int roomNumber = Integer.parseInt(roomNumStr);
+
+            if (Guest.currentLoggedInGuest != null) {
+                boolean success = Guest.currentLoggedInGuest.payInvoiceByRoomNumber(roomNumber);
+
+                if (success) {
+                    System.out.println("Payment Successful!");
+                    displayUserReservations(); // Refresh the GUI list
+                    toGuestMenu(event);
+                } else {
+                    System.out.println("No confirmed reservation found for Room " + roomNumber);
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid Room Number.");
+        }
+    }
+
     @FXML private VBox reservationListContainer;
 
     @FXML
@@ -178,6 +241,14 @@ public class GuestController {
     @FXML
     public void switchToViewReservations(ActionEvent event){
         loadScreen("/guestViewReservation.fxml",event);
+    }
+    @FXML
+    public void switchToCancelReservations(ActionEvent event){
+        loadScreen("/guestCancelReservation.fxml",event);
+    }
+    @FXML
+    public void switchToPayInvoice(ActionEvent event){
+        loadScreen("/guestPayInvoice.fxml",event);
     }
 
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="484.0" prefWidth="754.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.GuestController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="557.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="720.0" AnchorPane.topAnchor="0.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="557.0" layoutX="724.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="720.4" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#24423f" height="107.0" layoutX="14.0" stroke="BLACK" strokeType="INSIDE" width="725.0" />
+        <Text fill="WHITE" layoutX="93.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 50; -fx-font-weight: bold;" styleClass="textBox" text="Cancel Reservations" />
+        <Label layoutX="57.0" layoutY="124.0" prefHeight="46.0" prefWidth="112.0" stylesheets="@Style.css" text="Reservation:" />
+        <ScrollPane layoutX="70.0" layoutY="170.0" prefHeight="99.0" prefWidth="616.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+            <content>
+                <VBox fx:id="reservationListContainer" prefHeight="97.0" prefWidth="615.0" spacing="15.0" style="-fx-padding: 10;" />
+            </content>
+        </ScrollPane>
+
+        <Button layoutX="470.0" layoutY="489.0" onAction="#toGuestMenu" styleClass="btn-round" text="Back" />
+      <TextField fx:id="roomTextFiel" layoutX="297.0" layoutY="302.0" styleClass="textBox" stylesheets="@Style.css" />
+      <Label layoutX="70.0" layoutY="307.0" styleClass="root" stylesheets="@Style.css" text="Enter room number to be canceled">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="352.0" text="corresponding check in date">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="396.0" text="corresponding check out date">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="checkinDatepicker" layoutX="270.0" layoutY="348.0" styleClass="textBox" stylesheets="@Style.css" />
+      <DatePicker fx:id="checkoutDatePicker" layoutX="270.0" layoutY="391.0" styleClass="textBox" stylesheets="@Style.css" />
+      <Button layoutX="113.0" layoutY="489.0" mnemonicParsing="false" onAction="#handleCancelReservation" styleClass="btn-round" stylesheets="@Style.css" text="confirm cancelation" />
+    </children>
+</AnchorPane>
