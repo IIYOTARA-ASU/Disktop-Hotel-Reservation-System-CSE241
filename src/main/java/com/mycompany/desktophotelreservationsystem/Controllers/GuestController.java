@@ -1,7 +1,6 @@
 package com.mycompany.desktophotelreservationsystem.Controllers;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
-import com.mycompany.desktophotelreservationsystem.Reservation;
 import com.mycompany.desktophotelreservationsystem.Room;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -75,6 +73,38 @@ public class GuestController {
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid Room Number.");
+        }
+    }
+
+    @FXML
+    public void handleCancelReservation(ActionEvent event) {
+        try {
+            String roomNumStr = roomTextFiel.getText();
+            LocalDate inLocalDate = checkinDatepicker.getValue();
+            LocalDate outLocalDate = checkoutDatePicker.getValue();
+
+            if (roomNumStr.isEmpty() || inLocalDate == null || outLocalDate == null) {
+                System.out.println("Please fill all fields for cancellation.");
+                return;
+            }
+
+            int roomNumber = Integer.parseInt(roomNumStr);
+            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
+            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
+
+            if (Guest.currentLoggedInGuest != null) {
+                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber, finalIn, finalOut);
+
+                if (success) {
+                    System.out.println("Reservation cancelled successfully.");
+                    displayUserReservations();
+                    toGuestMenu(event);
+                } else {
+                    System.out.println("No matching reservation found to cancel.");
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid Room Number format.");
         }
     }
 
@@ -178,6 +208,10 @@ public class GuestController {
     @FXML
     public void switchToViewReservations(ActionEvent event){
         loadScreen("/guestViewReservation.fxml",event);
+    }
+    @FXML
+    public void switchToCancelReservations(ActionEvent event){
+        loadScreen("/guestCancelReservation.fxml",event);
     }
 
 }

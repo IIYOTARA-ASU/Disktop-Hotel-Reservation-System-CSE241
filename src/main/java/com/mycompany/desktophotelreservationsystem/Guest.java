@@ -47,6 +47,24 @@ public class Guest extends User implements users {
 			}
 		}
 	}
+	/// /////////////////////////////////////////////for cancelation GUI
+	public boolean processCancellation(int roomNum, java.util.Date inDate, java.util.Date outDate) {
+		for (int i = 0; i < DataBase.reservations.size(); i++) {
+			Reservation res = DataBase.reservations.get(i);
+
+			if (res.getGuest().equals(this) &&
+					res.getRoom().getRoomNumber() == roomNum &&
+					res.getCheckInDate().equals(inDate) &&
+					res.getCheckOutDate().equals(outDate)) {
+
+				this.cancelReservation(res);
+				return true;
+			}
+		}
+		return false; // No match found
+	}
+
+
 	/// //////////////////////////////////////////////////////////////////
 
 	private double balance;
