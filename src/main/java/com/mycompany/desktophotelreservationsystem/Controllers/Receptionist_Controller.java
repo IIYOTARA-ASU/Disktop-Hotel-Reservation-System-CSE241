@@ -117,12 +117,12 @@ public class Receptionist_Controller {
     }
     @FXML
     public void view_roomtype(ActionEvent e){
-        loadScreen("/src/main/resources/ReceptionistViewroomtypes.fxml",e);
+        loadScreen("/ReceptionistViewroomtypes.fxml",e);
     }
     @FXML
     public void view_dashboard(ActionEvent e)
     {
-        loadScreen("/src/main/resources/Receptionists.fxml",e);
+        loadScreen("/Receptionists.fxml",e);
     }
     @FXML
     public void check_in()
@@ -132,7 +132,7 @@ public class Receptionist_Controller {
     @FXML
     public void view_rooms(ActionEvent e){
 
-        loadScreen("/src/main/resources/ReceptionistViewrooms.fxml",e);
+        loadScreen("/ReceptionistViewrooms.fxml",e);
 
     }
     @FXML
