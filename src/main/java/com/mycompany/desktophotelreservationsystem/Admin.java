@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Admin extends Staff implements users{
 
 	Admin() {}
-	Admin(String username, String password) { super(username, password); }
+	public Admin(String username, String password) { super(username, password); }
 
 	// =========================================================================
 	//  ROOM CRUD
