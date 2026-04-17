@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import com.mycompany.desktophotelreservationsystem.HADI_CONTROLLER;
+import com.mycompany.desktophotelreservationsystem.Controllers.Receptionist_Controller;
 
 import java.io.IOException;
 
@@ -235,11 +235,11 @@ public class LoginPage extends Pane{
                     throw new RuntimeException(ex);
                 }
                 //3
-			HADI_CONTROLLER recepcontroller = load.getController();
+			Receptionist_Controller recepcontroller = load.getController();
 			//4
 				receptionist.setRoot(receproot);
 			// 5 step
-				recepcontroller.setUsername(data);
+
 //			if (rAdmin.isSelected()) {
 //
 //			}

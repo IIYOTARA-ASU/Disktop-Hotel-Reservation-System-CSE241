@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane fx:id="dashboard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1120.0" stylesheets="@hadi.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.Receptionist_Controller">
+    <children>
+        <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#24423f" height="584.0" layoutX="-16.0" layoutY="63.0" stroke="TRANSPARENT" strokeType="INSIDE" width="233.0" />
+        <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#24423f" height="93.0" layoutX="-23.0" layoutY="-10.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1160.0" />
+        <Button fx:id="CHein" layoutX="9.0" layoutY="100.0" mnemonicParsing="false" onAction="#view_dashboard" prefHeight="38.0" prefWidth="203.0" text="dashboard" />
+
+        <Label layoutX="111.0" layoutY="27.0" prefHeight="38.0" prefWidth="978.0" text="Palisade hotel | Receptionist Dashboard" textFill="WHITE" />
+
+        <ImageView fitHeight="65.0" fitWidth="65.0" layoutX="36.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Images/palisade.png" />
+            </image>
+        </ImageView>
+        <Label fx:id="recepname" layoutX="856.0" layoutY="34.0" style="-fx-font-style: regular;" stylesheets="@hadi.css" text="Label" />
+        <Label fx:id="date" layoutX="626.0" layoutY="37.0" text="Date" />
+        <Button layoutX="9.0" layoutY="151.0" mnemonicParsing="false" onAction="#view_reservation" prefHeight="36.0" prefWidth="203.0" text="View reservation" />
+        <Button fx:id="viewrooms" layoutX="6.0" layoutY="198.0" mnemonicParsing="false" onAction="#view_rooms" prefHeight="36.0" prefWidth="203.0" text="View rooms" />
+        <Button layoutX="6.0" layoutY="289.0" mnemonicParsing="false" onAction="#view_guest" prefHeight="36.0" prefWidth="203.0" text="View Guests" />
+        <Button layoutX="6.0" layoutY="242.0" mnemonicParsing="false" onAction="#view_pending" prefHeight="36.0" prefWidth="203.0" text="View pending" />
+        <Button layoutX="9.0" layoutY="385.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
+        <Button layoutX="9.0" layoutY="337.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="472.0" layoutX="297.0" layoutY="125.0" stroke="BLACK" strokeType="INSIDE" width="718.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="316.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#00ff4d" height="71.0" layoutX="316.0" layoutY="134.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="316.0" layoutY="320.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="316.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="316.0" layoutY="508.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="457.0" layoutY="508.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="600.0" layoutY="508.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="764.0" layoutY="508.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="919.0" layoutY="508.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="457.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="600.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="764.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="919.0" layoutY="412.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="457.0" layoutY="326.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="600.0" layoutY="326.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="764.0" layoutY="326.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="919.0" layoutY="326.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="457.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="600.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="764.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="919.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="457.0" layoutY="134.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="600.0" layoutY="134.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="764.0" layoutY="134.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ded2ae47" height="71.0" layoutX="919.0" layoutY="134.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Label layoutX="320.0" layoutY="158.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room1" />
+      <Label layoutX="461.0" layoutY="157.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room2" />
+      <Label layoutX="604.0" layoutY="158.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room3" />
+      <Label layoutX="768.0" layoutY="158.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room4" />
+      <Label layoutX="923.0" layoutY="158.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room5" />
+      <Label layoutX="319.0" layoutY="248.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room6" />
+      <Label layoutX="461.0" layoutY="248.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room7" />
+      <Label layoutX="604.0" layoutY="248.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room8" />
+      <Label layoutX="768.0" layoutY="249.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room9" />
+      <Label layoutX="916.0" layoutY="248.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room10" />
+      <Label layoutX="314.0" layoutY="349.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room11" />
+      <Label layoutX="455.0" layoutY="350.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room12" />
+      <Label layoutX="598.0" layoutY="349.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room13" />
+      <Label layoutX="762.0" layoutY="350.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room14" />
+      <Label layoutX="917.0" layoutY="349.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room15" />
+      <Label layoutX="313.0" layoutY="436.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room16" />
+      <Label layoutX="455.0" layoutY="436.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room17" />
+      <Label layoutX="598.0" layoutY="435.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room18" />
+      <Label layoutX="762.0" layoutY="436.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room19" />
+      <Label layoutX="917.0" layoutY="436.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room20" />
+      <Label layoutX="314.0" layoutY="531.0" prefHeight="23.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room21" />
+      <Label layoutX="455.0" layoutY="531.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room22" />
+      <Label layoutX="598.0" layoutY="532.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room23" />
+      <Label layoutX="762.0" layoutY="532.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room24" />
+      <Label layoutX="917.0" layoutY="532.0" style="-fx-background-color: transparent; -fx-text-fill: black;" text="room25" />
+    </children>
+</AnchorPane>
