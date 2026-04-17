@@ -125,20 +125,24 @@ public class GuestController {
         roomContainer.setPadding(new Insets(20));
 
         for(Room r : DataBase.rooms) {
-            String roomInfo = "Room Number : " + r.getRoomNumber() +"\n Room Type : " +r.getRoomType().getRoomType() + "\n Room Amenities : ";
-            for (int j = 0; j < r.getAmenities().size(); j++) {
-                roomInfo += r.getAmenities().get(j).getName();
-                if (r.getAmenities().size() - j != 1) { roomInfo += ", "; }
+            if(!r.getOccupied()) {
+                String roomInfo = "Room Number : " + r.getRoomNumber() + "\n Room Type : " + r.getRoomType().getRoomType() + "\n Room Amenities : ";
+                for (int j = 0; j < r.getAmenities().size(); j++) {
+                    roomInfo += r.getAmenities().get(j).getName();
+                    if (r.getAmenities().size() - j != 1) {
+                        roomInfo += ", ";
+                    }
+                }
+                roomInfo += "\n Price : $" + r.getPrice();
+
+                Label roomLabel = new Label(roomInfo);
+
+                roomLabel.
+                        setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                                "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                                "-fx-text-alignment: center; -fx-min-width: 120;");
+                roomContainer.getChildren().add(roomLabel);
             }
-            roomInfo+="\n Price : $"+ r.getPrice();
-
-            Label roomLabel = new Label(roomInfo);
-
-            roomLabel.
-                    setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
-                            "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
-                            "-fx-text-alignment: center; -fx-min-width: 120;");
-            roomContainer.getChildren().add(roomLabel);
 
         }
     }
