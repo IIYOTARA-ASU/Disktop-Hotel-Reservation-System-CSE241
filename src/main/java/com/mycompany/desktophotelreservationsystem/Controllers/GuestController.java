@@ -99,6 +99,7 @@ public class GuestController {
         if (roomContainer != null) {
             displayRooms();
         }
+
     }
 
     @FXML
