@@ -136,6 +136,10 @@ public class Receptionist_Controller {
 
     }
     @FXML
+    public void logout(ActionEvent e){
+        loadScreen("/Login.fxml",e);
+    }
+    @FXML
     public void view_guest(){
 
     }
