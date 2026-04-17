@@ -18,7 +18,7 @@
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="639.0" layoutX="-1.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="641.0" layoutX="1086.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
         <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#254441" height="107.0" layoutX="12.0" stroke="BLACK" strokeType="INSIDE" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" width="1097.0" />
-        <Text fill="WHITE" layoutX="335.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 67; -fx-font-weight: bolder; -fx-font-family: verdana;" text="ADMIN MENU" />
+        <Text fill="WHITE" layoutX="335.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 67; -fx-font-weight: bolder; -fx-font-family: verdana;" text="GUEST MENU" />
         <Button layoutX="497.0" layoutY="568.0" mnemonicParsing="false" onAction="#toGuestMenu" prefHeight="48.0" prefWidth="134.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Back" />
         <ScrollPane layoutX="165.0" layoutY="179.0" prefHeight="359.0" prefWidth="797.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
             <content>

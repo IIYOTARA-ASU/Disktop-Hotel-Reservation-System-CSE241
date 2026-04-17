@@ -53,7 +53,7 @@
       </ImageView>
       <Button fx:id="buttonViewRooms" layoutX="448.0" layoutY="319.0" mnemonicParsing="false" onAction="#switchToViewRooms" prefHeight="27.0" prefWidth="148.0" styleClass="btn-round" stylesheets="@Style.css" text="view rooms" textAlignment="CENTER" textFill="#fcfcfb" />
       <Button fx:id="buttonViewReservation" layoutX="641.0" layoutY="319.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="view reservation" />
-      <Button fx:id="buttonMakeReservation" layoutX="863.0" layoutY="319.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="203.0" styleClass="btn-round" stylesheets="@Style.css" text="make reservation" />
+      <Button fx:id="buttonMakeReservation" layoutX="863.0" layoutY="319.0" mnemonicParsing="false" onAction="#switchToMakeReservations" prefHeight="36.0" prefWidth="203.0" styleClass="btn-round" stylesheets="@Style.css" text="make reservation" />
       <Button fx:id="buttonCancelReservation" layoutX="417.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="cancel reservation" />
       <Button fx:id="buttonCheckout" layoutX="680.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="checkout" />
       <Button fx:id="buttonPayInvoice" layoutX="888.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="pay invoice" />

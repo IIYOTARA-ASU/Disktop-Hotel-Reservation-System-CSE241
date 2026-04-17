@@ -35,6 +35,12 @@ public class GUI_testing extends Application {
     	
     	User user = new User();
     	DataBase.demoFill();
+        for (User p : DataBase.people) {//just for testing Guest when login gets implemented delete eshta
+            if (p instanceof Guest && p.getUserName().equals("Baraa")) {
+                Guest.currentLoggedInGuest = (Guest) p;
+                break;
+            }
+        }
         Parent guestroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml"));
         Parent receproot = FXMLLoader.load(getClass().getResource("/Receptionists.fxml"));
         Parent theGoatRoot = FXMLLoader.load(getClass().getResource("/Login.fxml"));
