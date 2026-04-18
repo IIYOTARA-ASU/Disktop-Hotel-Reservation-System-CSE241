@@ -275,7 +275,6 @@ public class Admin extends Staff implements users{
 
 	public void adminInterface() {
 		Scanner scanner = new Scanner(System.in);
-
 		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
 		System.out.println("║                           ADMIN MENU                          ║");
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
@@ -296,7 +295,7 @@ public class Admin extends Staff implements users{
 
 	private void roomsMenu(Scanner scanner) {
 		int option = Validation.getOption(scanner, 5,
-			"[1] View  [2] Add  [3] Update  [4] Delete  [5]Exit\n>> Select an option: ");
+			"[1] View  [2] Add  [3] Update  [4] Delete  [5] Exit\n>> Select an option: ");
 		System.out.println();
 		switch (option) {
 			case 1: displayRoomTable(); break;
@@ -309,7 +308,7 @@ public class Admin extends Staff implements users{
 
 	private void amenitiesMenu(Scanner scanner) {
 		int option = Validation.getOption(scanner, 5,
-			"[1] View  [2] Add  [3] Update  [4] Delete  [5]Exit\n>> Select an option: ");
+			"[1] View  [2] Add  [3] Update  [4] Delete  [5] Exit\n>> Select an option: ");
 		System.out.println();
 		switch (option) {
 			case 1: displayAmenitiesTable(); break;
@@ -322,7 +321,7 @@ public class Admin extends Staff implements users{
 
 	private void roomTypesMenu(Scanner scanner) {
 		int option = Validation.getOption(scanner, 5,
-			"[1] View  [2] Add  [3] Update  [4] Delete  [5]Exit\n>> Select an option: ");
+			"[1] View  [2] Add  [3] Update  [4] Delete  [5] Exit\n>> Select an option: ");
 		System.out.println();
 		switch (option) {
 			case 1: displayRoomTypesTable(); break;

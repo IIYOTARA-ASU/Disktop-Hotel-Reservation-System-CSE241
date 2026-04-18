@@ -112,15 +112,15 @@ public class Guest extends User implements users {
 	}
 
 	public void viewReservation(Reservation reservation) {
-		String format = "%-10s %-20s %-20s %12s%n";
+		String format = "%-10s %-30s %-30s %12s%n";
 		System.out.printf(format, "ROOM", "CHECK-IN DATE", "CHECK-OUT DATE", "STATUS");
-		System.out.println("─────────────────────────────────────────────────────────────────");
+		System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
 		System.out.printf(format,
 			reservation.getRoom().getRoomNumber(),
 			reservation.getCheckInDate(),
 			reservation.getCheckOutDate(),
 			reservation.getReservationStatus());
-		System.out.println("─────────────────────────────────────────────────────────────────");
+		System.out.println("─────────────────────────────────────────────────────────────────────────────────────");
 	}
 
 	public void cancelReservation(Reservation reservation) {
@@ -152,7 +152,6 @@ public class Guest extends User implements users {
 	// ─────────────────────────────────────────────────────────────────────────
 	public void guestInterface() {
 		Scanner scanner = new Scanner(System.in);
-
 		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
 		System.out.println("║                           GUEST MENU                          ║");
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
@@ -161,13 +160,12 @@ public class Guest extends User implements users {
 
 		String prompt =
 			"[1] Available Rooms     [2] Make Reservation  [3] View Reservations\n" +
-			"[4] Cancel Reservation  [5] Checkout  [6] Pay Invoice  [7] Exit\n" +
+			"[4] Cancel Reservation  [5] Checkout    [6] Pay Invoice    [7] Exit\n" +
 			">> Select an option: ";
 		int inputOption = Validation.getOption(scanner, 7, prompt);
 		System.out.println();
 
 		switch (inputOption) {
-
 			case 1:
 				viewRooms();
 				break;

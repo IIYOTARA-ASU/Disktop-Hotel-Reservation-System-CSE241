@@ -1,8 +1,8 @@
 package com.mycompany.desktophotelreservationsystem;
-
 import java.util.Scanner;
 
 public class Main {
+		
 	static boolean appRunning = true;
 	private static final String BANNER =
 		"╔═══════════════════════════════════════════════════════════════╗\n" +
@@ -16,9 +16,10 @@ public class Main {
 	//  Role menus
 	// ─────────────────────────────────────────────────────────────────────────
 	public static void guestMenu(User user) {
+		Validation.clearScreen();
 		System.out.println(SEPARATOR);
 		Validation.centerText("WELCOME, GUEST " + user.getUserName().toUpperCase() + "!", 65);
-
+		
 		Guest guest = (Guest) user;
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
@@ -28,10 +29,12 @@ public class Main {
 				System.out.println(">> Logging out...\n");
 				break;
 			}
+			Validation.clearScreen();
 		}
 	}
 
 	public static void adminMenu(User user) {
+		Validation.clearScreen();
 		System.out.println(SEPARATOR);
 		Validation.centerText("WELCOME, ADMIN " + user.getUserName().toUpperCase() + "!", 65);
 
@@ -44,10 +47,12 @@ public class Main {
 				System.out.println(">> Logging out...\n");
 				break;
 			}
+			Validation.clearScreen();
 		}
 	}
 
 	public static void receptionistMenu(User user) {
+		Validation.clearScreen();
 		System.out.println(SEPARATOR);
 		Validation.centerText("WELCOME, RECEPTIONIST " + user.getUserName().toUpperCase() + "!", 65);
 
@@ -60,6 +65,7 @@ public class Main {
 				System.out.println(">> Logging out...\n");
 				break;
 			}
+			Validation.clearScreen();
 		}
 	}
 
@@ -69,12 +75,13 @@ public class Main {
 	public static User enterAccount() {
 		Scanner scanner = new Scanner(System.in);
 		User user = new User();
-
+		
+		Validation.clearScreen();
 		System.out.println(BANNER);
 		System.out.println();
 		
 		String prompt =
-			"[1] Login   [2] Register   [3] exit\n" +
+			"[1] Login   [2] Register   [3] Exit\n" +
 			">> Select an option: ";
 		int inputOption = Validation.getOption(scanner, 3, prompt);
 		String inputName;
@@ -82,14 +89,11 @@ public class Main {
 		int inputType;
 		switch (inputOption) {
 			case 1: 
-				
 				user = user.login("","",false);    break;
-			
 			case 2:
-
 				user = user.register("","",0,false); break;
 			case 3:
-				System.out.println("=========Goodbye=========");
+				System.out.println("========= Goodbye =========");
 				System.exit(0);
 		}
 		user.loggedIn = true;
@@ -109,7 +113,7 @@ public class Main {
 				user = enterAccount();
 			} while (user == null);
 			
-			if      (user instanceof Guest)       { guestMenu(user); }
+			if      (user instanceof Guest)        { guestMenu(user); }
 			else if (user instanceof Receptionist) { receptionistMenu(user); }
 			else if (user instanceof Admin)        { adminMenu(user); }
 		}

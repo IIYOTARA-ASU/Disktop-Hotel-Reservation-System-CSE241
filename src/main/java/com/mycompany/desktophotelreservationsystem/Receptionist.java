@@ -56,7 +56,6 @@ public class Receptionist extends Staff implements users{
 	// ─────────────────────────────────────────────────────────────────────────
 	public void receptionistInterface() {
 		Scanner scanner = new Scanner(System.in);
-
 		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
 		System.out.println("║                       RECEPTIONIST MENU                       ║");
 		System.out.println("╚═══════════════════════════════════════════════════════════════╝");

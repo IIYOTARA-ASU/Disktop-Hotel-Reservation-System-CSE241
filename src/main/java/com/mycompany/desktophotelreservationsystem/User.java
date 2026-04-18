@@ -4,7 +4,8 @@ import java.util.*;
 
 public class User implements users {
 
-	public User() {}
+	public User() {
+	}
 
 	public User(String n, String p) {
 		userName = n;
@@ -17,18 +18,37 @@ public class User implements users {
 	boolean loggedIn = false;
 	private static String adminCode = "badrEhabByakolFera5Masloo2a";
 	String inputCode;
-	
-	public static String getAdminCode()                 { return adminCode; }
 
-	public String getUserName()                  { return userName; }
-	public void   setUserName(String userName)   { this.userName = userName; }
-	public String getPassword()                  { return password; }
-	public void   setPassword(String password)   { this.password = password; }
-	public Date   getDateOfBirth()               { return dateOfBirth; }
-	public void   setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+	public static String getAdminCode() {
+		return adminCode;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
 	// ─────────────────────────────────────────────────────────────────────────
-	//  Room display
+	// Room display
 	// ─────────────────────────────────────────────────────────────────────────
 	public void viewRooms() {
 		displayRoomTable();
@@ -46,11 +66,13 @@ public class User implements users {
 		System.out.println("─────────────────────────────────────────────────────────────────");
 
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			Room   room       = DataBase.rooms.get(i);
-			String amenities  = "";
+			Room room = DataBase.rooms.get(i);
+			String amenities = "";
 			for (int j = 0; j < room.getAmenities().size(); j++) {
 				amenities += room.getAmenities().get(j).getName();
-				if (room.getAmenities().size() - j != 1) { amenities += ", "; }
+				if (room.getAmenities().size() - j != 1) {
+					amenities += ", ";
+				}
 			}
 			System.out.printf(format,
 					room.getRoomNumber(),
@@ -62,7 +84,7 @@ public class User implements users {
 	}
 
 	// ─────────────────────────────────────────────────────────────────────────
-	//  Reservation display
+	// Reservation display
 	// ─────────────────────────────────────────────────────────────────────────
 	public void viewReservation() {
 		if (DataBase.reservations.isEmpty()) {
@@ -75,62 +97,71 @@ public class User implements users {
 	}
 
 	// ─────────────────────────────────────────────────────────────────────────
-	//  Login
+	// Login
 	// ─────────────────────────────────────────────────────────────────────────
 	public User login(String inputUser, String inputPass, boolean GUI) {
 		System.out.println();
 		Scanner scanner = new Scanner(System.in);
 		boolean usernameFound;
-		int     userIndex = -1;
-		
+		int userIndex = -1;
+
 		do {
-			if(!GUI) {
-			inputUser = Validation.getString(scanner, ">> Enter your username: ");
-			}			
-			else if(GUI){
+			if (!GUI) {
+				inputUser = Validation.getString(scanner, ">> Enter your username: ");
+			} else if (GUI) {
 				usernameFound = false;
 				for (int i = 0; i < DataBase.people.size(); i++) {
 					if (DataBase.people.get(i).userName.equals(inputUser)) {
 						usernameFound = true;
-						userIndex     = i;
+						userIndex = i;
 					}
 				}
-				if (!usernameFound) { System.out.println("   [Error] Username not found. Please try again."); return null; }
-				
+				if (!usernameFound) {
+					System.out.println("   [Error] Username not found. Please try again.");
+					return null;
+				}
+
 			}
-			
+
 			usernameFound = false;
 			for (int i = 0; i < DataBase.people.size(); i++) {
 				if (DataBase.people.get(i).userName.equals(inputUser)) {
 					usernameFound = true;
-					userIndex     = i;
+					userIndex = i;
 				}
 			}
-			if (!usernameFound) { System.out.println("   [Error] Username not found. Please try again."); }
+			if (!usernameFound) {
+				System.out.println("   [Error] Username not found. Please try again.");
+			}
 		} while (!usernameFound);
 
 		boolean correctPassword;
 		do {
-			if(!GUI) {
-			inputPass = Validation.getString(scanner, ">> Enter your password: ");
-			}else {
-				correctPassword   = DataBase.people.get(userIndex).password.equals(inputPass);
-				if (!correctPassword) { System.out.println("   [Error] Incorrect password. Please try again.");};
+			if (!GUI) {
+				inputPass = Validation.getString(scanner, ">> Enter your password: ");
+			} else {
+				correctPassword = DataBase.people.get(userIndex).password.equals(inputPass);
+				if (!correctPassword) {
+					System.out.println("   [Error] Incorrect password. Please try again.");
+				}
+				;
 				break;
 			}
-				
-			correctPassword   = DataBase.people.get(userIndex).password.equals(inputPass);
-			if (!correctPassword) { System.out.println("   [Error] Incorrect password. Please try again."); }
+
+			correctPassword = DataBase.people.get(userIndex).password.equals(inputPass);
+			if (!correctPassword) {
+				System.out.println("   [Error] Incorrect password. Please try again.");
+			}
 		} while (!correctPassword);
 
 		System.out.println("   [OK] Login successful.\n");
 		return DataBase.people.get(userIndex);
 	}
-	
+
 	// ─────────────────────────────────────────────────────────────────────────
-	//  Register
+	// Register
 	// ─────────────────────────────────────────────────────────────────────────
-	public User register(String inputUser,String inputPass,int inputType, boolean GUI) {
+	public User register(String inputUser, String inputPass, int inputType, boolean GUI) {
 		System.out.println();
 		Scanner scanner = new Scanner(System.in);
 		User user;
@@ -138,17 +169,17 @@ public class User implements users {
 		boolean usernameAlreadyExists;
 
 		do {
-			if(!GUI) {
-			inputUser = Validation.getString(scanner, ">> Enter a username: ");
-			}else {
-			usernameAlreadyExists = false;
-			for (int i = 0; i < DataBase.people.size(); i++) {
-				if (DataBase.people.get(i).userName.equals(inputUser)) {
-					usernameAlreadyExists = true;
-					System.out.println("   [Error] Username already taken. Please try another.");
-					return null;
+			if (!GUI) {
+				inputUser = Validation.getString(scanner, ">> Enter a username: ");
+			} else {
+				usernameAlreadyExists = false;
+				for (int i = 0; i < DataBase.people.size(); i++) {
+					if (DataBase.people.get(i).userName.equals(inputUser)) {
+						usernameAlreadyExists = true;
+						System.out.println("   [Error] Username already taken. Please try another.");
+						return null;
+					}
 				}
-			}
 			}
 			usernameAlreadyExists = false;
 			for (int i = 0; i < DataBase.people.size(); i++) {
@@ -159,59 +190,61 @@ public class User implements users {
 			}
 		} while (usernameAlreadyExists);
 
-		
-		if(!GUI) {
-		inputPass = Validation.getString(scanner, ">> Enter a password: ");
+		if (!GUI) {
+			inputPass = Validation.getString(scanner, ">> Enter a password: ");
 		}
-		
-		if(!GUI) {inputType = Validation.getOption(scanner, 3,
-				">> Account type  [1] Guest  [2] Admin  [3] Receptionist: "); 
+
+		if (!GUI) {
+			inputType = Validation.getOption(scanner, 3,
+					">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
 		}
-		
-			switch (inputType) {
-				case 1:  
-					if(!GUI) {
-						int balance = Validation.getIntInRange(scanner, ">> Enter Account Balance : ", 0, 1000000000);
-						user = new Guest(inputUser, inputPass);
-						((Guest)user).setBalance((double)balance);       
-						break;
-					}
-					
-				case 2:  
-					
-					inputCode = Validation.getString(scanner, "Enter Admin Code : ");
-					if(inputCode.equals(adminCode)) {
-					user = new Admin(inputUser, inputPass);        
-					}else {
-					  System.out.println("You are not authorised to make a Staff account... GET OUT");
-					  System.exit(0);
-					  return null;
-					}
+
+		switch (inputType) {
+			case 1:
+				if (!GUI) {
+					int balance = Validation.getIntInRange(scanner, ">> Enter Account Balance : ", 0, 1000000000);
+					user = new Guest(inputUser, inputPass);
+					((Guest) user).setBalance((double) balance);
 					break;
-				case 3:
-						if(!GUI) {
-						inputCode = Validation.getString(scanner, "Enter Admin Code : ");
-						if(inputCode.equals(adminCode)) {
-						user = new Receptionist(inputUser, inputPass); 
-						}else {
-						  System.out.println("You are not authorised to make a Staff account... GET OUT");
-						  System.exit(0);
-						  return null;
-						}
-						int workingHours = Validation.getIntInRange(scanner, ">> Enter Working Hours (0~15) : ", 0, 15);
-						((Receptionist)user).setWorkingHours(workingHours);
-						break;
-						}
-				default: System.out.println("   [Error] Invalid option."); return null;
-			}
-			
+				}
+
+			case 2:
+
+				inputCode = Validation.getString(scanner, "Enter Admin Code : ");
+				if (inputCode.equals(adminCode)) {
+					user = new Admin(inputUser, inputPass);
+				} else {
+					System.out.println("   [Error] You are not authorised to make a Staff account... GET OUT");
+					System.exit(0);
+					return null;
+				}
+				break;
+			case 3:
+				if (!GUI) {
+					inputCode = Validation.getString(scanner, "Enter Admin Code : ");
+					if (inputCode.equals(adminCode)) {
+						user = new Receptionist(inputUser, inputPass);
+					} else {
+						System.out.println("   [Error] You are not authorised to make a Staff account... GET OUT");
+						System.exit(0);
+						return null;
+					}
+					int workingHours = Validation.getIntInRange(scanner, ">> Enter Working Hours (0~15) : ", 0, 15);
+					((Receptionist) user).setWorkingHours(workingHours);
+					break;
+				}
+			default:
+				System.out.println("   [Error] Invalid option.");
+				return null;
+		}
+
 		DataBase.people.add(user);
 		System.out.println("   [OK] Account created successfully!\n");
 		return user;
-		
+
 	}
 	// take user inputs for login / register
-	
+
 	public void logOut(User user) {
 		System.out.println("Logged out successfully!");
 		System.out.println("////////////////////////////////////////");
@@ -222,9 +255,13 @@ public class User implements users {
 				user = Main.enterAccount();
 			} while (user == null);
 
-			if      (user instanceof Guest)       { Main.guestMenu(user); }
-			else if (user instanceof Receptionist) { Main.receptionistMenu(user); }
-			else if (user instanceof Admin)        { Main.adminMenu(user); }
+			if (user instanceof Guest) {
+				Main.guestMenu(user);
+			} else if (user instanceof Receptionist) {
+				Main.receptionistMenu(user);
+			} else if (user instanceof Admin) {
+				Main.adminMenu(user);
+			}
 		}
 	}
 }
