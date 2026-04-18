@@ -374,6 +374,7 @@ public class theGOATcontroller {
 	    	if(DataBase.currentUser instanceof Receptionist) {
 	    		//
 	    		System.out.println("Hi receptionist");
+				loadScreen("/Receptionists.fxml",e);
 	    	}
 			if(DataBase.currentUser instanceof Guest) {
 

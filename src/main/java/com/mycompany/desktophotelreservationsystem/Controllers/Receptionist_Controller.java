@@ -14,9 +14,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
+
 
 public class Receptionist_Controller {
 
@@ -24,6 +26,8 @@ public class Receptionist_Controller {
     private Receptionist receptionist;
     private ArrayList <Room> rooms=new ArrayList<>();
     private boolean [] roomstate=new boolean[25];
+    private Room r=new Room();
+
     RoomType single = new RoomType("Single");
     RoomType couple = new RoomType("Double"); // "double" is a reserved word in java
     RoomType suite = new RoomType("Suite");
@@ -32,7 +36,10 @@ public class Receptionist_Controller {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private GuestController g = new GuestController();
 
+    @FXML
+    private VBox reservationListContainer;
     @FXML
     private Label room1;
     @FXML
@@ -177,9 +184,9 @@ public class Receptionist_Controller {
     public void view_pending(){
 
     }
-    public void view_reservation()
+    public void view_reservation(ActionEvent e)
     {
-
+        loadScreen("/ReceptionistViewreservation.fxml",e);
     }
     @FXML
     public void displayRooms() {
