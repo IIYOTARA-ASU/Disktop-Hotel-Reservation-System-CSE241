@@ -19,16 +19,16 @@ A full-featured desktop hotel reservation system built with **Java 17 + JavaFX**
 
 - [Overview](#-overview)
 - [Features](#-features)
-- [System Architecture](#-system-architecture)
+- [System Architecture](#%EF%B8%8F-system-architecture)
 - [Class Diagram](#-class-diagram)
-- [Class Structure](#-class-structure)
+- [Class Structure](#%EF%B8%8F-class-structure)
 - [Role Capabilities](#-role-capabilities)
 - [Project Structure](#-project-structure)
 - [Prerequisites](#-prerequisites)
 - [Getting Started](#-getting-started)
 - [Default Demo Accounts](#-default-demo-accounts)
-- [Tech Stack](#-tech-stack)
-- [Design Patterns](#-design-patterns)
+- [Tech Stack](#%EF%B8%8F-tech-stack)
+- [Design Patterns & OOP Concepts](#-design-patterns--oop-concepts)
 - [Academic Context](#-academic-context)
 
 ---
@@ -375,11 +375,13 @@ The system demonstrates practical application of OOP principles including inheri
 
 > Add your team member names and IDs here.
 
-| Name | Student ID | Role |
-|Ahmed Ramy| 25P0187 | the goat |
-| — | — | — |
-| — | — | — |
-| — | — | — |
+| Name | Student ID |
+|---|---|
+| Yousef Abdullah | 25P0436 |
+| Ahmed Ramy| 25P0187 |
+| Hadi Mohamed | 25P0162 |
+| Baraa Khaled | 25P0104 |
+| Youssef Mohamed | 25P0208 |
 
 ---
 
