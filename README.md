@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/26858994/README.md)
+[README.md](https://github.com/user-attachments/files/26860402/README.md)
 # 🏨 Palisade Hotel Reservation System
 
 <div align="center">
@@ -20,6 +20,7 @@ A full-featured desktop hotel reservation system built with **Java 17 + JavaFX**
 - [Overview](#-overview)
 - [Features](#-features)
 - [System Architecture](#-system-architecture)
+- [Class Diagram](#-class-diagram)
 - [Class Structure](#-class-structure)
 - [Role Capabilities](#-role-capabilities)
 - [Project Structure](#-project-structure)
@@ -79,7 +80,7 @@ All data is managed in-memory via a central static `DataBase` class and pre-popu
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│                    Entry Point (Main)                 │
+│                    Entry Point (Main)                │
 │          Login / Register / Role Dispatch            │
 └──────────────────┬───────────────────────────────────┘
                    │
@@ -93,7 +94,7 @@ All data is managed in-memory via a central static `DataBase` class and pre-popu
        └───────────┴───────────┘
                    │
            ┌───────▼────────┐
-           │    DataBase     │
+           │    DataBase    │
            │  (In-Memory)   │
            │  rooms         │
            │  reservations  │
@@ -103,6 +104,27 @@ All data is managed in-memory via a central static `DataBase` class and pre-popu
            │  roomTypes     │
            └────────────────┘
 ```
+
+---
+
+## 📐 Class Diagram
+
+The diagram below provides a complete visual overview of the system's object-oriented design. It captures the full class hierarchy, interface contracts, relationships, and multiplicity across all entities — from the `User` inheritance tree down to `Room`, `Reservation`, `Invoice`, and the supporting enums.
+
+<div align="center">
+
+![Class Diagram.png](src/main/resources/Images/Class%20Diagram.png)
+
+</div>
+
+**Key relationships at a glance:**
+
+- `User` is the root of the inheritance tree — `Guest` and the abstract `Staff` (which branches into `Admin` and `Receptionist`) all extend it.
+- `DataBase` acts as the central static store, holding `ArrayList` collections for rooms, reservations, invoices, people, room types, and amenities.
+- `Reservation` links a `Guest` to a `Room`, carries a `ReservationStatus` enum (`PENDING → CONFIRMED → COMPLETED / CANCELLED`), and generates exactly one `Invoice`.
+- `Room` is categorized as a `RoomType` and includes zero or more `Amenity` items; both implement the `roomstuff` interface alongside `Room` itself.
+- `Invoice` holds a `PaymentMethod` enum (`CASH`, `CREDIT_CARD`, `ONLINE`) and references back to its `Reservation`.
+- `Validation` is a standalone utility used by `Main` for all scanner-based input sanitization.
 
 ---
 
@@ -353,13 +375,12 @@ The system demonstrates practical application of OOP principles including inheri
 
 > Add your team member names and IDs here.
 
-| Name | Student ID |
-|---|---|
-| Yousef Abdullah | 25P0436 |
-| Ahmed Ramy| 25P0187 |
-| Hadi Mohamed | 25P0162 |
-| Baraa Khaled | 25P0104 |
-| Youssef Dorgham | 25P0208 |
+| Name | Student ID | Role |
+|---|---|---|
+| — | — | — |
+| — | — | — |
+| — | — | — |
+
 ---
 
 ## 📄 License
