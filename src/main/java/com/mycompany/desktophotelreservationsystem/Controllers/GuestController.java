@@ -250,5 +250,8 @@ public class GuestController {
     public void switchToPayInvoice(ActionEvent event){
         loadScreen("/guestPayInvoice.fxml",event);
     }
+    public void logout(ActionEvent e){
+        loadScreen("/Login.fxml",e);
+    }
 
 }

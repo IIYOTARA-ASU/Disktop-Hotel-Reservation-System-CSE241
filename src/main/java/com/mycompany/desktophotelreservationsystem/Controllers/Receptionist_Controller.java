@@ -14,19 +14,32 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
+
 
 public class Receptionist_Controller {
 
     private Admin admin;
     private Receptionist receptionist;
-    private ArrayList<Room> rooms =new ArrayList<>();
+    private ArrayList <Room> rooms=new ArrayList<>();
+    private boolean [] roomstate=new boolean[25];
+    private Room r=new Room();
+
+    RoomType single = new RoomType("Single");
+    RoomType couple = new RoomType("Double"); // "double" is a reserved word in java
+    RoomType suite = new RoomType("Suite");
+
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private GuestController g = new GuestController();
 
+    @FXML
+    private VBox reservationListContainer;
     @FXML
     private Label room1;
     @FXML
@@ -91,6 +104,7 @@ public class Receptionist_Controller {
 
     boolean amenities = false;
 
+
     @FXML void loadScreen(String path, ActionEvent e) {
         try {
             root = FXMLLoader.load(getClass().getResource(path));
@@ -117,6 +131,7 @@ public class Receptionist_Controller {
     }
     @FXML
     public void view_roomtype(ActionEvent e){
+
         loadScreen("/ReceptionistViewroomtypes.fxml",e);
     }
     @FXML
@@ -131,7 +146,25 @@ public class Receptionist_Controller {
     }
     @FXML
     public void view_rooms(ActionEvent e){
+        for(int i=1;i<=25;i++)
+        {
 
+            if(i%2 != 0) {
+                Room room = new Room(i, single, 10);
+                rooms.add(room);
+            }
+            if(i%2==0 && i%5!=0)
+            {
+                Room room = new Room(i,couple, 15);
+                rooms.add(room);
+            }
+            if(i%5 == 0)
+            {
+                Room room = new Room(i,suite, 20);
+                rooms.add(room);
+            }
+
+        }
         loadScreen("/ReceptionistViewrooms.fxml",e);
 
     }
@@ -151,9 +184,9 @@ public class Receptionist_Controller {
     public void view_pending(){
 
     }
-    public void view_reservation()
+    public void view_reservation(ActionEvent e)
     {
-
+        loadScreen("/ReceptionistViewreservation.fxml",e);
     }
     @FXML
     public void displayRooms() {

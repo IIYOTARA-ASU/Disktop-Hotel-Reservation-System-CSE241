@@ -57,5 +57,6 @@
       <Button fx:id="buttonCancelReservation" layoutX="417.0" layoutY="513.0" mnemonicParsing="false" onAction="#switchToCancelReservations" styleClass="btn-round" stylesheets="@Style.css" text="cancel reservation" />
       <Button fx:id="buttonCheckout" layoutX="680.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="checkout" />
       <Button fx:id="buttonPayInvoice" layoutX="888.0" layoutY="513.0" mnemonicParsing="false" onAction="#switchToPayInvoice" styleClass="btn-round" stylesheets="@Style.css" text="pay invoice" />
+      <Button layoutX="6.0" layoutY="427.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" styleClass="btn-round" stylesheets="@Style.css" text="logout" />
    </children>
 </AnchorPane>
