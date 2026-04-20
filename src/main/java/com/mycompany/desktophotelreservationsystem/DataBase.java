@@ -18,7 +18,7 @@ public class DataBase {
     public static void demoFill() {
         /////////////////////////////////////////////////////////// PEOPLE
         Admin admin = new Admin("Ahmed", "67");
-        Guest guest = new Guest("Baraa", "67");
+        Guest guest = new Guest("Hadi", "67");
         Receptionist receptionist = new Receptionist("Youssef", "67");
         people.add(admin);
         people.add(guest);

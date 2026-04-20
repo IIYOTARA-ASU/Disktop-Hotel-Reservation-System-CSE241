@@ -202,9 +202,9 @@ public class User implements users {
 		switch (inputType) {
 			case 1:
 				if (!GUI) {
-					int balance = Validation.getIntInRange(scanner, ">> Enter Account Balance : ", 0, 1000000000);
+					double balance = Validation.getDouble(scanner, ">> Enter Account Balance : ");
 					user = new Guest(inputUser, inputPass);
-					((Guest) user).setBalance((double) balance);
+					((Guest) user).setBalance(balance);
 					break;
 				}
 
