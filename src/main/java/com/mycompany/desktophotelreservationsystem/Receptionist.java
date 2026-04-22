@@ -1,13 +1,212 @@
 package com.mycompany.desktophotelreservationsystem;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+
+import org.checkerframework.checker.units.qual.s;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Receptionist extends Staff implements users{
 
 	Receptionist() {}
 	public Receptionist(String username, String password) { super(username, password); }
+
+
+    private DatabaseReference chatRef;
+    private ChildEventListener activeListener; 
+
+    public void sendMessageToFirebase(String text, DatabaseReference chatReference) {
+        Map<String, Object> messageData = new HashMap<>();
+        messageData.put("sender", this.getUserName());
+        messageData.put("text", text);
+        messageData.put("timestamp", System.currentTimeMillis());
+
+        // push() creates a unique ID so messages are sorted chronologically
+        chatReference.push().setValueAsync(messageData);
+    }
+
+	private void startChat(User user) {
+		System.out.println();
+		Validation.centerText("LIVE CHAT WITH A GUEST", 65, true);
+		Scanner scanner = new Scanner(System.in);
+		
+		
+		CountDownLatch latch = new CountDownLatch(1);
+		DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference("chats");
+		ArrayList<String> foundGuestChats = new ArrayList<>();
+
+		chatReference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				String format = "%-5s %-25s %33s%n";
+				System.out.println();
+				System.out.printf(format, "ID", "GUEST", "UNREPLIED MESSAGES");
+				System.out.println("─────────────────────────────────────────────────────────────────");
+
+				for (DataSnapshot guestSnapshot : snapshot.getChildren()) {
+					String name = guestSnapshot.getKey();
+					String hasUnread = "NO";
+					foundGuestChats.add(name);
+					
+					// 1. Target the messages node for this specific guest
+					DataSnapshot messagesNode = guestSnapshot.child("messages");
+					DataSnapshot latestMsgSnapshot = null;
+
+					// 2. Iterate to find the last child (Firebase children are chronological)
+					for (DataSnapshot msgSnapshot : messagesNode.getChildren()) {
+						latestMsgSnapshot = msgSnapshot; 
+					}
+
+					if (latestMsgSnapshot != null) {
+						String sender = latestMsgSnapshot.child("sender").getValue(String.class);
+						if (sender != null && sender.equals(name)) {
+							hasUnread = "YES";
+						}
+					}
+
+					System.out.printf(format, foundGuestChats.indexOf(name) + 1, name, hasUnread);
+				}
+				System.out.println("─────────────────────────────────────────────────────────────────");
+				latch.countDown();
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {
+				System.out.println("Error fetching guest list: " + error.getMessage());
+				latch.countDown();
+			}
+		});
+
+		try { latch.await(); } 
+		catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+
+		if (foundGuestChats.size() == 0) {
+			System.out.println("   [Info] No guest chats found.");
+			return;
+		}
+		
+
+		int selectedGuestId = Validation.getOption(scanner, foundGuestChats.size(), ">> Select Guest ID: ");
+
+		String selectedGuestName = foundGuestChats.get(selectedGuestId - 1);
+
+
+
+
+		
+
+		System.out.print("\n\n");
+		Validation.centerText("LIVE CHAT WITH " + selectedGuestName.toUpperCase(), 65, true);
+        System.out.println("Type your message and press Enter. Type '/back' to exit.");
+        
+        DatabaseReference selectedGuestChatRef = FirebaseDatabase.getInstance()
+			.getReference("chats")
+			.child(selectedGuestName)
+			.child("messages");
+
+        CountDownLatch latch2 = new CountDownLatch(1);
+		
+        selectedGuestChatRef.limitToLast(25).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String sender = child.child("sender").getValue(String.class);
+                    String text = child.child("text").getValue(String.class);
+                    
+                    // Identify if the message was from YOU or the RECEPTIONIST
+                    String label = "";
+					if (sender != null) {
+						if (sender.equals(user.getUserName())) { label = "YOU"; } 
+						else if (sender.equals(selectedGuestName)) { label = selectedGuestName.toUpperCase(); }
+						else { label = "RECEPTIONIST"; }// When the message is sent by another receptionist 
+					}
+                    System.out.println("[" + label + "]: " + text);
+                }
+                latch2.countDown(); // Signal that printing is finished
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Could not load history: " + error.getMessage());
+                latch2.countDown();
+            }
+        });
+
+        try {
+            latch2.await(); // Blocks the main thread until history is loaded
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // 2. Setup real-time listener for NEW messages only
+        // Note: We use the current time to avoid double-printing the history we just loaded
+        long openTime = System.currentTimeMillis();
+        
+        if (activeListener == null) {
+			activeListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
+                    Long ts = snapshot.child("timestamp").getValue(Long.class);
+                    String sender = snapshot.child("sender").getValue(String.class);
+                    String text = snapshot.child("text").getValue(String.class);
+                    
+                    // Only print if the message is NEW and NOT from this Receptionist 
+					String label = "";
+					if ( (ts != null && ts > openTime)  &&  (sender != null && !sender.equals(user.getUserName())) ) {
+						if (sender.equals(selectedGuestName)) { label = selectedGuestName.toUpperCase(); }
+						else { label = "RECEPTIONIST"; } // When the message is sent by another receptionist 
+						System.out.println("\n[" + label + "]: " + text);	
+					}
+
+                }
+                @Override public void onChildChanged(DataSnapshot s, String p) {}
+                @Override public void onChildRemoved(DataSnapshot s) {}
+                @Override public void onChildMoved(DataSnapshot s, String p) {}
+                @Override public void onCancelled(DatabaseError e) {}
+            };
+            selectedGuestChatRef.addChildEventListener(activeListener);
+        }
+
+		Scanner chatScanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("[YOU]: ");
+            String input = chatScanner.nextLine();
+            
+            if (input.equalsIgnoreCase("/back")) {
+				// DETACH THE LISTENERS BEFORE LEAVING
+				if (activeListener != null && chatReference != null && selectedGuestChatRef != null) {
+					chatReference.removeEventListener(activeListener);
+					selectedGuestChatRef.removeEventListener(activeListener);
+				}
+				// RESET REFERENCES SO THE NEXT GUEST RE-INITIALIZES THEM
+				activeListener = null;
+				chatReference = null; 
+				selectedGuestChatRef = null;
+				System.out.println("");
+				break;
+			}
+
+            if (!input.trim().isEmpty()) {
+                sendMessageToFirebase(input, selectedGuestChatRef);
+            }
+        }
+	}
+
+
+
+
+
 
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Core actions
@@ -56,15 +255,22 @@ public class Receptionist extends Staff implements users{
 	// ─────────────────────────────────────────────────────────────────────────
 	public void receptionistInterface() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
-		System.out.println("║                       RECEPTIONIST MENU                       ║");
-		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
-		System.out.println();
-		System.out.println("Working Hours : " + this.getWorkingHours() + " hrs");
+		String hoursText = this.getWorkingHours() + " hrs";
+		String hoursBanner = String.format("║  %-31s %27s  ║", "RECEPTIONIST MENU", hoursText);
 
-		int inputOption = Validation.getOption(scanner, 5,
-			"[1] Check In  [2] Check Out  [3] View Pending  [4] Accept Pending  [5]Exit \n" +
-			">> Select an option: ");
+		System.out.println(
+			"╔═══════════════════════════════════════════════════════════════╗\n" +
+			hoursBanner + "\n" +
+			"╠═══════════════════════════════════════════════════════════════╣\n" +
+			"║ [1] Check In            [2] Check Out                         ║\n" +
+			"║ [3] View Pending        [4] Accept Pending                    ║\n" +
+			"║ [5] Chat                [6] Exit                              ║\n" +
+			"╚═══════════════════════════════════════════════════════════════╝"
+		);
+
+		String prompt = ">> Select an option: ";
+		int inputOption = Validation.getOption(scanner, 6, prompt);
+
 		System.out.println();
 
 		switch (inputOption) {
@@ -115,7 +321,10 @@ public class Receptionist extends Staff implements users{
 			case 4: // ── Accept Pending ───────────────────────────────────────
 				acceptPending(scanner);
 				break;
-			case 5:
+			case 5: // ── Chat ─────────────────────────────────────────────────
+				startChat(this);
+				break;
+			case 6: // ── Exit ─────────────────────────────────────────────────
 				logOut(this); break;
 		}
 	}

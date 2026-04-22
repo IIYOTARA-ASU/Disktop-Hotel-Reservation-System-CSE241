@@ -1,24 +1,21 @@
 package com.mycompany.desktophotelreservationsystem;
+import java.io.FileInputStream;
 import java.util.Scanner;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 
 public class Main {
 		
 	static boolean appRunning = true;
-	private static final String BANNER =
-		"╔═══════════════════════════════════════════════════════════════╗\n" +
-		"║                  WELCOME TO THE PALISADE HOTEL                ║\n" +
-		"╚═══════════════════════════════════════════════════════════════╝";
-
-	private static final String SEPARATOR =
-		"─────────────────────────────────────────────────────────────────";
 
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Role menus
 	// ─────────────────────────────────────────────────────────────────────────
 	public static void guestMenu(User user) {
 		Validation.clearScreen();
-		System.out.println(SEPARATOR);
-		Validation.centerText("WELCOME, GUEST " + user.getUserName().toUpperCase() + "!", 65);
+		Validation.centerText("WELCOME, GUEST " + user.getUserName().toUpperCase() + "!", 65, false);
 		
 		Guest guest = (Guest) user;
 		Scanner scanner = new Scanner(System.in);
@@ -35,8 +32,7 @@ public class Main {
 
 	public static void adminMenu(User user) {
 		Validation.clearScreen();
-		System.out.println(SEPARATOR);
-		Validation.centerText("WELCOME, ADMIN " + user.getUserName().toUpperCase() + "!", 65);
+		Validation.centerText("WELCOME, ADMIN " + user.getUserName().toUpperCase() + "!", 65, false);
 
 		Admin admin = (Admin) user;
 		Scanner scanner = new Scanner(System.in);
@@ -53,8 +49,7 @@ public class Main {
 
 	public static void receptionistMenu(User user) {
 		Validation.clearScreen();
-		System.out.println(SEPARATOR);
-		Validation.centerText("WELCOME, RECEPTIONIST " + user.getUserName().toUpperCase() + "!", 65);
+		Validation.centerText("WELCOME, RECEPTIONIST " + user.getUserName().toUpperCase() + "!", 65, false);
 
 		Receptionist receptionist = (Receptionist) user;
 		Scanner scanner = new Scanner(System.in);
@@ -77,12 +72,15 @@ public class Main {
 		User user = new User();
 		
 		Validation.clearScreen();
-		System.out.println(BANNER);
-		System.out.println();
-		
-		String prompt =
-			"[1] Login   [2] Register   [3] Exit\n" +
-			">> Select an option: ";
+		System.out.println(
+			"╔═══════════════════════════════════════════════════════════════╗\n" +
+			"║                  WELCOME TO THE PALISADE HOTEL                ║\n" +
+			"╠═══════════════════════════════════════════════════════════════╣\n" +
+			"║ [1] Log In              [2] Register             [3] Exit     ║\n" +
+			"╚═══════════════════════════════════════════════════════════════╝"
+		);
+
+		String prompt = ">> Select an option: ";
 		int inputOption = Validation.getOption(scanner, 3, prompt);
 		String inputName;
 		String inputPass;
@@ -107,6 +105,29 @@ public class Main {
 	public static void main(String args[]) {
 		User user = null;
 		DataBase.demoFill();
+
+		try {
+            // 1. Point to your JSON key file
+            FileInputStream serviceAccount = new FileInputStream("serviceAccountKey.json");
+
+            // 2. Configure options with your specific Database URL
+            FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://hotelreservationoop-default-rtdb.firebaseio.com/")
+                .build();
+
+            // 3. Initialize the app (The Handshake)
+            if (FirebaseApp.getApps().isEmpty()) { 
+                FirebaseApp.initializeApp(options);
+            }
+            
+            System.out.println("[Firebase] Initialized Successfully!");
+
+        } catch (Exception e) {
+            System.err.println("Error initializing Firebase: " + e.getMessage());
+            e.printStackTrace();
+        }
+
 
 		while (true) {
 			do {

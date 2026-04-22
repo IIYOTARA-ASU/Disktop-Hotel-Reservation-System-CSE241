@@ -304,12 +304,12 @@ public class LoginPage extends Pane{
             screenUtil.makeText("WELCOME","Verdana",48,FontWeight.BOLD,screenUtil.darkSlateGray,x*10.3,x*2),
             screenUtil.makeText("Username","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,username.getLayoutX(),username.getLayoutY()-x*0.1),
             screenUtil.makeText("Password","Verdana",16,FontWeight.MEDIUM,screenUtil.darkSlateGray,password.getLayoutX(),password.getLayoutY()-x*0.1),
-    		username,
-    		password,
-    		loginButton,
-    		registerHyperlink
-    		);
-
+			username,
+			password,
+			loginButton,
+			registerHyperlink
+			);
+					
     ////////// ORIGINAL LOGIN SCREEN END
 	}
 }

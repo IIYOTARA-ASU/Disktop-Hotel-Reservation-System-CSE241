@@ -1,11 +1,25 @@
 package com.mycompany.desktophotelreservationsystem;
+// Firebase Core Imports
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 
+// Realtime Database Specifics
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ChildEventListener;
+
+// Java Standard IO and Utilities
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 public class Guest extends User implements users {
 	public static Guest currentLoggedInGuest;
 
-	/// /////////////////////////////////GUI methods to access reservation class
+	/// ///////////////////////////////// GUI methods to access reservation class
 	public void populateReservationContainer(javafx.scene.layout.VBox container) {
 		container.getChildren().clear();
 
@@ -147,22 +161,143 @@ public class Guest extends User implements users {
 		System.out.println("   [OK] Payment processed (Online).");
 	}
 
+
+	// ─────────────────────────────────────────────────────────────────────────
+    //  Firebase Chat Logic
+    // ─────────────────────────────────────────────────────────────────────────
+
+    private DatabaseReference chatRef;
+    private ChildEventListener activeListener; 
+
+    private void initChatRef() {
+        // Points to chats/[username]/messages. 
+        // Instance-based to prevent cross-user data leakage.
+        if (chatRef == null) {
+            chatRef = FirebaseDatabase.getInstance()
+                    .getReference("chats")
+                    .child(this.getUserName())
+                    .child("messages");
+        }
+    }
+
+    public void sendMessageToFirebase(String text) {
+        initChatRef();
+        
+        Map<String, Object> messageData = new HashMap<>();
+        messageData.put("sender", this.getUserName());
+        messageData.put("text", text);
+        messageData.put("timestamp", System.currentTimeMillis());
+
+        // push() creates a unique ID so messages are sorted chronologically
+        chatRef.push().setValueAsync(messageData);
+    }
+
+	private void startChat(User user) {
+		System.out.println();
+		Validation.centerText("LIVE CHAT WITH RECEPTIONISTS", 65, true);
+        System.out.println("Type your message and press Enter. Type '/back' to exit.");
+        
+        initChatRef();
+        
+        // We use a CountDownLatch to force the console to wait until history is printed
+        CountDownLatch latch = new CountDownLatch(1);
+        chatRef.limitToLast(25).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String sender = child.child("sender").getValue(String.class);
+                    String text = child.child("text").getValue(String.class);
+                    
+                    // Identify if the message was from YOU or the RECEPTIONIST
+                    String label = (sender != null && sender.equals(user.getUserName())) ? "YOU" : "RECEPTIONIST";
+                    System.out.println("[" + label + "]: " + text);
+                }
+                latch.countDown(); // Signal that printing is finished
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Could not load history: " + error.getMessage());
+                latch.countDown();
+            }
+        });
+
+        try {
+            latch.await(); // Blocks the main thread until history is loaded
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // 2. Setup real-time listener for NEW messages only
+        // Note: We use the current time to avoid double-printing the history we just loaded
+        long openTime = System.currentTimeMillis();
+        
+        if (activeListener == null) {
+            activeListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
+                    Long ts = snapshot.child("timestamp").getValue(Long.class);
+                    String sender = snapshot.child("sender").getValue(String.class);
+                    String text = snapshot.child("text").getValue(String.class);
+                    
+                    // Only print if the message is NEW and NOT from the guest themselves
+                    if (ts != null && ts > openTime) {
+                        if (sender != null && !sender.equals(user.getUserName())) {
+                            System.out.println("\n[RECEPTIONIST]: " + text);
+                        }
+                    }
+                }
+                @Override public void onChildChanged(DataSnapshot s, String p) {}
+                @Override public void onChildRemoved(DataSnapshot s) {}
+                @Override public void onChildMoved(DataSnapshot s, String p) {}
+                @Override public void onCancelled(DatabaseError e) {}
+            };
+            chatRef.addChildEventListener(activeListener);
+        }
+
+		Scanner chatScanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("[YOU]: ");
+            String input = chatScanner.nextLine();
+            
+            if (input.equalsIgnoreCase("/back")) {
+				// DETACH THE LISTENER BEFORE LEAVING
+				if (activeListener != null && chatRef != null) {
+					chatRef.removeEventListener(activeListener);
+				}
+				// RESET REFERENCES SO THE NEXT GUEST RE-INITIALIZES THEM
+				activeListener = null;
+				chatRef = null; 
+				System.out.println("");
+				break;
+			}
+
+            if (!input.trim().isEmpty()) {
+                sendMessageToFirebase(input);
+            }
+        }
+    }
+
+	
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Interface
 	// ─────────────────────────────────────────────────────────────────────────
 	public void guestInterface() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("╔═══════════════════════════════════════════════════════════════╗");
-		System.out.println("║                           GUEST MENU                          ║");
-		System.out.println("╚═══════════════════════════════════════════════════════════════╝");
-		System.out.println();
-		System.out.println("Current Balance : $" + balance);
+		String balanceBanner = String.format( "║  %-31s %27s  ║", "USER MENU", balance + "$" );
+		System.out.println(
+			"╔═══════════════════════════════════════════════════════════════╗\n" +
+										balanceBanner						+"\n" +
+			"╠═══════════════════════════════════════════════════════════════╣\n" +
+			"║ [1] Available Rooms     [2] Make Reservation                  ║\n" +
+			"║ [3] View Reservations   [4] Cancel Reservation                ║\n" +
+			"║ [5] Checkout            [6] Pay Invoice                       ║\n" +
+			"║ [7] Chat                [8] Log Out                           ║\n" +
+			"╚═══════════════════════════════════════════════════════════════╝"
+		);
 
-		String prompt =
-			"[1] Available Rooms     [2] Make Reservation  [3] View Reservations\n" +
-			"[4] Cancel Reservation  [5] Checkout    [6] Pay Invoice    [7] Exit\n" +
-			">> Select an option: ";
-		int inputOption = Validation.getOption(scanner, 7, prompt);
+		String prompt = ">> Select an option: ";
+		int inputOption = Validation.getOption(scanner, 8, prompt);
 		System.out.println();
 
 		switch (inputOption) {
@@ -246,7 +381,9 @@ public class Guest extends User implements users {
 				if (!completedFound) { System.out.println("   [Info] You have no completed reservations to pay."); }
 				break;
 			case 7:
-
+				startChat(this); 
+				break;
+			case 8:
 				logOut(this); break;
 		}
 	}

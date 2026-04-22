@@ -91,11 +91,34 @@ public class Validation {
 		}
 	}
 
-	public static void centerText(String text, int width) {
-		if (text.length() >= width) { System.out.println(text); return; }
-		int padding = width - text.length();
-		int left    = padding / 2;
-		System.out.println(" ".repeat(left) + text);
+	public static void centerText(String text, int width, boolean decorate) {
+		if (!decorate) {
+			if (text.length() >= width) {
+				System.out.println(text);
+				return;
+			}
+
+			int padding = width - text.length();
+			int left = padding / 2;
+
+			System.out.println(" ".repeat(left) + text);
+			return;
+		}
+
+		// Decorated version
+		String content = " " + text + " ";
+		int remaining = width - content.length();
+
+		if (remaining <= 0) {
+			System.out.println(text);
+			return;
+		}
+
+		int left = remaining / 2;
+		int right = remaining - left;
+
+		String line = "═".repeat(left) + content + "═".repeat(right);
+		System.out.println(line);
 	}
 
 	public static void clearScreen() {
