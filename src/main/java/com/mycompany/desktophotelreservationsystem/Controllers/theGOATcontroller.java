@@ -1,4 +1,4 @@
-package com.mycompany.desktophotelreservationsystem.Controllers;
+package com.mycompany.desktophotelreservationsystem.Controllers; 
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,490 +27,589 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class theGOATcontroller {
-
+	
 	User user = new User();
 	User currentUser;
+    
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
+    @FXML
+    private Text staffCodeText; 
+    @FXML
+    private Label dynamicText; 
+    @FXML
+    private Label usernameErrorMessage; 
+    @FXML
+    private Label passwordErrorMessage; 
+    @FXML
+    private Label staffCodeErrorMessage; 
+    @FXML
+    private Label accountTypeErrorMessage; 
+    @FXML
+    private Label amenityNameError;
+    @FXML
+    private Label amenityPriceError;
+    @FXML
+    private Label amenityAddSuccess;
+    @FXML
+    private Label roomTypeDeleteMessage;
+    @FXML
+    private Label amenityDeleteMessage;
+    @FXML
+    private Label roomDeleteMessage;
+    @FXML
+    private Label updateIDError;
+    @FXML
+    private Label updateSuccessMessage;
+    @FXML
+    private Label updatePriceError;
+    @FXML
+    private Label updateNameError;
+    @FXML
+    private Label roomTypeNameMessage;
+    @FXML
+    private Label roomNumberError;
+    @FXML
+    private Label roomPriceError;
+    @FXML
+    private Label roomAmenityError;
+    @FXML
+    private Label roomTypeError;
+    @FXML
+    private Label roomAddSuccess;
+    @FXML
+    private Label roomChangeMessage;
+    @FXML
+    private TextField amenityName;
+    @FXML
+    private TextField roomTypeName;
+    @FXML
+    private TextField amenityPrice;
+    @FXML
+    private TextField deleteID;
+    @FXML
+    private TextField updateID;
+    @FXML
+    private TextField updatePrice;
+    @FXML
+    private TextField updateName;
+    @FXML
+    private TextField roomNumber;
+    @FXML
+    private TextField roomPrice;
+    @FXML
+    private TextField username;
+    @FXML
+    private TextField password;
+    @FXML
+    private TextField staffCode;
+    @FXML
+    private FlowPane amenityContainer;
+    @FXML
+    private FlowPane roomTypeContainer;
+    @FXML
+    private FlowPane roomContainer;
+    @FXML
+    private VBox roomTypesAddList;
+    @FXML
+    private VBox amenitiesAddList;
+    @FXML
+    private ToggleGroup roomTypeRadios = new ToggleGroup();
+    @FXML
+    private ToggleGroup accountType;
+    @FXML
+    private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
+    
+    boolean amenities = false;
+    public theGOATcontroller() {}
 
-	@FXML
-	private Label dynamicText;
-	@FXML
-	private Label usernameErrorMessage;
-	@FXML
-	private Label passwordErrorMessage;
-	@FXML
-	private Label amenityNameError;
-	@FXML
-	private Label amenityPriceError;
-	@FXML
-	private Label amenityAddSuccess;
-	@FXML
-	private Label roomTypeDeleteMessage;
-	@FXML
-	private Label amenityDeleteMessage;
-	@FXML
-	private Label roomDeleteMessage;
-	@FXML
-	private Label updateIDError;
-	@FXML
-	private Label updateSuccessMessage;
-	@FXML
-	private Label updatePriceError;
-	@FXML
-	private Label updateNameError;
-	@FXML
-	private Label roomTypeNameMessage;
-	@FXML
-	private Label roomNumberError;
-	@FXML
-	private Label roomPriceError;
-	@FXML
-	private Label roomAmenityError;
-	@FXML
-	private Label roomTypeError;
-	@FXML
-	private Label roomAddSuccess;
-	@FXML
-	private Label roomChangeMessage;
-	@FXML
-	private TextField amenityName;
-	@FXML
-	private TextField roomTypeName;
-	@FXML
-	private TextField amenityPrice;
-	@FXML
-	private TextField deleteID;
-	@FXML
-	private TextField updateID;
-	@FXML
-	private TextField updatePrice;
-	@FXML
-	private TextField updateName;
-	@FXML
-	private TextField roomNumber;
-	@FXML
-	private TextField roomPrice;
-	@FXML
-	private TextField username;
-	@FXML
-	private TextField password;
-	@FXML
-	private FlowPane amenityContainer;
-	@FXML
-	private FlowPane roomTypeContainer;
-	@FXML
-	private FlowPane roomContainer;
-	@FXML
-	private VBox roomTypesAddList;
-	@FXML
-	private VBox amenitiesAddList;
-	@FXML
-	private ToggleGroup roomTypeRadios = new ToggleGroup();
-	@FXML
-	private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
+    
+    String s = "Baller";
 
-	boolean amenities = false;
-
-	public theGOATcontroller() {
-	}
-
-	String s = "Baller";
-
-	@FXML
-	public void chooseAmenities() {
-		amenitiesAddList.getChildren().clear();
-		amenityCheckBoxes.clear();
-		for (Amenity a : DataBase.amenities) {
-			CheckBox cb = new CheckBox(a.getName() + " ($" + a.getPrice() + ")");
-			cb.setUserData(a);
-			cb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
-			amenityCheckBoxes.add(cb);
-			amenitiesAddList.getChildren().add(cb);
-		}
-	}
-
-	@FXML
-	public void chooseRoomTypes() {
-		roomTypesAddList.getChildren().clear();
-		for (RoomType r : DataBase.roomTypes) {
-			RadioButton rb = new RadioButton(r.getRoomType());
-			rb.getStyleClass().add("roomTypesRadio");
-			rb.setToggleGroup(roomTypeRadios);
-			rb.setUserData(r);
-			rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
-			roomTypesAddList.getChildren().add(rb);
-		}
-	}
-
-	@FXML
-	public void displayAmenities() {
-		int amenityID = 0;
-		amenityContainer.getChildren().clear();
-
-		amenityContainer.setHgap(20);
-		amenityContainer.setVgap(20);
-		amenityContainer.setPadding(new Insets(20));
-
-		for (Amenity a : DataBase.amenities) {
-			String amenityInfo = "ID : " + amenityID + "\nName : " + a.getName() + "\nPrice : $" + a.getPrice();
-
-			Label amenityLabel = new Label(amenityInfo);
-
-			amenityLabel.setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
-					"-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
-					"-fx-text-alignment: center; -fx-min-width: 120;");
-			amenityContainer.getChildren().add(amenityLabel);
-
-			amenityID++;
-		}
-	}
-
-	@FXML
-	public void displayRooms() {
-		roomContainer.getChildren().clear();
-
-		roomContainer.setHgap(20);
-		roomContainer.setVgap(20);
-		roomContainer.setPadding(new Insets(20));
-
-		for (Room r : DataBase.rooms) {
-			String roomInfo = "Room Number : " + r.getRoomNumber() + "\n Room Type : " + r.getRoomType().getRoomType()
-					+ "\n Room Amenities : ";
+    @FXML
+    public void chooseAmenities() {
+    	amenitiesAddList.getChildren().clear();
+    	amenityCheckBoxes.clear();
+    	for(Amenity a : DataBase.amenities) {
+    	CheckBox cb = new CheckBox(a.getName() + " ($" + a.getPrice() + ")");
+    	cb.setUserData(a);
+    	cb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+    	amenityCheckBoxes.add(cb);
+    	amenitiesAddList.getChildren().add(cb);
+    	}
+    }
+    @FXML
+    public void chooseRoomTypes() {
+    	roomTypesAddList.getChildren().clear();
+    	for(RoomType r : DataBase.roomTypes) {
+    	RadioButton rb = new RadioButton(r.getRoomType());
+    	rb.getStyleClass().add("roomTypesRadio");
+    	rb.setToggleGroup(roomTypeRadios);
+    	rb.setUserData(r);
+    	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+    	roomTypesAddList.getChildren().add(rb);
+    	}
+    }
+    @FXML
+    public void displayAmenities() {
+    	int amenityID = 0;
+    	amenityContainer.getChildren().clear();
+    	
+    	amenityContainer.setHgap(20); 
+        amenityContainer.setVgap(20);
+        amenityContainer.setPadding(new Insets(20));
+        
+    	for(Amenity a : DataBase.amenities) {
+    		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $"+a.getPrice();
+    	
+    		Label amenityLabel = new Label(amenityInfo);
+    		
+    		amenityLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
+    		amenityContainer.getChildren().add(amenityLabel);
+    		
+    		amenityID++;
+    	}
+    }
+    
+    @FXML
+    public void displayRooms() {
+    	roomContainer.getChildren().clear();
+    	
+    	roomContainer.setHgap(20); 
+        roomContainer.setVgap(20);
+        roomContainer.setPadding(new Insets(20));
+        
+    	for(Room r : DataBase.rooms) {
+    		String roomInfo = "Room Number : " + r.getRoomNumber() +"\n Room Type : " +r.getRoomType().getRoomType() + "\n Room Amenities : ";
 			for (int j = 0; j < r.getAmenities().size(); j++) {
 				roomInfo += r.getAmenities().get(j).getName();
-				if (r.getAmenities().size() - j != 1) {
-					roomInfo += ", ";
-				}
+				if (r.getAmenities().size() - j != 1) { roomInfo += ", "; }
 			}
-			roomInfo += "\n Price : $" + r.getPrice();
+			roomInfo+="\n Price : $"+ r.getPrice();
+    	
+    		Label roomLabel = new Label(roomInfo);
+    		
+    		roomLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
+    		roomContainer.getChildren().add(roomLabel);
+    		
+    	}
+    }
+    @FXML
+    public void displayRoomTypes() {
+    	int roomTypeID = 0;
+    	roomTypeContainer.getChildren().clear();
+    	
+    	roomTypeContainer.setHgap(20); 
+        roomTypeContainer.setVgap(20);
+        roomTypeContainer.setPadding(new Insets(20));
+        
+    	for(RoomType r : DataBase.roomTypes) {
+    		String roomTypeInfo = "ID : "+ roomTypeID + "\nName : "+r.getRoomType();
+    	
+    		Label roomTypeLabel = new Label(roomTypeInfo);
+    		
+    		roomTypeLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
+    		
+    		roomTypeContainer.getChildren().add(roomTypeLabel);
+    		
+    		roomTypeID++;
+    	}
+    }
+    @FXML
+    public void initialize() {
+    	if (dynamicText != null) {
+            dynamicText.setText("Welcome, " + DataBase.currentUser.getUserName());
+        } else {
+            System.out.println("No dynamicText label found on this screen. Skipping text update.");
+        }
+    	if(amenityContainer != null) {
+    	displayAmenities();
+    	}
+    	if(roomTypeContainer != null) {
+    	displayRoomTypes();
+    	}
+    	if(roomContainer != null) {
+    	displayRooms();
+    	}
+    	if(amenitiesAddList != null) {
+    	chooseAmenities();
+    	}
+    	if (roomTypesAddList != null) {
+    	chooseRoomTypes();
+    	}
+    }
 
-			Label roomLabel = new Label(roomInfo);
-
-			roomLabel.setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
-					"-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
-					"-fx-text-alignment: center; -fx-min-width: 120;");
-			roomContainer.getChildren().add(roomLabel);
-
-		}
-	}
-
-	@FXML
-	public void displayRoomTypes() {
-		int roomTypeID = 0;
-		roomTypeContainer.getChildren().clear();
-
-		roomTypeContainer.setHgap(20);
-		roomTypeContainer.setVgap(20);
-		roomTypeContainer.setPadding(new Insets(20));
-
-		for (RoomType r : DataBase.roomTypes) {
-			String roomTypeInfo = "ID : " + roomTypeID + "\nName : " + r.getRoomType();
-
-			Label roomTypeLabel = new Label(roomTypeInfo);
-
-			roomTypeLabel.setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
-					"-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
-					"-fx-text-alignment: center; -fx-min-width: 120;");
-
-			roomTypeContainer.getChildren().add(roomTypeLabel);
-
-			roomTypeID++;
-		}
-	}
-
-	@FXML
-	public void initialize() {
-		if (dynamicText != null) {
-			dynamicText.setText("Welcome, " + DataBase.currentUser.getUserName());
-		} else {
-			System.out.println("No dynamicText label found on this screen. Skipping text update.");
-		}
-		if (amenityContainer != null) {
-			displayAmenities();
-		}
-		if (roomTypeContainer != null) {
-			displayRoomTypes();
-		}
-		if (roomContainer != null) {
-			displayRooms();
-		}
-		if (amenitiesAddList != null) {
-			chooseAmenities();
-		}
-		if (roomTypesAddList != null) {
-			chooseRoomTypes();
-		}
-	}
-
-	@FXML
-	void loadScreen(String path, ActionEvent e) {
-		try {
+    @FXML void loadScreen(String path, ActionEvent e) {
+  	  try {
 			root = FXMLLoader.load(getClass().getResource(path));
-		} catch (IOException e1) {
+		  } catch (IOException e1) {
 			// TODO Auto-generated catch block
-			System.out.println("Ballersssss");
+			  System.out.println("Ballersssss");
 			e1.printStackTrace();
-		}
-		stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	@FXML
-	public void toAmenities(ActionEvent e) {
-		loadScreen("/adminAmenities.fxml", e);
-	}
-
-	@FXML
-	public void toAdmin(ActionEvent e) {
-		loadScreen("/theGoat.fxml", e);
-	}
-
-	@FXML
-	public void toRooms(ActionEvent e) {
-		loadScreen("/adminRooms.fxml", e);
-	}
-
-	@FXML
-	public void toViewRooms(ActionEvent e) {
-		loadScreen("/adminRoomsView.fxml", e);
-	}
-
-	@FXML
-	public void toDeleteRooms(ActionEvent e) {
-		loadScreen("/adminRoomsDelete.fxml", e);
-	}
-
-	@FXML
-	public void toAddRooms(ActionEvent e) {
-		loadScreen("/adminRoomsAdd.fxml", e);
-	}
-
-	@FXML
-	public void toUpdateRooms(ActionEvent e) {
-		loadScreen("/adminRoomsUpdate.fxml", e);
-	}
-
-	@FXML
-	public void toRoomTypes(ActionEvent e) {
-		loadScreen("/adminRoomTypes.fxml", e);
-	}
-
-	@FXML
-	public void toAddAmenities(ActionEvent e) {
-		loadScreen("/adminAmenitiesAdd.fxml", e);
-	}
-
-	@FXML
-	public void toViewAmenities(ActionEvent e) {
-		loadScreen("/adminAmenitiesView.fxml", e);
-	}
-
-	@FXML
-	public void toDeleteAmenities(ActionEvent e) {
-		loadScreen("/adminAmenitiesDelete.fxml", e);
-	}
-
-	@FXML
-	public void toUpdateAmenities(ActionEvent e) {
-		loadScreen("/adminAmenitiesUpdate.fxml", e);
-		if (updateID != null && updateIDError != null) {
-			updateIDError.setText("");
-
-			updateID.setStyle("-fx-border-color : darkSlateGray");
-
-			updateID.setText("");
-		}
-
-	}
-
-	@FXML
-	public void toViewRoomTypes(ActionEvent e) {
-		loadScreen("/adminRoomTypesView.fxml", e);
-	}
-
-	@FXML
-	public void loginGui(ActionEvent e) {
+		  }
+  	  stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+  	  scene = new Scene(root);
+  	  stage.setScene(scene);
+  	  stage.show();    
+    }
+    
+    @FXML
+    public void toAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenities.fxml",e);
+    }
+	
+    @FXML
+    public void toAdmin(ActionEvent e) {
+    	loadScreen("/theGoat.fxml",e);
+    }
+    
+    @FXML
+    public void toRooms(ActionEvent e) {
+    	loadScreen("/adminRooms.fxml",e);
+    }
+    @FXML
+    public void toViewRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsView.fxml",e);
+    }
+    @FXML
+    public void toDeleteRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsDelete.fxml",e);
+    }
+    @FXML
+    public void toAddRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsAdd.fxml",e);
+    }
+    @FXML
+    public void toUpdateRooms(ActionEvent e) {
+    	loadScreen("/adminRoomsUpdate.fxml",e);
+    }
+    @FXML
+    public void toRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypes.fxml",e);
+    }
+    
+    @FXML
+    public void toAddAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesAdd.fxml",e);
+    }
+    @FXML
+    public void toViewAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesView.fxml",e);
+    }
+    @FXML
+    public void toDeleteAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesDelete.fxml",e);
+    }
+    @FXML
+    public void toUpdateAmenities(ActionEvent e) {
+    	loadScreen("/adminAmenitiesUpdate.fxml",e);
+    	if(updateID != null && updateIDError != null) {
+    	updateIDError.setText("");
+    	
+    	updateID.setStyle("-fx-border-color : darkSlateGray");
+    	
+    	updateID.setText("");
+    	}
+    	
+    }
+    @FXML
+    public void toViewRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesView.fxml",e);
+    }
+    @FXML 
+    public void clickRadioButton(ActionEvent e) {
+    	RadioButton selectedType = (RadioButton) accountType.getSelectedToggle();
+    	switch(selectedType.getText()) {
+    	case "g" :     	
+    	staffCode.setVisible(false); 
+    	staffCodeErrorMessage.setVisible(false);
+    	staffCodeText.setVisible(false);
+    	break;
+    	case "a" : 
+    	staffCode.setVisible(true); 
+    	staffCodeErrorMessage.setVisible(true);
+    	staffCodeText.setVisible(true);
+    	break;
+    	case "r" : 
+        	staffCode.setVisible(true); 
+        	staffCodeErrorMessage.setVisible(true);
+        	staffCodeText.setVisible(true);
+        	break;
+    	}
+    }
+    @FXML
+    public void loginGui(ActionEvent e) {
 		username.setStyle("-fx-border-color : darkSlateGray");
 		password.setStyle("-fx-border-color : darkSlateGray");
 		passwordErrorMessage.setText("");
 		usernameErrorMessage.setText("");
 
-		String loginPass = password.getText().trim();
-		String loginUser = username.getText().trim();
-
-		if (loginUser.equals("")) {
-			username.setStyle("-fx-border-color : red");
-			username.setText("");
-			usernameErrorMessage.setText("Username is empty");
-		}
-		if (loginPass.equals("")) {
-			password.setStyle("-fx-border-color : red");
-			password.setText("");
-			passwordErrorMessage.setText("Password is empty");
-		}
-		if (loginUser.equals("") || loginPass.equals("")) {
-			return;
-		}
-		boolean usernameFound = false;
-		int userIndex = -1;
+    	String loginPass = password.getText().trim();
+    	String loginUser = username.getText().trim();
+    	
+    	if(loginUser.equals("")) {
+    		username.setStyle("-fx-border-color : red");
+    		username.setText("");
+    		usernameErrorMessage.setText("Username is empty");
+    	}
+    	if(loginPass.equals("")) {
+    		password.setStyle("-fx-border-color : red");
+    		password.setText("");
+    		passwordErrorMessage.setText("Password is empty");
+    	}
+    	if(loginUser.equals("") || loginPass.equals("")) {
+    		return;
+    	}
+    	boolean usernameFound = false;
+    	int userIndex = -1;
 		for (int i = 0; i < DataBase.people.size(); i++) {
 			if (DataBase.people.get(i).userName.equals(loginUser)) {
 				usernameFound = true;
 				userIndex = i;
 			}
 		}
-		if (!usernameFound) {
-			username.setStyle("-fx-border-color : red");
-			username.setText("");
-			usernameErrorMessage.setText("Username not found.");
-			return;
-		}
-
-		boolean correctPassword = DataBase.people.get(userIndex).getPassword().equals(loginPass);
+		if (!usernameFound) { 
+    		username.setStyle("-fx-border-color : red");
+    		username.setText("");
+    		usernameErrorMessage.setText("Username not found.");
+		return; }
+    	
+		boolean correctPassword   = DataBase.people.get(userIndex).getPassword().equals(loginPass);
 		if (!correctPassword) {
-			password.setStyle("-fx-border-color : red");
-			password.setText("");
-			passwordErrorMessage.setText("Wrong Password");
-			return;
-		}
-		;
+		password.setStyle("-fx-border-color : red");
+		password.setText("");
+		passwordErrorMessage.setText("Wrong Password");
+		return;
+		};
+    	
+		
+    	DataBase.currentUser = user.login(loginUser, loginPass, true);
+	    	if(DataBase.currentUser instanceof Admin) {
+	    		toAdmin(e);
+	    	}
+	    	if(DataBase.currentUser instanceof Receptionist) {
+	    		//
+	    		toReceptionist(e);
+	    	}
 
-		DataBase.currentUser = user.login(loginUser, loginPass, true);
-		if (DataBase.currentUser instanceof Admin) {
-			toAdmin(e);
-		}
-		if (DataBase.currentUser instanceof Receptionist) {
-			//
-			System.out.println("Hi receptionist");
-			loadScreen("/Receptionists.fxml", e);
-		}
-		if (DataBase.currentUser instanceof Guest) {
+			if(DataBase.currentUser instanceof Guest) {
+				// Save the session inside the Guest class
+				Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
 
-			Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
-
-			loadScreen("/guestscenebuilder.fxml", e);
-		}
-	}
-
-	@FXML
-	public void toRegister(ActionEvent e) {
-	}
-
-	@FXML
-	public void toAddRoomTypes(ActionEvent e) {
-		loadScreen("/adminRoomTypesAdd.fxml", e);
-	}
-
-	@FXML
-	public void toDeleteRoomTypes(ActionEvent e) {
-		loadScreen("/adminRoomTypesDelete.fxml", e);
-	}
-
-	@FXML
-	public void toUpdateRoomTypes(ActionEvent e) {
-		loadScreen("/adminRoomTypesUpdate.fxml", e);
-		if (updateID != null && updateIDError != null) {
-			updateIDError.setText("");
-
-			updateID.setStyle("-fx-border-color : darkSlateGray");
-
-			updateID.setText("");
-		}
-	}
-
-	////////////////////////////////////// AMENITIES FUNCTIONS START
-	@FXML
-	public void addAmenity() {
-		amenityAddSuccess.setText("");
-		String name = amenityName.getText().trim();
-		String priceString = amenityPrice.getText().trim();
-		int price = -1;
-		if (name.equals("")) {
-			amenityName.setStyle("-fx-border-color : red;");
-			amenityNameError.setText("You must enter a name!");
-		} else {
-			amenityName.setStyle("-fx-border-color : darkSlateGray;");
-			amenityNameError.setText("");
+				// Redirect to the Guest Menu
+				loadScreen("/guestscenebuilder.fxml", e);
 		}
 
-		if (priceString.equals("")) {
-			amenityPrice.setStyle("-fx-border-color : red;");
-			amenityPriceError.setText("You must enter a price!");
-		} else {
-			try {
-				for (int i = 0; i < DataBase.amenities.size(); i++) {
-					if (DataBase.amenities.get(i).getName().equalsIgnoreCase(name)) {
-						amenityName.setStyle("-fx-border-color : red;");
-						amenityNameError.setText("This amenity already exists!");
-						amenityName.setText("");
-						return;
-					}
-				}
+    }
+    @FXML
+    public void Register(ActionEvent e) {
+		username.setStyle("-fx-border-color : darkSlateGray");
+		password.setStyle("-fx-border-color : darkSlateGray");
+		staffCode.setStyle("-fx-border-color : darkSlateGray");
+		passwordErrorMessage.setText("");
+		usernameErrorMessage.setText("");
+		usernameErrorMessage.setText("");
+		staffCodeErrorMessage.setText("");
 
-				if (Integer.parseInt(priceString) < 0) {
-					amenityPrice.setText("");
-					amenityPriceError.setText("You must enter a valid number!");
-					amenityPrice.setStyle("-fx-border-color : red;");
-					return;
-				}
-
-				price = Integer.parseInt(priceString);
-
-			} catch (Exception e) {
-				if (!priceString.equals("")) {
-					amenityPrice.setText("");
-					amenityPriceError.setText("You must enter a valid number!");
-					amenityPrice.setStyle("-fx-border-color : red;");
-				}
-				return;
-			}
-			amenityPrice.setStyle("-fx-border-color : darkSlateGray;");
-			amenityPriceError.setText("");
-			if (!name.equals("") && !priceString.equals("") && price >= 0) {
-				DataBase.amenities.add(new Amenity(name, price));
-				amenityAddSuccess.setText(name + " Added Successfully!");
-				amenityPrice.setText("");
-				amenityName.setText("");
+    	String registerPass = password.getText().trim();
+    	String registerUser = username.getText().trim();
+    	String registerStaffCode = staffCode.getText().trim();
+    	
+    	if(registerUser.equals("")) {
+    		username.setStyle("-fx-border-color : red");
+    		username.setText("");
+    		usernameErrorMessage.setText("Username is empty");
+    	}
+    	if(registerPass.equals("")) {
+    		password.setStyle("-fx-border-color : red");
+    		password.setText("");
+    		passwordErrorMessage.setText("Password is empty");
+    	}
+    	if(registerUser.equals("") || registerPass.equals("")) {
+    		return;
+    	}
+    	boolean usernameFound = false;
+		for (int i = 0; i < DataBase.people.size(); i++) {
+			if (DataBase.people.get(i).userName.equals(registerUser)) {
+				usernameFound = true;
 			}
 		}
-
-	}
-
-	@FXML
-	public void updateAmenity() {
-		String priceString = updatePrice.getText().trim();
-		String idString = updateID.getText().trim();
-		int price = -1;
-		int updateId = -1;
-		if (priceString.equals("")) {
-			updatePrice.setStyle("-fx-border-color : red;");
-			updatePriceError.setText("Price is Empty.");
+		if (usernameFound) { 
+    		username.setStyle("-fx-border-color : red");
+    		username.setText("");
+    		usernameErrorMessage.setText("Username already taken.");
+		return; 
 		}
-		if (idString.equals("")) {
-			updateID.setStyle("-fx-border-color : red");
-			updateIDError.setText("ID is Empty.");
+		if(staffCode.isVisible()) {
+			if(!registerStaffCode.equals(User.getAdminCode())) {
+	    		staffCode.setStyle("-fx-border-color : red");
+	    		staffCode.setText("");
+	    		staffCodeErrorMessage.setText("Wrong Staff Code.");
+	    		return;
+			}
 		}
+		
+		RadioButton selectedAccType = (RadioButton)accountType.getSelectedToggle();
+		String newAccType = selectedAccType.getText();
+		switch(newAccType) {
+		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(100); break;
+		case "a" : DataBase.currentUser = new Admin(registerUser, registerPass); break;
+		case "r" : DataBase.currentUser = new Receptionist(registerUser, registerPass); ((Receptionist)DataBase.currentUser).setWorkingHours(7); break;
+		}
+		DataBase.people.add(DataBase.currentUser);
+		
+		if(DataBase.currentUser instanceof Admin) {
+    		toAdmin(e);
+    	}
+    	if(DataBase.currentUser instanceof Receptionist) {
+    		//
+    		toReceptionist(e);
+    	}
+    	if(DataBase.currentUser instanceof Guest) {
+    		//
+    		toGuest(e);
+    	}
+		
+    }
+    @FXML
+    public void toRegister(ActionEvent e) {
+    	loadScreen("/Register.fxml",e);
+    }
+    @FXML
+    public void toLogin(ActionEvent e) {
+    	loadScreen("/Login.fxml",e);
+    }
+    @FXML
+    public void toGuest(ActionEvent e){
+    	loadScreen("/guestscenebuilder.fxml",e);
+    }
+    @FXML
+    public void toReceptionist(ActionEvent e){
+    	loadScreen("/Receptionists.fxml",e);
+    }
+    @FXML
+    public void toAddRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesAdd.fxml",e);
+    }
+    @FXML
+    public void toDeleteRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesDelete.fxml",e);
+    }
+    @FXML
+    public void toUpdateRoomTypes(ActionEvent e) {
+    	loadScreen("/adminRoomTypesUpdate.fxml",e);
+    	if(updateID != null && updateIDError != null) {
+    	updateIDError.setText("");
+    	
+    	updateID.setStyle("-fx-border-color : darkSlateGray");
+    	
+    	updateID.setText("");
+    	}
+    }
+    ////////////////////////////////////// AMENITIES FUNCTIONS START
+    @FXML
+    public void addAmenity() {	
+    	amenityAddSuccess.setText("");
+    	String name = amenityName.getText().trim();
+    	String priceString = amenityPrice.getText().trim();
+    	int price = -1;
+    	if(name.equals("")) {
+    		amenityName.setStyle("-fx-border-color : red;");
+    		amenityNameError.setText("You must enter a name!");
+    	}else {
+    		amenityName.setStyle("-fx-border-color : darkSlateGray;");
+    		amenityNameError.setText("");
+    	}
+    	
+    	if(priceString.equals("")) {
+    		amenityPrice.setStyle("-fx-border-color : red;");
+    		amenityPriceError.setText("You must enter a price!");    		
+    	}
+    	else {
+	    	try {
+	    		for (int i = 0; i < DataBase.amenities.size(); i++) {
+	    			if (DataBase.amenities.get(i).getName().equalsIgnoreCase(name)) {
+	    	    		amenityName.setStyle("-fx-border-color : red;");
+	    	    		amenityNameError.setText("This amenity already exists!");
+	    	    		amenityName.setText("");
+	    				return;
+	    			}
+	    		}
+	    		
+	    		if(Integer.parseInt(priceString) < 0) {
+		    		amenityPrice.setText("");
+		    		amenityPriceError.setText("You must enter a valid number!");
+		    		amenityPrice.setStyle("-fx-border-color : red;");
+		    		return;
+	    		}
+	    		
+	    		price = Integer.parseInt(priceString);
+	 			
+	 			
+	    	}catch(Exception e) {
+	    		if(!priceString.equals("")) {
+	    		amenityPrice.setText("");
+	    		amenityPriceError.setText("You must enter a valid number!");
+	    		amenityPrice.setStyle("-fx-border-color : red;");
+	    		}
+	    		return;
+	    	}
+    		amenityPrice.setStyle("-fx-border-color : darkSlateGray;");
+    		amenityPriceError.setText("");
+    		if(!name.equals("") && !priceString.equals("") && price >= 0) {
+ 			DataBase.amenities.add(new Amenity(name, price));
+ 			amenityAddSuccess.setText(name + " Added Successfully!");
+ 			amenityPrice.setText("");
+ 			amenityName.setText("");
+    		}
+    	}
 
-		try {
-			updateId = Integer.parseInt(idString);
+    	
+    }
+    
+    
+    @FXML
+    public void updateAmenity() {
+    	String priceString = updatePrice.getText().trim();
+    	String idString = updateID.getText().trim();
+    	int price=-1;
+    	int updateId=-1;
+    	if(priceString.equals("")) {
+    		updatePrice.setStyle("-fx-border-color : red;");
+    		updatePriceError.setText("Price is Empty.");
+    	}
+    	if(idString.equals("")) {
+    		updateID.setStyle("-fx-border-color : red");
+    		updateIDError.setText("ID is Empty.");
+    	}
+
+    	try {
+    		updateId = Integer.parseInt(idString);
 			updateIDError.setText("");
 			updateID.setStyle("-fx-border-color : darkSlateGray;");
-		} catch (Exception e) {
-			updateID.setStyle("-fx-border-color : red;");
-			updateIDError.setText("Amenity not found. Please enter a valid ID.");
-			updateIDError.setStyle("-fx-text-fill : red;");
-			updateID.setText("");
-			updateSuccessMessage.setText("");
-			return;
-		}
+    	}catch(Exception e){
+    		updateID.setStyle("-fx-border-color : red;");
+    		updateIDError.setText("Amenity not found. Please enter a valid ID.");
+    		updateIDError.setStyle("-fx-text-fill : red;");
+    		updateID.setText("");
+    		updateSuccessMessage.setText("");
+    		return;
+    	}
 		updateIDError.setText("");
 		updateID.setStyle("-fx-border-color : darkSlateGray;");
 		updatePriceError.setText("");
@@ -518,77 +617,81 @@ public class theGOATcontroller {
 
 		if (updateId < 0 || updateId > DataBase.amenities.size()) {
 			updateID.setStyle("-fx-border-color : red;");
-			updateIDError.setText("Invalid ID.");
-			updateIDError.setStyle("-fx-text-fill : red;");
-			updateID.setText("");
-			updateSuccessMessage.setText("");
-			return;
+    		updateIDError.setText("Invalid ID.");
+    		updateIDError.setStyle("-fx-text-fill : red;");
+    		updateID.setText("");
+    		updateSuccessMessage.setText("");
+    		return;
 		}
-
+		
 		Amenity toUpdate = DataBase.amenities.get(updateId);
+		
+		
+			try {
+	    		price = Integer.parseInt(priceString);
+				updatePriceError.setText("");
+				updatePrice.setStyle("-fx-border-color : darkSlateGray;");
+	    	}catch(Exception e){
+	    		updatePrice.setStyle("-fx-border-color : red;");
+	    		updatePriceError.setText("Invalid Price.");
+	    		updatePriceError.setStyle("-fx-text-fill : red;");
+	    		updatePrice.setText("");
+	    		updateSuccessMessage.setText("");
 
-		try {
-			price = Integer.parseInt(priceString);
+	    		return;
+	    	}
 			updatePriceError.setText("");
 			updatePrice.setStyle("-fx-border-color : darkSlateGray;");
-		} catch (Exception e) {
-			updatePrice.setStyle("-fx-border-color : red;");
-			updatePriceError.setText("Invalid Price.");
-			updatePriceError.setStyle("-fx-text-fill : red;");
-			updatePrice.setText("");
-			updateSuccessMessage.setText("");
+			
 
-			return;
-		}
-		updatePriceError.setText("");
-		updatePrice.setStyle("-fx-border-color : darkSlateGray;");
-
-		if (price < 0) {
-			updatePrice.setStyle("-fx-border-color : red;");
-			updatePriceError.setText("Invalid Price.");
-			updatePriceError.setStyle("-fx-text-fill : red;");
-			updatePrice.setText("");
-			updateSuccessMessage.setText("");
-			return;
-		}
-
+			if(price < 0) {
+				updatePrice.setStyle("-fx-border-color : red;");
+	    		updatePriceError.setText("Invalid Price.");
+	    		updatePriceError.setStyle("-fx-text-fill : red;");
+	    		updatePrice.setText("");
+	    		updateSuccessMessage.setText("");
+	    		return;
+			}
+			
+			
 		toUpdate.setPrice(price);
-
+		
 		updateSuccessMessage.setStyle("-fx-text-fill: green;");
 		updateSuccessMessage.setText("Amenity Updated Successfully!");
 		updateID.setStyle("-fx-border-color : darkSlateGray");
 		updatePrice.setStyle("-fx-border-color : darkSlateGray");
 		updateID.setText("");
 		updatePrice.setText("");
-
+		
+		
 		displayAmenities();
-
-	}
-
-	@FXML
-	public void deleteAmenity() {
-		int deletedId = -1;
-
-		try {
-			deletedId = Integer.parseInt(deleteID.getText().trim());
-		} catch (Exception e) {
-			deleteID.setStyle("-fx-border-color : red;");
-			amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
-			amenityDeleteMessage.setStyle("-fx-text-fill : red;");
-			deleteID.setText("");
-			return;
-		}
+    	
+    }
+    
+    @FXML
+    public void deleteAmenity() {
+    	int deletedId = -1;
+    	
+    	try {
+    		deletedId = Integer.parseInt(deleteID.getText().trim());
+    	}catch(Exception e){
+    		deleteID.setStyle("-fx-border-color : red;");
+    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
+    		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+    	}
 		amenityDeleteMessage.setText("");
 		deleteID.setStyle("-fx-border-color : darkSlateGray;");
 
 		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
 			deleteID.setStyle("-fx-border-color : red;");
-			amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
-			amenityDeleteMessage.setStyle("-fx-text-fill : red;");
-			deleteID.setText("");
-			return;
+    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
+    		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
 		}
-
+		
 		Amenity toDelete = DataBase.amenities.get(deletedId);
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			DataBase.rooms.get(i).getAmenities().removeIf(a -> a.equals(toDelete));
@@ -599,177 +702,176 @@ public class theGOATcontroller {
 		amenityDeleteMessage.setText("Amenity deleted and removed from all rooms!");
 		deleteID.setStyle("-fx-border-color : darkSlateGray");
 		deleteID.setText("");
-
+		
 		displayAmenities();
-	}
-	///////////////////////////////////// AMENITIES FUNCTIONS END
-
-	///////////////////////////////////// ROOMTYPES FUNCTIONS START
-	@FXML
-	public void addRoomType() {
-		String addName = roomTypeName.getText().trim();
-		if (addName.equals("")) {
-			roomTypeName.setStyle("-fx-border-color : red;");
-			roomTypeNameMessage.setText("Room type name is empty.");
-			roomTypeNameMessage.setStyle("-fx-text-fill : red;");
-			return;
-		} else {
+    }
+    ///////////////////////////////////// AMENITIES FUNCTIONS END
+    
+    ///////////////////////////////////// ROOMTYPES FUNCTIONS START
+    @FXML
+    public void addRoomType() {
+    	String addName = roomTypeName.getText().trim();
+    	if(addName.equals("")) {
+    		roomTypeName.setStyle("-fx-border-color : red;");
+    		roomTypeNameMessage.setText("Room type name is empty.");
+    		roomTypeNameMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    	}else {
 			roomTypeName.setStyle("-fx-border-color : darkSlateGray;");
 			roomTypeNameMessage.setText("");
-			roomTypeName.setText("");
-		}
+    		roomTypeName.setText("");
+    	}
 		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
 			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(addName)) {
-				roomTypeName.setStyle("-fx-border-color : red;");
-				roomTypeNameMessage.setStyle("-fx-text-fill : red;");
-				roomTypeNameMessage.setText("Room type already exists.");
-				return;
+	    		roomTypeName.setStyle("-fx-border-color : red;");
+	    		roomTypeNameMessage.setStyle("-fx-text-fill : red;");				
+	    		roomTypeNameMessage.setText("Room type already exists.");
+	    		return;
 			}
 		}
-
+		
 		DataBase.roomTypes.add(new RoomType(addName));
 		roomTypeNameMessage.setStyle("-fx-text-fill : green;");
 		roomTypeNameMessage.setText(addName + " added successfully!");
 		roomTypeName.setStyle("-fx-border-color : green");
 		displayRoomTypes();
-	}
-
-	@FXML
-	public void updateRoomType() {
-		String idString = updateID.getText().trim();
-		String newName = updateName.getText().trim();
-		int updateId = -1;
-		try {
-			updateId = Integer.parseInt(idString);
-		} catch (Exception e) {
-			updateIDError.setText("ID is invalid.");
-			updateID.setText("");
-			updateID.setStyle("-fx-border-color : red;");
-			return;
-		}
+    }
+    
+    @FXML
+    public void updateRoomType() {
+    	String idString = updateID.getText().trim();
+    	String newName = updateName.getText().trim();
+    	int updateId = -1;
+    	try {
+    		updateId = Integer.parseInt(idString); 
+    	}catch(Exception e){
+    		updateIDError.setText("ID is invalid.");
+    		updateID.setText("");
+    		updateID.setStyle("-fx-border-color : red;");
+    		return;
+    	}
 		updateID.setStyle("-fx-border-color : darkSlateGray;");
-		if (updateId < 0 || updateId > DataBase.roomTypes.size()) {
-			updateIDError.setText("ID not found.");
-			updateID.setStyle("-fx-border-color : red;");
-			updateID.setText("");
-			return;
-		}
+    	if(updateId < 0 || updateId > DataBase.roomTypes.size()) {
+    		updateIDError.setText("ID not found.");
+    		updateID.setStyle("-fx-border-color : red;");
+    		updateID.setText("");
+    		return;
+    	}
 		updateID.setStyle("-fx-border-color : darkSlateGray;");
 		updateIDError.setText("");
-		if (newName.equals("")) {
-			updateName.setStyle("-fx-border-color : red;");
-			updateNameError.setText("Room type name is empty.");
-			updateNameError.setStyle("-fx-text-fill : red;");
-			return;
-		} else {
-			updateName.setStyle("-fx-border-color : darkSlateGray;");
+    	if(newName.equals("")) {
+    		updateName.setStyle("-fx-border-color : red;");
+    		updateNameError.setText("Room type name is empty.");
+    		updateNameError.setStyle("-fx-text-fill : red;");
+    		return;
+    	}else {
+    		updateName.setStyle("-fx-border-color : darkSlateGray;");
 			updateNameError.setText("");
 			updateName.setText("");
-		}
+    	}
 		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
 			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(newName)) {
 				updateName.setStyle("-fx-border-color : red;");
-				updateNameError.setStyle("-fx-text-fill : red;");
+				updateNameError.setStyle("-fx-text-fill : red;");				
 				updateNameError.setText("Room type already exists.");
-				return;
+	    		return;
 			}
 		}
-
+    	
 		DataBase.roomTypes.get(updateId).setRoomType(newName);
-		updateName.setText("");
-		updateNameError.setText("");
-		updateID.setText("");
-		updateIDError.setText("");
-		updateSuccessMessage.setText("Roomtype updated successfully!");
-		displayRoomTypes();
-	}
-
-	@FXML
-	public void deleteRoomType() {
-		int deletedId = -1;
-
-		try {
-			deletedId = Integer.parseInt(deleteID.getText().trim());
-		} catch (Exception e) {
-			deleteID.setStyle("-fx-border-color : red;");
-			roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
-			roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
-			deleteID.setText("");
-			return;
-		}
-		roomTypeDeleteMessage.setText("");
+    	updateName.setText("");
+    	updateNameError.setText("");
+    	updateID.setText("");
+    	updateIDError.setText("");
+    	updateSuccessMessage.setText("Roomtype updated successfully!");
+    	displayRoomTypes();
+    }
+    
+    @FXML
+    public void deleteRoomType() {
+    	int deletedId = -1;
+    	
+    	try {
+    		deletedId = Integer.parseInt(deleteID.getText().trim());
+    	}catch(Exception e){
+    		deleteID.setStyle("-fx-border-color : red;");
+    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
+    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+    	}
+    	roomTypeDeleteMessage.setText("");
 		deleteID.setStyle("-fx-border-color : darkSlateGray;");
 
 		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
 			deleteID.setStyle("-fx-border-color : red;");
-			roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
-			roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
-			deleteID.setText("");
-			return;
+    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
+    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
 		}
-
+		
 		RoomType toDelete = DataBase.roomTypes.get(deletedId);
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			if (DataBase.rooms.get(i).getRoomType().equals(toDelete)) {
 				deleteID.setStyle("-fx-border-color : red;");
-				roomTypeDeleteMessage.setText("Room Type already belongs to a room.");
-				roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
+	    		roomTypeDeleteMessage.setText("Room Type already belongs to a room.");
+	    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
 				return;
 			}
 		}
-
+		
 		DataBase.roomTypes.remove(toDelete);
 		roomTypeDeleteMessage.setStyle("-fx-text-fill: green;");
 		roomTypeDeleteMessage.setText("Room Type deleted and removed from all rooms!");
 		deleteID.setStyle("-fx-border-color : darkSlateGray");
 		deleteID.setText("");
-
+		
 		displayRoomTypes();
-	}
-	///////////////////////////////////// ROOMTYPES FUNCTIONS END
+    }
+    ///////////////////////////////////// ROOMTYPES FUNCTIONS END
+    
+    ///////////////////////////////////// ROOMS FUNCTIONS START
+    
+    public void deleteRoom(){
+    	int deletedNumber = -1;
+    	int deletedIndex = -1;
+    	
 
-	///////////////////////////////////// ROOMS FUNCTIONS START
-
-	public void deleteRoom() {
-		int deletedNumber = -1;
-		int deletedIndex = -1;
-
-		try {
-			deletedNumber = Integer.parseInt(deleteID.getText().trim());
-		} catch (Exception e) {
-			deleteID.setStyle("-fx-border-color : red;");
-			roomDeleteMessage.setText("Room not found. Please enter a valid number.");
-			roomDeleteMessage.setStyle("-fx-text-fill : red;");
-			deleteID.setText("");
-			return;
-		}
-		roomDeleteMessage.setText("");
+    	
+    	try {
+    		deletedNumber = Integer.parseInt(deleteID.getText().trim());
+    	}catch(Exception e){
+    		deleteID.setStyle("-fx-border-color : red;");
+    		roomDeleteMessage.setText("Room not found. Please enter a valid number.");
+    		roomDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
+    	}
+    	roomDeleteMessage.setText("");
 		deleteID.setStyle("-fx-border-color : darkSlateGray;");
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			if (DataBase.rooms.get(i).getRoomNumber() == deletedNumber) {
-				deletedIndex = i;
-				break;
-			}
-		}
-		if (deletedIndex == -1) {
+		if (DataBase.rooms.get(i).getRoomNumber() == deletedNumber) { deletedIndex = i; break; }
+		}if(deletedIndex == -1) {
 			deleteID.setStyle("-fx-border-color : red;");
-			roomDeleteMessage.setText("Room not found. Please enter a valid number.");
-			roomDeleteMessage.setStyle("-fx-text-fill : red;");
-			deleteID.setText("");
-			return;
+    		roomDeleteMessage.setText("Room not found. Please enter a valid number.");
+    		roomDeleteMessage.setStyle("-fx-text-fill : red;");
+    		deleteID.setText("");
+    		return;
 		}
-
+	
+		
 		Room toDelete = DataBase.rooms.get(deletedIndex);
 		DataBase.rooms.remove(toDelete);
 		roomDeleteMessage.setStyle("-fx-text-fill: green;");
 		roomDeleteMessage.setText("Room deleted successfully!");
 		deleteID.setStyle("-fx-border-color : darkSlateGray");
 		deleteID.setText("");
-
+		
 		displayRooms();
-	}
-
-	public void addRoom() {
+    }
+    
+    public void addRoom() {
 		roomNumber.setStyle("-fx-border-color : darkSlateGray;");
 		roomPrice.setStyle("-fx-border-color : darkSlateGray;");
 		roomNumberError.setText("");
@@ -779,149 +881,145 @@ public class theGOATcontroller {
 
 		RadioButton selectedRoomTypeRadio = (RadioButton) roomTypeRadios.getSelectedToggle();
 		RoomType addRoomType = null;
-		String roomNumberString = roomNumber.getText().trim();
-		String roomPriceString = roomPrice.getText().trim();
-		int addRoomNumber = -1;
-		int addRoomPrice = -1;
-		try {
-			addRoomNumber = Integer.parseInt(roomNumberString);
-			if (addRoomNumber < 0) {
-				throw new Exception();
-			}
-		} catch (Exception e) {
-			roomNumber.setStyle("-fx-border-color : red;");
-			roomNumberError.setText("Invalid Room Number.");
-			return;
-		}
-		for (Room r : DataBase.rooms) {
-			if (r.getRoomNumber() == addRoomNumber) {
-				roomNumber.setStyle("-fx-border-color : red;");
-				roomNumber.setText("");
-				roomNumberError.setText("Room already exists.");
-				return;
-			}
-		}
-		try {
-			addRoomPrice = Integer.parseInt(roomPriceString);
-			if (addRoomPrice < 0) {
-				throw new Exception();
-			}
-		} catch (Exception e) {
-			roomPrice.setStyle("-fx-border-color : red;");
-			roomPrice.setText("");
-			roomPriceError.setText("Invalid Room Number.");
-			return;
-		}
-		if (selectedRoomTypeRadio != null) {
-			addRoomType = (RoomType) (selectedRoomTypeRadio.getUserData());
-		} else {
-			roomTypeError.setText("You must select a room type.");
-			return;
-		}
-
-		ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
-		for (CheckBox cb : amenityCheckBoxes) {
-			if (cb.isSelected()) {
-				Amenity amenity = (Amenity) cb.getUserData();
-				amenitiesSelected.add(amenity);
-			}
-		}
-
-		if (amenitiesSelected.size() == 0) {
-			roomAmenityError.setText("You must select an amenity.");
-			return;
-		}
-
-		Room addRoom = new Room(addRoomNumber, addRoomType, addRoomPrice);
-		for (Amenity a : amenitiesSelected) {
-			addRoom.addAmenity(a);
-		}
-		DataBase.rooms.add(addRoom);
-
+    	String roomNumberString = roomNumber.getText().trim();
+    	String roomPriceString = roomPrice.getText().trim();
+    	int addRoomNumber = -1;
+    	int addRoomPrice = -1;
+    	try {
+    		addRoomNumber = Integer.parseInt(roomNumberString);
+        	if(addRoomNumber < 0) {
+        		throw new Exception();
+        	}
+    	}catch(Exception e) {
+    		roomNumber.setStyle("-fx-border-color : red;");
+    		roomNumberError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	for(Room r : DataBase.rooms) {
+    		if(r.getRoomNumber() == addRoomNumber) {
+        		roomNumber.setStyle("-fx-border-color : red;");
+        		roomNumber.setText("");
+        		roomNumberError.setText("Room already exists.");
+    			return;
+    		}
+    	}
+    	try {
+    		addRoomPrice = Integer.parseInt(roomPriceString);
+    		if(addRoomPrice < 0) {
+    			throw new Exception();
+    		}
+    	}catch(Exception e) {
+    		roomPrice.setStyle("-fx-border-color : red;");
+    		roomPrice.setText("");
+    		roomPriceError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	if(selectedRoomTypeRadio != null) {
+    		addRoomType = (RoomType)(selectedRoomTypeRadio.getUserData());
+    	}else {
+    		roomTypeError.setText("You must select a room type.");
+    		return;
+    	}
+    	
+    	ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
+    	for(CheckBox cb : amenityCheckBoxes) {
+    		if(cb.isSelected()) {
+    			Amenity amenity = (Amenity)cb.getUserData();
+    			amenitiesSelected.add(amenity);
+    		}
+    	}
+    	
+    	if(amenitiesSelected.size() == 0) {
+    		roomAmenityError.setText("You must select an amenity.");
+    		return;
+    	}
+    	
+    	Room addRoom = new Room(addRoomNumber,addRoomType,addRoomPrice);
+    	for(Amenity a : amenitiesSelected) {
+    		addRoom.addAmenity(a);
+    	}
+    	DataBase.rooms.add(addRoom);
+    	
 		roomAddSuccess.setText("Room added successfully!");
-
+		
 		roomNumber.setText("");
 		roomPrice.setText("");
-
-	}
-
-	public void updateRoom() {
+		
+    }
+    
+    public void updateRoom() {
 		roomNumber.setStyle("-fx-border-color : darkSlateGray;");
 		roomPrice.setStyle("-fx-border-color : darkSlateGray;");
 		roomNumberError.setText("");
 		roomPriceError.setText("");
 		roomTypeError.setText("");
 		roomAmenityError.setText("");
-
+		
 		int roomIndex = -1;
 		RadioButton selectedRoomTypeRadio = (RadioButton) roomTypeRadios.getSelectedToggle();
 		RoomType updateRoomType = null;
-		String roomNumberString = roomNumber.getText().trim();
-		String roomPriceString = roomPrice.getText().trim();
-		int updateRoomNumber = -1;
-		int updateRoomPrice = -1;
-		try {
-			updateRoomNumber = Integer.parseInt(roomNumberString);
-			if (updateRoomNumber < 0) {
-				throw new Exception();
-			}
-		} catch (Exception e) {
-			roomNumber.setStyle("-fx-border-color : red;");
-			roomNumberError.setText("Invalid Room Number.");
-			return;
-		}
-		try {
-			updateRoomPrice = Integer.parseInt(roomPriceString);
-			if (updateRoomPrice < 0) {
-				throw new Exception();
-			}
-		} catch (Exception e) {
-			roomPrice.setStyle("-fx-border-color : red;");
-			roomPrice.setText("");
-			roomPriceError.setText("Invalid Room Number.");
-			return;
-		}
-		if (selectedRoomTypeRadio != null) {
-			updateRoomType = (RoomType) (selectedRoomTypeRadio.getUserData());
-		}
-
-		ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
-		for (CheckBox cb : amenityCheckBoxes) {
-			if (cb.isSelected()) {
-				Amenity amenity = (Amenity) cb.getUserData();
-				amenitiesSelected.add(amenity);
-			}
-		}
-
+    	String roomNumberString = roomNumber.getText().trim();
+    	String roomPriceString = roomPrice.getText().trim();
+    	int updateRoomNumber = -1;
+    	int updateRoomPrice = -1;
+    	try {
+    		updateRoomNumber = Integer.parseInt(roomNumberString);
+        	if(updateRoomNumber < 0) {
+        		throw new Exception();
+        	}
+    	}catch(Exception e) {
+    		roomNumber.setStyle("-fx-border-color : red;");
+    		roomNumberError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	try {
+    		updateRoomPrice = Integer.parseInt(roomPriceString);
+    		if(updateRoomPrice < 0) {
+    			throw new Exception();
+    		}
+    	}catch(Exception e) {
+    		roomPrice.setStyle("-fx-border-color : red;");
+    		roomPrice.setText("");
+    		roomPriceError.setText("Invalid Room Number.");
+    		return;
+    	}
+    	if(selectedRoomTypeRadio != null) {
+    		updateRoomType = (RoomType)(selectedRoomTypeRadio.getUserData());
+    	}
+    
+    	ArrayList<Amenity> amenitiesSelected = new ArrayList<>();
+    	for(CheckBox cb : amenityCheckBoxes) {
+    		if(cb.isSelected()) {
+    			Amenity amenity = (Amenity)cb.getUserData();
+    			amenitiesSelected.add(amenity);
+    		}
+    	}
+    	
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
-			if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) {
-				roomIndex = i;
-				break;
-			}
-		}
-		if (roomIndex == -1) {
+		if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) { roomIndex = i; break; }
+		}if(roomIndex == -1) {
 			roomNumber.setStyle("-fx-border-color : red;");
-			roomChangeMessage.setText("Room not found. Please enter a valid number.");
-			roomChangeMessage.setStyle("-fx-text-fill : red;");
-			roomNumber.setText("");
-			return;
+    		roomChangeMessage.setText("Room not found. Please enter a valid number.");
+    		roomChangeMessage.setStyle("-fx-text-fill : red;");
+    		roomNumber.setText("");
+    		return;
 		}
-
+    	
 		Room updateRoom = DataBase.rooms.get(roomIndex);
 		updateRoom.setRoomNumber(updateRoomNumber);
 		updateRoom.setPrice(updateRoomPrice);
-		if (updateRoomType != null) {
-			updateRoom.setRoomType(updateRoomType);
+		if(updateRoomType != null) {
+		updateRoom.setRoomType(updateRoomType);
 		}
-		if (amenitiesSelected.size() != 0) {
-			updateRoom.getAmenities().clear();
-			updateRoom.getAmenities().addAll(amenitiesSelected);
+		if(amenitiesSelected.size() != 0) {
+		updateRoom.getAmenities().clear();
+		updateRoom.getAmenities().addAll(amenitiesSelected);
 		}
 		roomChangeMessage.setText("Room Updated successfully!");
-
+		
 		roomNumber.setText("");
 		roomPrice.setText("");
-
-	}
-	///////////////////////////////////// ROOMS FUNCTIONS END
+		
+    }
+    ///////////////////////////////////// ROOMS FUNCTIONS END
 }
