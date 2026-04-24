@@ -8,10 +8,13 @@ import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.RFIDThread;
 import com.mycompany.desktophotelreservationsystem.Receptionist;
 import com.mycompany.desktophotelreservationsystem.Room;
 import com.mycompany.desktophotelreservationsystem.RoomType;
 import com.mycompany.desktophotelreservationsystem.User;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,9 +38,9 @@ public class theGOATcontroller {
 	User user = new User();
 	User currentUser;
     
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    private static Stage stage;
+    private static Scene scene;
+    private static Parent root;
 
     @FXML
     private Text staffCodeText; 
@@ -126,12 +129,18 @@ public class theGOATcontroller {
     @FXML
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
     
+    public static Stage currentStage;
+	private static boolean isRfidRunning = false;
+
     boolean amenities = false;
+	Thread t = new Thread(new RFIDThread());
+	public static theGOATcontroller goated;
+
     public theGOATcontroller() {}
 
-    
-    String s = "Baller";
 
+    String s = "Baller";
+    
     @FXML
     public void chooseAmenities() {
     	amenitiesAddList.getChildren().clear();
@@ -232,6 +241,13 @@ public class theGOATcontroller {
     }
     @FXML
     public void initialize() {
+    	goated = this;
+    	
+    	if(!isRfidRunning) {
+        t.setDaemon(true); 
+        t.start();
+        isRfidRunning = true;
+    	}
     	if (dynamicText != null) {
             dynamicText.setText("Welcome, " + DataBase.currentUser.getUserName());
         } else {
@@ -253,20 +269,38 @@ public class theGOATcontroller {
     	chooseRoomTypes();
     	}
     }
-
-    @FXML void loadScreen(String path, ActionEvent e) {
+    public void toLoginFromRFID(String path) {
+        Platform.runLater(() -> {
+            try {
+            	Parent root = FXMLLoader.load(getClass().getResource(path));
+                currentStage.setScene(new Scene(root));
+                currentStage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+    @FXML  void loadScreen(String path, ActionEvent e) {
   	  try {
 			root = FXMLLoader.load(getClass().getResource(path));
+			
+		  	if (e != null) {
+		        currentStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		        }
+		  	
 		  } catch (IOException e1) {
 			// TODO Auto-generated catch block
 			  System.out.println("Ballersssss");
 			e1.printStackTrace();
 		  }
+  	  
+
   	  stage = (Stage)((Node)e.getSource()).getScene().getWindow();
   	  scene = new Scene(root);
   	  stage.setScene(scene);
   	  stage.show();    
     }
+    
     
     @FXML
     public void toAmenities(ActionEvent e) {
@@ -492,6 +526,7 @@ public class theGOATcontroller {
     }
     @FXML
     public void toLogin(ActionEvent e) {
+    	DataBase.loggedIn = false;
     	loadScreen("/Login.fxml",e);
     }
     @FXML

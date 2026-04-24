@@ -25,14 +25,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
 
+import com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller;
+
 import Screens.LoginPage;
 
 public class GUI_testing extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        
-    	
+    	theGOATcontroller.currentStage = primaryStage;
     	User user = new User();
     	DataBase.demoFill();
         for (User p : DataBase.people) {//just for testing Guest when login gets implemented delete eshta
@@ -41,15 +42,15 @@ public class GUI_testing extends Application {
                 break;
             }
         }
-        Parent guestroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml"));
-        Parent receproot = FXMLLoader.load(getClass().getResource("/Receptionists.fxml"));
+      //  Parent guestroot = FXMLLoader.load(getClass().getResource("/guestscenebuilder.fxml"));
+     //   Parent receproot = FXMLLoader.load(getClass().getResource("/Receptionists.fxml"));
         Parent theGoatRoot = FXMLLoader.load(getClass().getResource("/Login.fxml"));
-        Parent adminAmenitiesRoot = FXMLLoader.load(getClass().getResource("/adminAmenities.fxml"));
-        Scene guest=new Scene(guestroot);
-        Scene sceneReceptionist=new Scene(receproot);
+      //  Parent adminAmenitiesRoot = FXMLLoader.load(getClass().getResource("/adminAmenities.fxml"));
+       // Scene guest=new Scene(guestroot);
+ //       Scene sceneReceptionist=new Scene(receproot);
         Scene thegoat = new Scene(theGoatRoot);
-        Scene adminAmenities = new Scene(adminAmenitiesRoot);
-        Pane loginroot = new LoginPage(user,primaryStage,guest,sceneReceptionist);
+   //     Scene adminAmenities = new Scene(adminAmenitiesRoot);
+     //   Pane loginroot = new LoginPage(user,primaryStage,guest,sceneReceptionist);
         
         double x = 70;
         getClass().getResource("/Style.css");
@@ -57,11 +58,11 @@ public class GUI_testing extends Application {
         String css = this.getClass().getResource("/Style.css").toExternalForm();
         String recep=this.getClass().getResource("/hadi.css").toExternalForm();
         
-        Scene scene = new Scene(loginroot, 16 * x, 9 * x - 2);
+     //   Scene scene = new Scene(thegoat, 16 * x, 9 * x - 2);
 
-        guest.getStylesheets().add(css);
-        sceneReceptionist.getStylesheets().add(recep);
-        scene.getStylesheets().add(css);
+     //   guest.getStylesheets().add(css);
+       // sceneReceptionist.getStylesheets().add(recep);
+      //  scene.getStylesheets().add(css);
         // root.getChildren().add(btn);
 
         // Create a scene with the layout pane, setting dimensions
@@ -70,7 +71,7 @@ public class GUI_testing extends Application {
         // Configure the stage (the main window)
         primaryStage.setTitle("Hello HADI!");
         
-        scene.getStylesheets().add(css);
+       // scene.getStylesheets().add(css);
         primaryStage.setScene(thegoat);
         primaryStage.show();
     }
