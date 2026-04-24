@@ -123,6 +123,9 @@ public class Receptionist_Controller {
     }
     @FXML
     public void initialize(){
+    	theGOATcontroller.isRfidRunning = false;
+    	RFIDThread.commPort.closePort();
+    	// seebak mn el 7eta di y hadi di taba3yyyyy ~Ahmed ramyyyyy
         if(roomContainer!=null)
         {
             displayRooms();

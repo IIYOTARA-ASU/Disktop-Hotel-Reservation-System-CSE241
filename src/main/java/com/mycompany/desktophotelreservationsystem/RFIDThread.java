@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class RFIDThread implements Runnable {
 	public static String commText;
-	SerialPort commPort;
+	public static SerialPort commPort;
 	User user = new User();
 	public void loginCard(String rfidID) {
         System.out.println("Received: " + rfidID);
@@ -35,7 +35,7 @@ public class RFIDThread implements Runnable {
 	public void run() {
 		
 		for (SerialPort port : SerialPort.getCommPorts()) {
-		    System.out.println(port.getDescriptivePortName());
+		  //  System.out.println(port.getDescriptivePortName());
 		}
 			
 			commPort = SerialPort.getCommPort("COM5");
@@ -45,7 +45,7 @@ public class RFIDThread implements Runnable {
 			commPort.setParity(SerialPort.NO_PARITY);
 			
 			if(commPort.openPort()) {
-				System.out.println(commPort.getDescriptivePortName() + "is opennnn");
+				System.out.println("port is opennnn");
 			}else {
 				System.out.println("Port is closedddd");
 			}
@@ -56,9 +56,8 @@ public class RFIDThread implements Runnable {
             		commText = scanner.nextLine().trim();
 	            	if(!DataBase.loggedIn) {
 	            	loginCard(commText);
-	            	}else {
-	            		scanner.nextLine().trim();
 	            	}
+	            	scanner.nextLine().trim();
 	            	
 	            }
 	        } catch (Exception e) {

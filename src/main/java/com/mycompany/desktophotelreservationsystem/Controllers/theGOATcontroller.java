@@ -129,10 +129,9 @@ public class theGOATcontroller {
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
     
     public static Stage currentStage;
-	private static boolean isRfidRunning = false;
-
-    boolean amenities = false;
 	Thread t = new Thread(new RFIDThread());
+	static boolean isRfidRunning = false;
+    boolean amenities = false;
 	public static theGOATcontroller goated;
 
     public theGOATcontroller() {}

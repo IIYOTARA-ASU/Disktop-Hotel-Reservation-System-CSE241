@@ -1,6 +1,7 @@
 package com.mycompany.desktophotelreservationsystem.Controllers;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.RFIDThread;
 import com.mycompany.desktophotelreservationsystem.Reservation;
 import com.mycompany.desktophotelreservationsystem.Room;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ public class GuestController {
     @FXML private TextField roomTextFiel;
     @FXML private DatePicker checkinDatepicker;
     @FXML private DatePicker checkoutDatePicker;
+
 
     @FXML
     public void handleMakeReservation(ActionEvent event) {
@@ -131,7 +133,10 @@ public class GuestController {
 
     @FXML
     public void initialize() {
-        if (roomContainer != null) {
+    	theGOATcontroller.isRfidRunning = false;
+    	RFIDThread.commPort.closePort();
+
+    	if (roomContainer != null) {
             displayRooms();
         }
         if (reservationListContainer != null) {
