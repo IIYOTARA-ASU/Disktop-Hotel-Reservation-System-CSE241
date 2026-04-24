@@ -21,6 +21,7 @@ public class DataBase {
         Admin admin = new Admin("Ahmed", "67");
         Guest guest = new Guest("Hadi", "67");
         Receptionist receptionist = new Receptionist("Youssef", "67");
+        receptionist.setRfidId("FB 70 6C 8A");
         people.add(admin);
         people.add(guest);
         people.add(receptionist);

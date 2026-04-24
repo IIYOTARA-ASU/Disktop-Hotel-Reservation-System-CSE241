@@ -37,7 +37,6 @@ public class theGOATcontroller {
 	
 	User user = new User();
 	User currentUser;
-    
     private static Stage stage;
     private static Scene scene;
     private static Parent root;

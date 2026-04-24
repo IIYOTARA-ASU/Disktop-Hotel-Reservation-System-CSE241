@@ -14,11 +14,19 @@ public class User implements users {
 
 	public String userName;
 	private String password;
+	private String rfidId;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
 	private static String adminCode = "badrEhabByakolFera5Masloo2a";
 	String inputCode;
+	
+	public String getRfidId() {
+		return rfidId;
+	}
 
+	public void setRfidId(String rfidId) {
+		this.rfidId = rfidId;
+	}
 	public static String getAdminCode() {
 		return adminCode;
 	}
@@ -264,4 +272,6 @@ public class User implements users {
 			}
 		}
 	}
+
+
 }
