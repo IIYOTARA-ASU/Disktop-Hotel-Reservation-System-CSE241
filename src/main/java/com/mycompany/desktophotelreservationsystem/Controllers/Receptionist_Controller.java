@@ -173,6 +173,7 @@ public class Receptionist_Controller {
     }
     @FXML
     public void logout(ActionEvent e){
+    	DataBase.loggedIn = false;
         loadScreen("/Login.fxml",e);
     }
     @FXML

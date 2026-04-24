@@ -57,7 +57,6 @@ public class RFIDThread implements Runnable {
 	            	if(!DataBase.loggedIn) {
 	            	loginCard(commText);
 	            	}
-	            	scanner.nextLine().trim();
 	            	
 	            }
 	        } catch (Exception e) {

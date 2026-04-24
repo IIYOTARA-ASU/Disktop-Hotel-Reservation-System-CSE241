@@ -256,6 +256,7 @@ public class GuestController {
         loadScreen("/guestPayInvoice.fxml",event);
     }
     public void logout(ActionEvent e){
+    	DataBase.loggedIn = false;
         loadScreen("/Login.fxml",e);
     }
 
