@@ -150,8 +150,8 @@ public class Receptionist_Controller {
         {
             SimpleDateFormat f= new SimpleDateFormat("d MMMM yyyy");
             Date d=new Date();
-            f.format(d);
-            date.setText(d.toString());
+            String t= f.format(d);
+            date.setText(t);
         }
         // null checking
         if (recepContainers != null ) {
@@ -228,7 +228,7 @@ public class Receptionist_Controller {
             if (r.getReservationStatus().toString().equals("PENDING")) {
 
                 Label infoLabel = new Label("Check-in Guest: " + r.getGuest().getUserName() +
-                        "\nAssigning Room: " + r.getRoom().getRoomNumber()+"\nCheck in Date:"
+                        "\nAssigning Room: " + r.getRoom().getRoomNumber()+"Status:"+ r.getReservationStatus() +"\nCheck in Date:"
                         +r.getCheckInDate()+"\nCheck out Date:"+r.getCheckOutDate());
 
                 Button btn = new Button("Confirm Check-In");

@@ -33,7 +33,7 @@
         <Button layoutX="6.0" layoutY="374.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
       <ScrollPane layoutX="273.0" layoutY="95.0" prefHeight="510.0" prefWidth="780.0" stylesheets="@Style.css">
          <content>
-            <VBox fx:id="checkoutContainers" prefHeight="511.0" prefWidth="781.0" stylesheets="@Style.css" />
+            <VBox fx:id="checkoutContainers" prefHeight="511.0" prefWidth="781.0" style="-fx-background-color: #254441;" stylesheets="@Style.css" />
          </content>
       </ScrollPane>
     </children>

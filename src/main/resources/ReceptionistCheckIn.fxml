@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -31,10 +32,17 @@
         <Button layoutX="6.0" layoutY="329.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
         <Button layoutX="6.0" layoutY="286.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
         <Button layoutX="6.0" layoutY="374.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
-        <ScrollPane layoutX="273.0" layoutY="95.0" prefHeight="510.0" prefWidth="780.0" stylesheets="@Style.css">
-            <content>
-                <VBox fx:id="checkoutContainers" prefHeight="511.0" prefWidth="781.0" stylesheets="@Style.css" />
-            </content>
-        </ScrollPane>
+      <VBox fx:id="checkoutContainers" layoutX="235.0" layoutY="-173.0" prefHeight="511.0" prefWidth="781.0" stylesheets="@Style.css" />
+      <ScrollPane layoutX="283.0" layoutY="105.0" prefHeight="510.0" prefWidth="780.0" stylesheets="@Style.css">
+         <content>
+            <VBox fx:id="checkinContainers" prefHeight="511.0" prefWidth="781.0" style="-fx-background-color: #254441;">
+               <stylesheets>
+                  <URL value="@receptionist.css" />
+                  <URL value="@hadi.css" />
+                  <URL value="@Style.css" />
+               </stylesheets>
+            </VBox>
+         </content>
+      </ScrollPane>
     </children>
 </AnchorPane>
