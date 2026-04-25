@@ -50,6 +50,7 @@ public class GuestController {
             for (Room r : DataBase.rooms) {
                 if (r.getRoomNumber() == roomNumber) {
                     selectedRoom = r;
+                    r.setOccupied();
                     break;
                 }
             }
