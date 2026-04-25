@@ -12,9 +12,9 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="1120.0" style="-fx-background-color: #DED2AE;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller">
    <children>
       <Button layoutX="92.0" layoutY="379.0" mnemonicParsing="false" onAction="#toRooms" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Rooms" />
-      <Button layoutX="95.0" layoutY="498.0" mnemonicParsing="false" onAction="#toRoomTypes" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Room Types" />
+      <Button layoutX="92.0" layoutY="462.0" mnemonicParsing="false" onAction="#toRoomTypes" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Room Types" />
       <Button layoutX="694.0" layoutY="377.0" mnemonicParsing="false" onAction="#toAmenities" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Amenities" />
-      <Button layoutX="693.0" layoutY="506.0" mnemonicParsing="false" onAction="#toLogin" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Exit" />
+      <Button layoutX="400.0" layoutY="545.0" mnemonicParsing="false" onAction="#toLogin" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Exit" />
       <Text layoutX="370.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana;" text="What would you like to do?">
          <font>
             <Font size="30.0" />
@@ -34,5 +34,6 @@
             <Image url="@Images/adminicon.png" />
          </image>
       </ImageView>
+      <Button layoutX="694.0" layoutY="462.0" mnemonicParsing="false" onAction="#toRFID" prefHeight="48.0" prefWidth="320.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="RFID" />
    </children>
 </AnchorPane>

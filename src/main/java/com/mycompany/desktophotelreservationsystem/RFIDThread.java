@@ -2,6 +2,10 @@ package com.mycompany.desktophotelreservationsystem;
 import com.fazecast.jSerialComm.SerialPort;
 import com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller;
 
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
 import java.util.Scanner;
 
 public class RFIDThread implements Runnable {
@@ -33,10 +37,6 @@ public class RFIDThread implements Runnable {
     }
 	@Override
 	public void run() {
-		
-		for (SerialPort port : SerialPort.getCommPorts()) {
-		  //  System.out.println(port.getDescriptivePortName());
-		}
 			
 			commPort = SerialPort.getCommPort("COM5");
 			commPort.setBaudRate(9600);
@@ -50,13 +50,35 @@ public class RFIDThread implements Runnable {
 				System.out.println("Port is closedddd");
 			}
 			
+			
 			commPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 	        try (Scanner scanner = new Scanner(commPort.getInputStream())) {
 	            while (scanner.hasNextLine()) {
+
+	                    
             		commText = scanner.nextLine().trim();
-	            	if(!DataBase.loggedIn) {
-	            	loginCard(commText);
-	            	}
+            		System.out.println(commText);
+	            	
+            		Label currentRFID = theGOATcontroller.goated.getCurrentRFID();
+	            	Label getRFID = theGOATcontroller.goated.getGetRFID();
+	            	
+	            	Platform.runLater(() -> {
+	            		if (currentRFID != null) {
+	            	        currentRFID.setText("Current RFID : " + commText);
+	            	    } else {
+	            	        System.out.println("Current RFID : null");
+	            	    }
+	                    if (getRFID != null) {
+	                        getRFID.setText(commText);
+	                        System.out.println("GET RFID : " + getRFID.getText());
+	                   }
+	                    
+		               if(!DataBase.loggedIn) {
+			            	loginCard(commText);
+			            }
+	            	});
+            		
+
 	            	
 	            }
 	        } catch (Exception e) {

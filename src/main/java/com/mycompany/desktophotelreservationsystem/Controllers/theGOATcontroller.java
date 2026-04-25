@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -65,6 +66,12 @@ public class theGOATcontroller {
     private Label amenityDeleteMessage;
     @FXML
     private Label roomDeleteMessage;
+    @FXML
+    private Label RFIDUpdateMessage;
+    @FXML
+	private Label currentRFID;
+    @FXML
+	private Label getRFID;
     @FXML
     private Label updateIDError;
     @FXML
@@ -114,6 +121,8 @@ public class theGOATcontroller {
     @FXML
     private FlowPane amenityContainer;
     @FXML
+    private FlowPane rfidContainer;
+    @FXML
     private FlowPane roomTypeContainer;
     @FXML
     private FlowPane roomContainer;
@@ -124,6 +133,8 @@ public class theGOATcontroller {
     @FXML
     private ToggleGroup roomTypeRadios = new ToggleGroup();
     @FXML
+    private ToggleGroup rfidRadios = new ToggleGroup();
+    @FXML
     private ToggleGroup accountType;
     @FXML
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
@@ -133,7 +144,7 @@ public class theGOATcontroller {
 	static boolean isRfidRunning = false;
     boolean amenities = false;
 	public static theGOATcontroller goated;
-
+	private static boolean isUpdatingRfid = false;
     public theGOATcontroller() {}
 
 
@@ -238,6 +249,41 @@ public class theGOATcontroller {
     	}
     }
     @FXML
+    public void displayRFID() {
+    	int rfidID = 0;
+    	rfidContainer.getChildren().clear();
+    	
+    	rfidContainer.setHgap(20); 
+        rfidContainer.setVgap(20);
+        rfidContainer.setPadding(new Insets(20));
+        
+    	for(User u : DataBase.people) {
+    		VBox cardWrapper = new VBox(10); 
+            cardWrapper.setAlignment(Pos.CENTER);
+            cardWrapper.setSpacing(1);
+    		String rfidInfo = "Name : "+ u.userName + "\nRFID ID : " + u.getRfidId() ;
+    	
+    		Label rfidLabel = new Label(rfidInfo);
+    		
+    		rfidLabel.
+    		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                    "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                    "-fx-text-alignment: center; -fx-min-width: 120;");
+    		
+    		cardWrapper.getChildren().add(rfidLabel);  
+    		RadioButton rb = new RadioButton(Integer.toString(rfidID));
+        	rb.getStyleClass().add("radioButtons");
+        	rb.setToggleGroup(rfidRadios);
+        	rb.setUserData(u.getUserName());
+        	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+        	if(isUpdatingRfid) {
+        	cardWrapper.getChildren().add(rb);
+        	}
+        	rfidID++;
+        	rfidContainer.getChildren().add(cardWrapper);
+        }
+    }
+    @FXML
     public void initialize() {
     	goated = this;
     	
@@ -251,6 +297,9 @@ public class theGOATcontroller {
         } else {
             System.out.println("No dynamicText label found on this screen. Skipping text update.");
         }
+    	if(rfidContainer != null) {
+    		displayRFID();
+    	}
     	if(amenityContainer != null) {
     	displayAmenities();
     	}
@@ -431,6 +480,7 @@ public class theGOATcontroller {
     	
 		
     	DataBase.currentUser = user.login(loginUser, loginPass, true);
+    	DataBase.loggedIn = true;
 	    	if(DataBase.currentUser instanceof Admin) {
 	    		toAdmin(e);
 	    	}
@@ -525,6 +575,7 @@ public class theGOATcontroller {
     @FXML
     public void toLogin(ActionEvent e) {
     	DataBase.loggedIn = false;
+    	DataBase.currentUser = null;
     	loadScreen("/Login.fxml",e);
     }
     @FXML
@@ -542,6 +593,28 @@ public class theGOATcontroller {
     @FXML
     public void toDeleteRoomTypes(ActionEvent e) {
     	loadScreen("/adminRoomTypesDelete.fxml",e);
+    }
+    @FXML
+    public void toRFID(ActionEvent e) {
+    	loadScreen("/adminRFID.fxml",e);
+    }
+    @FXML
+    public void toAddRFID(ActionEvent e) {
+    	loadScreen("/adminRFIDAdd.fxml",e);
+    }
+    @FXML
+    public void toDeleteRFID(ActionEvent e) {
+    	loadScreen("/adminRFIDDelete.fxml",e);
+    }
+    @FXML
+    public void toUpdateRFID(ActionEvent e) {
+    	isUpdatingRfid = true;
+    	loadScreen("/adminRFIDUpdate.fxml",e);
+    }
+    @FXML
+    public void toViewRFID(ActionEvent e) {
+    	isUpdatingRfid = false;
+    	loadScreen("/adminRFIDView.fxml",e);
     }
     @FXML
     public void toUpdateRoomTypes(ActionEvent e) {
@@ -1055,4 +1128,77 @@ public class theGOATcontroller {
 		
     }
     ///////////////////////////////////// ROOMS FUNCTIONS END
+    
+    ///////////////////////////////////// RFID FUNCTIONS START
+    @FXML
+    public void updateRFID(ActionEvent e) {
+		RFIDUpdateMessage.setText("");
+    	RadioButton selectedRfidButton = (RadioButton)rfidRadios.getSelectedToggle();
+    	User updateUser;
+    	if(selectedRfidButton == null) {
+    		RFIDUpdateMessage.setText("You must choose a user to change their RFID.");
+    		RFIDUpdateMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    	}else {
+    		updateUser = DataBase.people.get(Integer.parseInt(selectedRfidButton.getText()));
+    	}
+    	
+    	if(getRFID.getText().equals("")) {
+    		RFIDUpdateMessage.setText("You must scan the card first!");
+    		RFIDUpdateMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    	}
+    	updateUser.setRfidId(getRFID.getText());
+		for(User u : DataBase.people) {
+			if(u.getRfidId() != null && u.getRfidId().equals(getRFID.getText()) && u != updateUser) {
+				u.setRfidId(null);
+			}
+		}
+    	RFIDUpdateMessage.setText("Rfid Updated Successfully");
+		RFIDUpdateMessage.setStyle("-fx-text-fill : green;");
+		currentRFID.setText("");
+		getRFID.setText("");
+		displayRFID();
+    	
+    }
+    @FXML
+    public void deleteRFID(ActionEvent e) {
+    	RadioButton selectedRfidButton = (RadioButton)rfidRadios.getSelectedToggle();
+    	User deleteUser;
+    	if(selectedRfidButton == null) {
+    		RFIDUpdateMessage.setText("You must choose a user to change their RFID.");
+    		RFIDUpdateMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    	}
+    	else {
+    	    deleteUser = DataBase.people.get(Integer.parseInt(selectedRfidButton.getText()));
+    	}
+    	
+    	if(deleteUser.getRfidId() == null){
+    		RFIDUpdateMessage.setText("RFID already null!");
+    		RFIDUpdateMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    	}
+    	
+		DataBase.people.get(Integer.parseInt(selectedRfidButton.getText())).setRfidId(null);
+		RFIDUpdateMessage.setText("Rfid Deleted Successfully");
+		RFIDUpdateMessage.setStyle("-fx-text-fill : green;");
+    	
+    	displayRFID();
+    }
+
+	public  Label getCurrentRFID() {
+		return currentRFID;
+	}
+	public  void setCurrentRFID(Label currentRFID) {
+		this.currentRFID = currentRFID;
+	}
+	public  Label getGetRFID() {
+		return getRFID;
+	}
+	public  void setGetRFID(Label getRFID) {
+		this.getRFID = getRFID;
+	}
+	
+    ///////////////////////////////////// RFID FUNCTIONS END
 }

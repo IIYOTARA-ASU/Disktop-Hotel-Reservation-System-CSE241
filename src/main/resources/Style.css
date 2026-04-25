@@ -42,21 +42,50 @@
 	-fx-focus-color : transparent;
 	-fx-faint-focus-color : transparent;
 }
-.radioButtons > .radio{
-	-fx-background-color : white;
-	-fx-border-color : darkSlateGray;
-	-fx-border-radius : 10px;
-	-fx-background-radius : 10px;
+/* The container of the radio button */
+.radioButtons {
+    -fx-text-fill: beige;
+    -fx-font-weight: bold;
 }
 
-.unselectedRadioButtons> .radio{
-	-fx-border-color : red;
+
+.radioButtons .radio {
+-fx-background-color: transparent;
+    -fx-border-color: darkSlateGray;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 
-.radioButtons:hover{
-	-fx-cursor:hand;
+.radioButtons:selected .radio .dot {
+    -fx-background-color: darkSlateGray; 
+    -fx-background-insets: 0;
 }
 
+.rfidLabel{
+	-fx-background-color : #3C3C3C;
+	-fx-background-radius : 20px;
+	-fx-text-fill : #FFFFE0;
+	}
+.radioButtons:hover {
+    -fx-cursor: hand;
+}
+.radioButtons .radio {
+-fx-background-color: transparent;
+    -fx-border-color:  #43AA8B;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.radioButtons:selected .radio .dot {
+    -fx-background-color:  #43AA8B;
+    -fx-background-insets: 0;
+}
+
+.radioButtons:hover {
+    -fx-cursor: hand;
+}
 .roomTypesRadio > .radio{
 	-fx-background-color : transparent;
 	-fx-border-color : #43AA8B;
