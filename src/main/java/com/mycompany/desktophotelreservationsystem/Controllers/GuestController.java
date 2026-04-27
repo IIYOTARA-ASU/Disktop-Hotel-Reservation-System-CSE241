@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -218,7 +220,8 @@ public class GuestController {
         try {
             String roomNumStr = roomTextFiel.getText();
             if (roomNumStr.isEmpty()) {
-                System.out.println("Please enter a room number.");
+                errorLabel.setText("please enter all the required data");
+                errorLabel.setVisible(true);
                 return;
             }
 
@@ -228,11 +231,15 @@ public class GuestController {
                 boolean success = Guest.currentLoggedInGuest.payInvoiceByRoomNumber(roomNumber);
 
                 if (success) {
-                    System.out.println("Payment Successful!");
+                    errorLabel.setText("transaction successful");
+                    errorLabel.setTextFill(Color.GREEN);
+                    errorLabel.setVisible(true);
                     displayUserReservations(); // Refresh the GUI list
                     toGuestMenu(event);
                 } else {
-                    System.out.println("No confirmed reservation found for Room " + roomNumber);
+                    errorLabel.setText("room not found");
+                    errorLabel.setVisible(true);
+                    return;
                 }
             }
         } catch (NumberFormatException e) {
