@@ -99,27 +99,30 @@ public class GuestController {
     public void handleCancelReservation(ActionEvent event) {
         try {
             String roomNumStr = roomTextFiel.getText();
-            LocalDate inLocalDate = checkinDatepicker.getValue();
-            LocalDate outLocalDate = checkoutDatePicker.getValue();
+//            LocalDate inLocalDate = checkinDatepicker.getValue();
+//            LocalDate outLocalDate = checkoutDatePicker.getValue();
 
-            if (roomNumStr.isEmpty() || inLocalDate == null || outLocalDate == null) {
-                System.out.println("Please fill all fields for cancellation.");
+            if (roomNumStr.isEmpty() ) {
+                errorLabel.setText("enter all required data");
+                errorLabel.setVisible(true);
                 return;
             }
 
             int roomNumber = Integer.parseInt(roomNumStr);
-            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
-            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
+//            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
+//            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
 
             if (Guest.currentLoggedInGuest != null) {
-                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber, finalIn, finalOut);
+                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber);
 
                 if (success) {
                     System.out.println("Reservation cancelled successfully.");
                     displayUserReservations();
                     toGuestMenu(event);
                 } else {
-                    System.out.println("No matching reservation found to cancel.");
+                    errorLabel.setText("no such room is reserved");
+                    errorLabel.setVisible(true);
+                    return;
                 }
             }
         } catch (NumberFormatException e) {
