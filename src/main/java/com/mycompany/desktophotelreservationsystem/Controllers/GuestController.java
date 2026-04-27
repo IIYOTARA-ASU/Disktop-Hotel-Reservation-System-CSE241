@@ -257,6 +257,7 @@ public class GuestController {
     }
     public void logout(ActionEvent e){
     	DataBase.loggedIn = false;
+    	DataBase.currentUser = null;
         loadScreen("/Login.fxml",e);
     }
 
