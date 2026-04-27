@@ -28,6 +28,7 @@ public class GuestController {
     @FXML private TextField roomTextFiel;
     @FXML private DatePicker checkinDatepicker;
     @FXML private DatePicker checkoutDatePicker;
+    @FXML private Label errorLabel;
 
 
     @FXML
@@ -38,8 +39,14 @@ public class GuestController {
             LocalDate outDate = checkoutDatePicker.getValue();
 
             // Validation
+            if (inDate!=null && outDate!=null&& outDate.isBefore(inDate) ){
+                errorLabel.setVisible(true);
+                return;
+            }
+
             if (roomNumStr.isEmpty() || inDate == null || outDate == null) {
-                System.out.println("Please fill all fields!"); // Replace with a Label for better GUI
+                errorLabel.setText("please enter all the required data");
+                errorLabel.setVisible(true);
                 return;
             }
 
