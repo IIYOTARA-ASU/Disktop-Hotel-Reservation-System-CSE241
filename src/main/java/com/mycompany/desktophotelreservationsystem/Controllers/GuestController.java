@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class GuestController {
     @FXML private FlowPane roomContainer;
@@ -37,9 +38,16 @@ public class GuestController {
             String roomNumStr = roomTextFiel.getText();
             LocalDate inDate = checkinDatepicker.getValue();
             LocalDate outDate = checkoutDatePicker.getValue();
+            LocalDate currentDate=LocalDate.now();
 
             // Validation
             if (inDate!=null && outDate!=null&& outDate.isBefore(inDate) ){
+                errorLabel.setText("error in inputted date");
+                errorLabel.setVisible(true);
+                return;
+            }
+            if (inDate!=null && outDate!=null&& outDate.isBefore(currentDate)||inDate!=null && outDate!=null&& inDate.isBefore(currentDate)){
+                errorLabel.setText("error in inputted date");
                 errorLabel.setVisible(true);
                 return;
             }
