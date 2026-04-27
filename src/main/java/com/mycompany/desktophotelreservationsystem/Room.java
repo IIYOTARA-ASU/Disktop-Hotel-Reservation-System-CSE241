@@ -5,6 +5,7 @@ public class Room implements roomstuff {
 	private RoomType type;
 	private int roomNumber;
 	private int price;
+	private boolean occupied;
 
 	ArrayList<Amenity> amenities = new ArrayList<>();
 
@@ -62,6 +63,15 @@ public class Room implements roomstuff {
 	public Room addAmenity(Amenity amenity) {
 		this.amenities.add(amenity);
 		return this; // To allow method chaining (according to Gemini) for faster addition of amenities to rooms
+	}
+	public boolean getOcc(){
+		return this.occupied;
+	}
+	public void setOccupied(){
+		this.occupied=true;
+	}
+	public void setUnOccupied(){
+		this.occupied=false;
 	}
 
 }

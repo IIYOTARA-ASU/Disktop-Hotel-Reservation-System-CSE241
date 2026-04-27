@@ -3,30 +3,38 @@ package com.mycompany.desktophotelreservationsystem.Controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.mycompany.desktophotelreservationsystem.Receptionist;
 import com.mycompany.desktophotelreservationsystem.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+import com.mycompany.desktophotelreservationsystem.DataBase;
+import javafx.scene.paint.Color;
+import java.util.Date;
+import java.util.Date.*;
 import java.util.ArrayList;
+import java.text.*;
 
 
 public class Receptionist_Controller {
 
     private Admin admin;
     private Receptionist receptionist;
-    private ArrayList <Room> rooms=new ArrayList<>();
-    private boolean [] roomstate=new boolean[25];
-    private Room r=new Room();
+    private boolean[] roomstate = new boolean[25];
+    private Room r = new Room();
 
     RoomType single = new RoomType("Single");
     RoomType couple = new RoomType("Double"); // "double" is a reserved word in java
@@ -37,42 +45,18 @@ public class Receptionist_Controller {
     private Scene scene;
     private Parent root;
     private GuestController g = new GuestController();
-
     @FXML
     private VBox reservationListContainer;
     @FXML
-    private Label room1;
+    Rectangle Room67;
     @FXML
-    private Label room2;
+    Rectangle Room123;
     @FXML
-    private Label room3;
+    Rectangle Room108;
     @FXML
-    private Label room4;
+    Label recepname;
     @FXML
-    private Label room5;
-    @FXML
-    private Label room6;
-    @FXML
-    private Label room7;
-    @FXML
-    private Label room8;
-    @FXML
-    private Label room9;
-    @FXML
-    private Label room10;
-    @FXML
-    private Label room11;
-    @FXML
-    private Label room12;
-    @FXML
-    private Label room13;
-    @FXML
-    private Label room14;
-    @FXML
-    private Label room15;
-    @FXML
-    private Label room16;
-
+    Label Date;
     @FXML
     private Label updatePriceError;
     @FXML
@@ -100,20 +84,32 @@ public class Receptionist_Controller {
     @FXML
     private FlowPane roomContainer;
     @FXML
+    private VBox recepContainers;
+    @FXML
     private Rectangle NoOfGuest;
-
+    @FXML
+    private TextField roomno ;
+    @FXML
+    private VBox checkinContainers;
+    @FXML
+    private VBox checkoutContainers;
+    @FXML
     boolean amenities = false;
+    @FXML
+    private Label date;
 
 
-    @FXML void loadScreen(String path, ActionEvent e) {
+    @FXML
+    void loadScreen(String path, ActionEvent e) {
         try {
             root = FXMLLoader.load(getClass().getResource(path));
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         } catch (IOException e1) {
             // TODO Auto-generated catch block
-            System.out.println("Ballersssss");
+            System.out.println("SIKEEEEE DIGGER u entered a wrong path");
             e1.printStackTrace();
         }
-        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
         scene = new Scene(root);
         if (stage != null) {
             stage.setScene(scene);
@@ -121,17 +117,91 @@ public class Receptionist_Controller {
         }
 
     }
+
     @FXML
-    public void initialize(){
-    	theGOATcontroller.isRfidRunning = false;
-    	RFIDThread.commPort.closePort();
-    	// seebak mn el 7eta di y hadi di taba3yyyyy ~Ahmed ramyyyyy
-        if(roomContainer!=null)
-        {
+    public void initialize() {
+        // 1. Handle the Room Labels (FlowPane)
+        if (roomContainer != null) {
             displayRooms();
         }
 
+        // 2. Handle the Rectangles (Visual Map)
+        if (Room67 != null && Room123 != null && Room108 != null) {
+            // Reset them all to Green first
+            Room67.setFill(Color.GREEN);
+            Room108.setFill(Color.GREEN);
+            Room123.setFill(Color.GREEN);
+
+            // Check the database and update specific rectangles
+            for (Room r : DataBase.rooms) {
+                if (r.getOcc()) {
+                    // Change ONLY the rectangle matching this room number
+                    if (r.getRoomNumber() == 67) Room67.setFill(Color.RED);
+                    if (r.getRoomNumber() == 108) Room108.setFill(Color.RED);
+                    if (r.getRoomNumber() == 123) Room123.setFill(Color.RED);
+                }
+            }
+        }
+        // 3. Put Receptionist Name
+        if (recepname != null && DataBase.people.size() > 2) {
+            recepname.setText(DataBase.people.get(2).getUserName());
+        }
+        if(date!=null)
+        {
+            SimpleDateFormat f= new SimpleDateFormat("d MMMM yyyy");
+            Date d=new Date();
+            String t= f.format(d);
+            date.setText(t);
+        }
+        // null checking
+        if (recepContainers != null ) {
+            displayReservationCards();
+        }
+
+        // If we are on the Check-In FXML
+        if (checkinContainers != null ) {
+            checkin();
+        }
+        if (checkoutContainers != null ) {
+            checkout();
+        }
     }
+
+    public void displayReservationCards() {
+
+        recepContainers.getChildren().clear();
+
+        // We want to see ALL reservations for the receptionist to manage
+        for (Reservation res : DataBase.reservations) {
+            String statusColor = "#f39c12"; // Pending yellow
+            String statusStr = res.getReservationStatus().toString();
+
+            if (statusStr.equals("CONFIRMED")) statusColor = "#27ae60";
+            else if (statusStr.equals("CANCELLED")) statusColor = "#c0392b";
+            else if (statusStr.equals("COMPLETED")) statusColor = "#3498db";
+
+            String info = "Guest: " + res.getGuest().getUserName() +
+                    "\nRoom: " + res.getRoom().getRoomNumber() +
+                    "\nCheck-in: " + res.getCheckInDate() +
+                    "\nStatus: " + statusStr+
+                    "\nCheck-out:"+res.getCheckOutDate();
+
+            Label card = new Label(info);
+            card.setStyle(
+                    "-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                            "-fx-background-color: #24423f; -fx-padding: 15; -fx-background-radius: 10; " +
+                            "-fx-min-width: 500; -fx-border-color: " + statusColor + "; " +
+                            "-fx-border-width: 0 0 0 10; -fx-border-radius: 10;"
+            );
+
+            recepContainers.getChildren().add(card);
+            // Add some spacing between cards
+            VBox.setMargin(card, new Insets(0, 0, 10, 0));
+        }
+
+
+    }
+
     @FXML
     public void view_roomtype(ActionEvent e){
 
@@ -143,31 +213,58 @@ public class Receptionist_Controller {
         loadScreen("/Receptionists.fxml",e);
     }
     @FXML
-    public void check_in()
+    public void check_in(ActionEvent e)
     {
 
+        loadScreen("/ReceptionistCheckIn.fxml",e);
     }
+    private void checkin() {
+
+        if (checkinContainers == null) return; // Or whatever container your check-in UI uses
+        checkinContainers.getChildren().clear();
+
+        for (Reservation r : DataBase.reservations) {
+            // Only show PENDING reservations for check-in
+            if (r.getReservationStatus().toString().equals("PENDING")) {
+
+                Label infoLabel = new Label("Check-in Guest: " + r.getGuest().getUserName() +
+                        "\nAssigning Room: " + r.getRoom().getRoomNumber()+"Status:"+ r.getReservationStatus() +"\nCheck in Date:"
+                        +r.getCheckInDate()+"\nCheck out Date:"+r.getCheckOutDate());
+
+                Button btn = new Button("Confirm Check-In");
+                btn.setOnAction(e -> executeCheckIn(r)); // Separate logic method
+
+                HBox card = new HBox(20, infoLabel, btn);
+                card.setAlignment(Pos.CENTER_LEFT);
+                card.setStyle("-fx-background-color: #2c3e50; -fx-padding: 15; -fx-background-radius: 10;");
+
+                checkinContainers.getChildren().add(card);
+                VBox.setMargin(card, new Insets(0, 0, 10, 0));
+            }
+        }
+
+    }
+    public void executeCheckIn(Reservation res)
+    {
+        res.setReservationStatus(Reservation.ReservationStatus.CONFIRMED);
+        res.getRoom().setOccupied();
+        checkin();
+    }
+    private boolean isCheckInScreen() {
+        return checkinContainers != null;
+    }
+    private String getStatusColor(String status) {
+        switch (status) {
+            case "CONFIRMED": return "#27ae60";
+            case "CANCELLED": return "#c0392b";
+            case "COMPLETED": return "#3498db";
+            default: return "#f39c12";
+        }
+    }
+
     @FXML
     public void view_rooms(ActionEvent e){
-        for(int i=1;i<=25;i++)
-        {
 
-            if(i%2 != 0) {
-                Room room = new Room(i, single, 10);
-                rooms.add(room);
-            }
-            if(i%2==0 && i%5!=0)
-            {
-                Room room = new Room(i,couple, 15);
-                rooms.add(room);
-            }
-            if(i%5 == 0)
-            {
-                Room room = new Room(i,suite, 20);
-                rooms.add(room);
-            }
-
-        }
         loadScreen("/ReceptionistViewrooms.fxml",e);
 
     }
@@ -178,24 +275,89 @@ public class Receptionist_Controller {
         loadScreen("/Login.fxml",e);
     }
     @FXML
-    public void view_guest(){
+    public void view_guest(ActionEvent e){
 
+        loadScreen("/ReceptionistViewGuests.fxml",e);
     }
     @FXML
-    public void check_out(){
+    public void check_out(ActionEvent e){
+        loadScreen("/ReceptionistCheckOut.fxml",e);
+    }
+    public void checkout(){
+        if (checkoutContainers == null) return; // Or whatever container your check-in UI uses
+        checkoutContainers.getChildren().clear();
 
+        for (Reservation r : DataBase.reservations) {
+            // Only show PENDING reservations for check-in
+            if (r.getReservationStatus().toString().equals("CONFIRMED")) {
+
+                Label infoLabel = new Label("Check-in Guest: " + r.getGuest().getUserName() +
+                        "\nAssigning Room: " + r.getRoom().getRoomNumber()+"\nCheck in Date:"
+                        +r.getCheckInDate()+"\nCheck out Date:"+r.getCheckOutDate());
+
+                Button btn = new Button("Confirm Check-Out");
+                btn.setOnAction(e -> executeCheckOut(r)); // Separate logic method
+
+                HBox card = new HBox(20, infoLabel, btn);
+                card.setAlignment(Pos.CENTER_LEFT);
+                card.setStyle("-fx-background-color: #2c3e50; -fx-padding: 15; -fx-background-radius: 10;");
+
+                checkoutContainers.getChildren().add(card);
+                VBox.setMargin(card, new Insets(0, 0, 10, 0));
+            }
+        }
+
+    }
+    public void executeCheckOut(Reservation res)
+    {
+        res.setReservationStatus(Reservation.ReservationStatus.COMPLETED);
+        res.getRoom().setUnOccupied();
+        checkout();
     }
     @FXML
-    public void view_pending(){
-
-    }
     public void view_reservation(ActionEvent e)
     {
         loadScreen("/ReceptionistViewreservation.fxml",e);
     }
     @FXML
-    public void displayRooms() {
+    public void displayRoom(){
 
+        roomContainer.getChildren().clear();
+        roomContainer.setHgap(20);
+        roomContainer.setVgap(20);
+        roomContainer.setPadding(new Insets(20));
+
+        for (Room r : DataBase.rooms) {
+            // Create a Label to act as our "Square"
+            Label roomSquare = new Label(String.valueOf(r.getRoomNumber()));
+
+            // Determine color based on occupancy
+            // Assuming r.getOcc() returns true if occupied
+            String backgroundColor = r.getOcc() ? "#e74c3c" : "#2ecc71"; // Red if occupied, Green if free
+
+            roomSquare.setStyle(
+                    "-fx-background-color: " + backgroundColor + ";" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-size: 18px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-alignment: center;" +
+                            "-fx-min-width: 80;" +
+                            "-fx-min-height: 80;" +
+                            "-fx-background-radius: 15;" + // Rounds the corners like your screenshot
+                            "-fx-border-color: #333;" +
+                            "-fx-border-radius: 15;" +
+                            "-fx-border-width: 2;"
+            );
+
+            // Optional: Add a Tooltip so you can still see price/amenities on hover
+            String tooltipText = "Type: " + r.getRoomType().getRoomType() + "\nPrice: $" + r.getPrice();
+            javafx.scene.control.Tooltip.install(roomSquare, new javafx.scene.control.Tooltip(tooltipText));
+
+            roomContainer.getChildren().add(roomSquare);
+        }
+    }
+    @FXML
+    public void displayRooms() {
         roomContainer.getChildren().clear();
 
         roomContainer.setHgap(20);
@@ -203,20 +365,24 @@ public class Receptionist_Controller {
         roomContainer.setPadding(new Insets(20));
 
         for(Room r : DataBase.rooms) {
-            String roomInfo = "Room Number : " + r.getRoomNumber() +"\n Room Type : " +r.getRoomType().getRoomType() + "\n Room Amenities : ";
-            for (int j = 0; j < r.getAmenities().size(); j++) {
-                roomInfo += r.getAmenities().get(j).getName();
-                if (r.getAmenities().size() - j != 1) { roomInfo += ", "; }
+            if(!r.getOccupied()) {
+                String roomInfo = "Room Number : " + r.getRoomNumber() + "\n Room Type : " + r.getRoomType().getRoomType() + "\n Room Amenities : ";
+                for (int j = 0; j < r.getAmenities().size(); j++) {
+                    roomInfo += r.getAmenities().get(j).getName();
+                    if (r.getAmenities().size() - j != 1) {
+                        roomInfo += ", ";
+                    }
+                }
+                roomInfo += "\n Price : $" + r.getPrice();
+
+                Label roomLabel = new Label(roomInfo);
+
+                roomLabel.
+                        setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
+                                "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
+                                "-fx-text-alignment: center; -fx-min-width: 120;");
+                roomContainer.getChildren().add(roomLabel);
             }
-            roomInfo+="\n Price : $"+ r.getPrice();
-
-            Label roomLabel = new Label(roomInfo);
-
-            roomLabel.
-                    setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
-                            "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
-                            "-fx-text-alignment: center; -fx-min-width: 120;");
-            roomContainer.getChildren().add(roomLabel);
 
         }
     }

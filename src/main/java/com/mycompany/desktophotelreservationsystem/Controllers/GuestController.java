@@ -17,10 +17,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class GuestController {
     @FXML private FlowPane roomContainer;
@@ -28,6 +31,7 @@ public class GuestController {
     @FXML private TextField roomTextFiel;
     @FXML private DatePicker checkinDatepicker;
     @FXML private DatePicker checkoutDatePicker;
+    @FXML private Label errorLabel;
 
 
     @FXML
@@ -36,10 +40,23 @@ public class GuestController {
             String roomNumStr = roomTextFiel.getText();
             LocalDate inDate = checkinDatepicker.getValue();
             LocalDate outDate = checkoutDatePicker.getValue();
+            LocalDate currentDate=LocalDate.now();
 
             // Validation
+            if (inDate!=null && outDate!=null&& outDate.isBefore(inDate) ){
+                errorLabel.setText("error in inputted date");
+                errorLabel.setVisible(true);
+                return;
+            }
+            if (inDate!=null && outDate!=null&& outDate.isBefore(currentDate)||inDate!=null && outDate!=null&& inDate.isBefore(currentDate)){
+                errorLabel.setText("error in inputted date");
+                errorLabel.setVisible(true);
+                return;
+            }
+
             if (roomNumStr.isEmpty() || inDate == null || outDate == null) {
-                System.out.println("Please fill all fields!"); // Replace with a Label for better GUI
+                errorLabel.setText("please enter all the required data");
+                errorLabel.setVisible(true);
                 return;
             }
 
@@ -50,6 +67,7 @@ public class GuestController {
             for (Room r : DataBase.rooms) {
                 if (r.getRoomNumber() == roomNumber) {
                     selectedRoom = r;
+                    r.setOccupied();
                     break;
                 }
             }
@@ -83,27 +101,30 @@ public class GuestController {
     public void handleCancelReservation(ActionEvent event) {
         try {
             String roomNumStr = roomTextFiel.getText();
-            LocalDate inLocalDate = checkinDatepicker.getValue();
-            LocalDate outLocalDate = checkoutDatePicker.getValue();
+//            LocalDate inLocalDate = checkinDatepicker.getValue();
+//            LocalDate outLocalDate = checkoutDatePicker.getValue();
 
-            if (roomNumStr.isEmpty() || inLocalDate == null || outLocalDate == null) {
-                System.out.println("Please fill all fields for cancellation.");
+            if (roomNumStr.isEmpty() ) {
+                errorLabel.setText("enter all required data");
+                errorLabel.setVisible(true);
                 return;
             }
 
             int roomNumber = Integer.parseInt(roomNumStr);
-            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
-            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
+//            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
+//            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
 
             if (Guest.currentLoggedInGuest != null) {
-                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber, finalIn, finalOut);
+                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber);
 
                 if (success) {
                     System.out.println("Reservation cancelled successfully.");
                     displayUserReservations();
                     toGuestMenu(event);
                 } else {
-                    System.out.println("No matching reservation found to cancel.");
+                    errorLabel.setText("no such room is reserved");
+                    errorLabel.setVisible(true);
+                    return;
                 }
             }
         } catch (NumberFormatException e) {
@@ -199,7 +220,8 @@ public class GuestController {
         try {
             String roomNumStr = roomTextFiel.getText();
             if (roomNumStr.isEmpty()) {
-                System.out.println("Please enter a room number.");
+                errorLabel.setText("please enter all the required data");
+                errorLabel.setVisible(true);
                 return;
             }
 
@@ -209,11 +231,15 @@ public class GuestController {
                 boolean success = Guest.currentLoggedInGuest.payInvoiceByRoomNumber(roomNumber);
 
                 if (success) {
-                    System.out.println("Payment Successful!");
+                    errorLabel.setText("transaction successful");
+                    errorLabel.setTextFill(Color.GREEN);
+                    errorLabel.setVisible(true);
                     displayUserReservations(); // Refresh the GUI list
                     toGuestMenu(event);
                 } else {
-                    System.out.println("No confirmed reservation found for Room " + roomNumber);
+                    errorLabel.setText("room not found");
+                    errorLabel.setVisible(true);
+                    return;
                 }
             }
         } catch (NumberFormatException e) {

@@ -12,8 +12,9 @@
 <AnchorPane fx:id="dashboard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="1120.0" stylesheets="@hadi.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.Receptionist_Controller">
     <children>
         <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#24423f" height="584.0" layoutX="-16.0" layoutY="63.0" stroke="TRANSPARENT" strokeType="INSIDE" width="233.0" />
+
         <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#24423f" height="93.0" layoutX="-23.0" layoutY="-10.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1160.0" />
-        <Button fx:id="CHein" layoutX="9.0" layoutY="100.0" mnemonicParsing="false" onAction="#view_dashboard" prefHeight="38.0" prefWidth="203.0" text="dashboard" />
+        <Button layoutX="9.0" layoutY="100.0" mnemonicParsing="false" onAction="#view_dashboard" prefHeight="38.0" prefWidth="203.0" text="dashboard" />
 
         <Label layoutX="111.0" layoutY="27.0" prefHeight="38.0" prefWidth="978.0" text="Palisade hotel | Receptionist Dashboard" textFill="WHITE" />
 
@@ -25,15 +26,15 @@
         <Label fx:id="recepname" layoutX="856.0" layoutY="34.0" style="-fx-font-style: regular;" stylesheets="@hadi.css" text="Label" />
         <Label fx:id="date" layoutX="626.0" layoutY="37.0" text="Date" />
         <Button layoutX="9.0" layoutY="151.0" mnemonicParsing="false" onAction="#view_reservation" prefHeight="36.0" prefWidth="203.0" text="View reservation" />
-        <Button fx:id="viewrooms" layoutX="6.0" layoutY="198.0" mnemonicParsing="false" onAction="#view_rooms" prefHeight="36.0" prefWidth="203.0" text="View rooms" />
-        <Button layoutX="6.0" layoutY="244.0" mnemonicParsing="false" onAction="#view_guest" prefHeight="36.0" prefWidth="203.0" text="View Guests" />
-        <Button layoutX="6.0" layoutY="337.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
-        <Button layoutX="6.0" layoutY="289.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
-      <ScrollPane layoutX="284.0" layoutY="114.0" prefHeight="454.0" prefWidth="773.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+        <Button fx:id="viewRooms" layoutX="6.0" layoutY="198.0" mnemonicParsing="false" onAction="#view_rooms" prefHeight="36.0" prefWidth="203.0" text="View rooms" />
+        <Button layoutX="6.0" layoutY="242.0" mnemonicParsing="false" onAction="#view_guest" prefHeight="36.0" prefWidth="203.0" text="View Guests" />
+        <Button layoutX="6.0" layoutY="329.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
+        <Button layoutX="6.0" layoutY="286.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
+        <Button layoutX="6.0" layoutY="374.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
+      <ScrollPane layoutX="273.0" layoutY="95.0" prefHeight="510.0" prefWidth="780.0" stylesheets="@Style.css">
          <content>
-            <VBox fx:id="recepContainers" prefHeight="458.0" prefWidth="774.0" spacing="15.0" style="-fx-padding: 10;" />
+            <VBox fx:id="checkoutContainers" prefHeight="511.0" prefWidth="781.0" style="-fx-background-color: #254441;" stylesheets="@Style.css" />
          </content>
       </ScrollPane>
-      <Button layoutX="6.0" layoutY="380.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
     </children>
 </AnchorPane>

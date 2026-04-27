@@ -64,15 +64,11 @@ public class Guest extends User implements users {
 		}
 	}
 	/// /////////////////////////////////////////////for cancelation GUI
-	public boolean processCancellation(int roomNum, java.util.Date inDate, java.util.Date outDate) {
+	public boolean processCancellation(int roomNum) {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
 			Reservation res = DataBase.reservations.get(i);
 
-			if (res.getGuest().equals(this) &&
-					res.getRoom().getRoomNumber() == roomNum &&
-					res.getCheckInDate().equals(inDate) &&
-					res.getCheckOutDate().equals(outDate)) {
-
+			if (res.getGuest().equals(this) && res.getRoom().getRoomNumber() == roomNum) {
 				this.cancelReservation(res);
 				return true;
 			}
@@ -84,9 +80,7 @@ public class Guest extends User implements users {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
 			Reservation r = DataBase.reservations.get(i);
 
-			if (r.getGuest().equals(this) &&
-					r.getRoom().getRoomNumber() == roomNumber &&
-					r.getReservationStatus().toString().equals("CONFIRMED")) {
+			if (r.getGuest().equals(this) && r.getRoom().getRoomNumber() == roomNumber && r.getReservationStatus().toString().equals("CONFIRMED")) {
 
 				// Call checkout/payInvoice logic homa nafs e7aga m4 fahem eh el e5telaf aslan
 				this.checkout(r);

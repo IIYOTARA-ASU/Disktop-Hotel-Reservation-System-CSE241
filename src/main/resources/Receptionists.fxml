@@ -41,10 +41,9 @@
       <Label fx:id="date" layoutX="626.0" layoutY="37.0" text="Date" />
       <Button layoutX="9.0" layoutY="151.0" mnemonicParsing="false" onAction="#view_reservation" prefHeight="36.0" prefWidth="203.0" text="View reservation" />
       <Button fx:id="viewRooms" layoutX="6.0" layoutY="198.0" mnemonicParsing="false" onAction="#view_rooms" prefHeight="36.0" prefWidth="203.0" text="View rooms" />
-      <Button layoutX="6.0" layoutY="289.0" mnemonicParsing="false" onAction="#view_guest" prefHeight="36.0" prefWidth="203.0" text="View Guests" />
-      <Button layoutX="6.0" layoutY="242.0" mnemonicParsing="false" onAction="#view_pending" prefHeight="36.0" prefWidth="203.0" text="View pending" />
-      <Button layoutX="6.0" layoutY="381.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
-      <Button layoutX="6.0" layoutY="337.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
-      <Button layoutX="6.0" layoutY="427.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
+      <Button layoutX="6.0" layoutY="246.0" mnemonicParsing="false" onAction="#view_guest" prefHeight="36.0" prefWidth="203.0" text="View Guests" />
+      <Button layoutX="6.0" layoutY="337.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
+      <Button layoutX="6.0" layoutY="290.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
+      <Button layoutX="6.0" layoutY="380.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
    </children>
 </AnchorPane>

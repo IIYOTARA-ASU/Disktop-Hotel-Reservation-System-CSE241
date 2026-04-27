@@ -1,9 +1,9 @@
 package com.mycompany.desktophotelreservationsystem;
-import java.util.*; 
+import java.util.*;
 
 public class DataBase {
     public static ArrayList<Room> rooms = new ArrayList<>();
-    static ArrayList<Reservation> reservations = new ArrayList<>();
+    public static ArrayList<Reservation> reservations = new ArrayList<>();
     static ArrayList<Invoice> invoices = new ArrayList<>();
     public static ArrayList<User> people = new ArrayList<>();
     static ArrayList<Guest> guests = new ArrayList<>();
@@ -19,8 +19,8 @@ public class DataBase {
     public static void demoFill() {
         /////////////////////////////////////////////////////////// PEOPLE
         Admin admin = new Admin("Ahmed", "67");
-        Guest guest = new Guest("Hadi", "67");
-        Receptionist receptionist = new Receptionist("Youssef", "67");
+        Guest guest = new Guest("Baraa", "67");
+        Receptionist receptionist = new Receptionist("Hadi", "67");
         admin.setRfidId("FB 70 6C 8A");
         people.add(admin);
         people.add(guest);
@@ -29,7 +29,7 @@ public class DataBase {
         /////////////////////////////////////////////////////////// ROOM TYPES
         RoomType single = new RoomType("Single");
         RoomType couple = new RoomType("Double"); // "double" is a reserved word in java
-        RoomType suite = new RoomType("Suite"); 
+        RoomType suite = new RoomType("Suite");
         roomTypes.add(single);
         roomTypes.add(couple);
         roomTypes.add(suite);

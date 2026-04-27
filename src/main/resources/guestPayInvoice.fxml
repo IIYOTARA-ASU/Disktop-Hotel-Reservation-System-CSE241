@@ -31,9 +31,14 @@
             </font>
         </Label>
         <Button layoutX="113.0" layoutY="489.0" mnemonicParsing="false" onAction="#handlePayInvoice" styleClass="btn-round" stylesheets="@Style.css" text="confirm payment" />
-      <Label fx:id="balanceLabel" layoutX="70.0" layoutY="372.0" prefHeight="27.0" prefWidth="182.0" text="Balance:" textFill="#086952">
+      <Label fx:id="balanceLabel" layoutX="70.0" layoutY="372.0" prefHeight="27.0" prefWidth="261.0" text="Balance:" textFill="#086952">
          <font>
             <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="430.0" layoutY="377.0" prefHeight="18.0" prefWidth="238.0" text="Label" textFill="RED" visible="false">
+         <font>
+            <Font size="22.0" />
          </font>
       </Label>
     </children>

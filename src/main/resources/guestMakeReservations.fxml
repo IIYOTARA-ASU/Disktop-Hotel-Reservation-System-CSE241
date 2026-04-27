@@ -2,12 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="534.0" prefWidth="755.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.GuestController">
@@ -31,5 +33,10 @@
             <FlowPane fx:id="roomContainer" prefHeight="390.0" prefWidth="314.0" stylesheets="@Style.css" />
          </content>
       </ScrollPane>
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="24.0" layoutY="121.0" prefHeight="32.0" prefWidth="353.0" text="error in inputed data" textFill="#e70909" visible="false">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
