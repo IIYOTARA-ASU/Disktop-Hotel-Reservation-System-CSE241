@@ -15,7 +15,7 @@
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="557.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="720.0" AnchorPane.topAnchor="0.0" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="557.0" layoutX="724.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="720.4" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#24423f" height="107.0" layoutX="14.0" stroke="BLACK" strokeType="INSIDE" width="725.0" />
-        <Text fill="WHITE" layoutX="208.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 50; -fx-font-weight: bold;" styleClass="textBox" text="Pay Invoice" />
+        <Text fill="WHITE" layoutX="248.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 50; -fx-font-weight: bold;" styleClass="textBox" text="Checkout" />
         <Label layoutX="57.0" layoutY="124.0" prefHeight="46.0" prefWidth="112.0" stylesheets="@Style.css" text="Reservation:" />
         <ScrollPane layoutX="70.0" layoutY="170.0" prefHeight="99.0" prefWidth="616.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
             <content>

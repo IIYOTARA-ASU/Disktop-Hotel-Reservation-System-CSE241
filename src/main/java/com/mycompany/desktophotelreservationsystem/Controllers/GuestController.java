@@ -67,13 +67,13 @@ public class GuestController {
             for (Room r : DataBase.rooms) {
                 if (r.getRoomNumber() == roomNumber) {
                     selectedRoom = r;
-                    r.setOccupied();
                     break;
                 }
             }
 
             if (selectedRoom == null) {
-                System.out.println("Room " + roomNumber + " does not exist.");
+                errorLabel.setText("no such room exists");
+                errorLabel.setVisible(true);
                 return;
             }
 
@@ -83,12 +83,25 @@ public class GuestController {
 
             // Access the Logged-in Guest for now haykoon baraa
             if (Guest.currentLoggedInGuest != null) {
+
+                for (Reservation existing : DataBase.reservations) {
+                    if (existing.getGuest().equals(Guest.currentLoggedInGuest) && existing.getRoom().getRoomNumber() == roomNumber && !existing.getReservationStatus().equals("CANCELLED") && !existing.getReservationStatus().equals("COMPLETED")) {
+                        if (finalInDate.before(existing.getCheckOutDate()) && finalOutDate.after(existing.getCheckInDate() ) ) {
+                            errorLabel.setText("already reserved room:" + roomNumber + "dates.");
+                            errorLabel.setVisible(true);
+                            return;
+                        }
+                    }
+                }
+
+
                 Guest.currentLoggedInGuest.makeReservation(selectedRoom, finalInDate, finalOutDate);
                 System.out.println("Reservation submitted for " + Guest.currentLoggedInGuest.getUserName());
 
                 toGuestMenu(event);
             } else {
-                System.out.println("Error: No active Guest session.");
+                errorLabel.setText("Invalid Room Number.");
+                errorLabel.setVisible(true);
             }
 
 
@@ -110,12 +123,12 @@ public class GuestController {
                 return;
             }
 
-            int roomNumber = Integer.parseInt(roomNumStr);
+            int roomID = Integer.parseInt(roomNumStr);
 //            java.util.Date finalIn = java.sql.Date.valueOf(inLocalDate);
 //            java.util.Date finalOut = java.sql.Date.valueOf(outLocalDate);
 
             if (Guest.currentLoggedInGuest != null) {
-                boolean success = Guest.currentLoggedInGuest.processCancellation(roomNumber);
+                boolean success = Guest.currentLoggedInGuest.processCancellation(roomID);
 
                 if (success) {
                     System.out.println("Reservation cancelled successfully.");
@@ -128,7 +141,8 @@ public class GuestController {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid Room Number format.");
+            errorLabel.setText("Invalid Reservation ID format.");
+            errorLabel.setVisible(true);
         }
     }
 
@@ -193,7 +207,6 @@ public class GuestController {
         roomContainer.setPadding(new Insets(20));
 
         for(Room r : DataBase.rooms) {
-            if(!r.getOccupied()) {
                 String roomInfo = "Room Number : " + r.getRoomNumber() + "\n Room Type : " + r.getRoomType().getRoomType() + "\n Room Amenities : ";
                 for (int j = 0; j < r.getAmenities().size(); j++) {
                     roomInfo += r.getAmenities().get(j).getName();
@@ -210,7 +223,7 @@ public class GuestController {
                                 "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                                 "-fx-text-alignment: center; -fx-min-width: 120;");
                 roomContainer.getChildren().add(roomLabel);
-            }
+
 
         }
     }

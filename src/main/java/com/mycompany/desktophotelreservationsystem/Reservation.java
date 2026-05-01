@@ -3,8 +3,18 @@ import java.util.Date;
 
 public class Reservation implements reservationProcess{
     public enum ReservationStatus { PENDING, CONFIRMED, CANCELLED, COMPLETED }
-    
+
+    private Guest guest;
+    private Room room;
+    private ReservationStatus reservationStatus;
+    private Date checkInDate;
+    private Date checkOutDate;
+
+    private int reservationId;
+    private static int reservationNumber=0;
+
     Reservation() {
+        this.reservationId=reservationNumber++;
     }
 
     
@@ -14,15 +24,18 @@ public class Reservation implements reservationProcess{
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.reservationStatus = ReservationStatus.PENDING;
+        this.reservationId=reservationNumber++;
     }
     
-    private Guest guest;
-    private Room room;
-    private ReservationStatus reservationStatus;
-    private Date checkInDate;
-    private Date checkOutDate;
+
 
     // ###############################  GETTERS  ###############################
+
+
+    public int getReservationId() {
+        return reservationId;
+    }
+
     public Guest getGuest() {
         return guest;
     }

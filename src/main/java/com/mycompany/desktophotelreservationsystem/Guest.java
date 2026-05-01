@@ -39,9 +39,7 @@ public class Guest extends User implements users {
 					statusColor = "#3498db"; // Blue
 				}
 
-				String info = "Room: " + res.getRoom().getRoomNumber() +
-						"\nCheck-in: " + res.getCheckInDate() +
-						"\nStatus: " + statusStr;
+				String info = "Reservation: "+res.getReservationId()+"\nRoom: " + res.getRoom().getRoomNumber() + "\nCheck-in: " + res.getCheckInDate() + "\nStatus: " + statusStr;
 
 				javafx.scene.control.Label card = new javafx.scene.control.Label(info);
 
@@ -64,11 +62,11 @@ public class Guest extends User implements users {
 		}
 	}
 	/// /////////////////////////////////////////////for cancelation GUI
-	public boolean processCancellation(int roomNum) {
+	public boolean processCancellation(int roomID) {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
 			Reservation res = DataBase.reservations.get(i);
 
-			if (res.getGuest().equals(this) && res.getRoom().getRoomNumber() == roomNum) {
+			if (res.getGuest().equals(this) && res.getReservationId() == roomID && !res.getReservationStatus().equals("CANCELLED")) {
 				this.cancelReservation(res);
 				return true;
 			}

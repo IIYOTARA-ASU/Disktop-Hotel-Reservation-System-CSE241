@@ -17,7 +17,7 @@ public class User implements users {
 	private String rfidId;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-	private static String adminCode = "badrEhabByakolFera5Masloo2a";
+	private static String adminCode = "3an abo el habal";
 	String inputCode;
 	
 	public String getRfidId() {
