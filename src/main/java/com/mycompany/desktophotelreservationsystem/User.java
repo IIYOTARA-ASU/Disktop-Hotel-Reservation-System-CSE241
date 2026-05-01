@@ -12,6 +12,7 @@ public class User implements users {
 		password = p;
 	}
 
+
 	public String userName;
 	private String password;
 	private String rfidId;

@@ -26,7 +26,8 @@ public class Reservation implements reservationProcess{
         this.reservationStatus = ReservationStatus.PENDING;
         this.reservationId=reservationNumber++;
     }
-    
+
+
 
 
     // ###############################  GETTERS  ###############################

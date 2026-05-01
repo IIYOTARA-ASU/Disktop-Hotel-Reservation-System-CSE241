@@ -228,6 +228,7 @@ public class GuestController {
         }
     }
 
+
     @FXML
     public void handlePayInvoice(ActionEvent event) {
         try {

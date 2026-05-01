@@ -61,6 +61,7 @@ public class Guest extends User implements users {
 			}
 		}
 	}
+
 	/// /////////////////////////////////////////////for cancelation GUI
 	public boolean processCancellation(int roomID) {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
