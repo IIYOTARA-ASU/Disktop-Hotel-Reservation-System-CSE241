@@ -6,6 +6,7 @@ public class Room implements roomstuff {
 	private int roomNumber;
 	private int price;
 	private boolean occupied;
+	private static Integer roomnumber=DataBase.rooms.size();
 
 	ArrayList<Amenity> amenities = new ArrayList<>();
 
@@ -73,5 +74,8 @@ public class Room implements roomstuff {
 	public void setUnOccupied(){
 		this.occupied=false;
 	}
-
+	public static String getRoomNo()
+	{
+		return roomnumber.toString();
+	}
 }

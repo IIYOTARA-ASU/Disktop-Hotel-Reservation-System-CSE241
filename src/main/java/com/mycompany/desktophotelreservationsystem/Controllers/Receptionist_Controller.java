@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Date.*;
 import java.util.ArrayList;
 import java.text.*;
+import com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller;
+
 
 
 public class Receptionist_Controller {
@@ -35,6 +37,7 @@ public class Receptionist_Controller {
     private Receptionist receptionist;
     private boolean[] roomstate = new boolean[25];
     private Room r = new Room();
+    private theGOATcontroller theGOAT =new theGOATcontroller();
 
     RoomType single = new RoomType("Single");
     RoomType couple = new RoomType("Double"); // "double" is a reserved word in java
@@ -97,6 +100,10 @@ public class Receptionist_Controller {
     boolean amenities = false;
     @FXML
     private Label date;
+    @FXML
+    private Label Guestno;
+    @FXML
+    private Label Roomno;
 
 
     @FXML
@@ -144,7 +151,15 @@ public class Receptionist_Controller {
         }
         // 3. Put Receptionist Name
         if (recepname != null && DataBase.people.size() > 2) {
-            recepname.setText(DataBase.people.get(2).getUserName());
+            recepname.setText(DataBase.currentUser.getUserName());
+        }
+        if (Guestno != null)
+        {
+            Guestno.setText(Guest.getGuestno());
+        }
+        if(Roomno!=null)
+        {
+            Roomno.setText(Room.getRoomNo());
         }
         if(date!=null)
         {
@@ -165,6 +180,7 @@ public class Receptionist_Controller {
         if (checkoutContainers != null ) {
             checkout();
         }
+
     }
 
     public void displayReservationCards() {

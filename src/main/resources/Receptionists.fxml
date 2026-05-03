@@ -14,9 +14,9 @@
 
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#24423f" height="93.0" layoutX="-23.0" layoutY="-10.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1160.0" />
 
-      <Rectangle fx:id="NoOfGuest" arcHeight="50.0" arcWidth="50.0" fill="#ded4af3a" height="123.0" layoutX="281.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="222.0" />
-      <Rectangle fx:id="NoOfRooms" arcHeight="50.0" arcWidth="50.0" fill="#ded2af55" height="131.0" layoutX="557.0" layoutY="96.0" pickOnBounds="true" stroke="BLACK" strokeType="INSIDE" width="244.0" />
-      <Rectangle fx:id="rect3" arcHeight="50.0" arcWidth="50.0" fill="#ded2ae4d" height="131.0" layoutX="830.0" layoutY="95.0" pickOnBounds="true" stroke="BLACK" strokeType="INSIDE" width="244.0" />
+      <Rectangle fx:id="NoOfGuest" arcHeight="50.0" arcWidth="50.0" fill="#ded4af00" height="123.0" layoutX="274.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" width="222.0" />
+      <Rectangle fx:id="NoOfRooms" arcHeight="50.0" arcWidth="50.0" fill="#ded1af00" height="131.0" layoutX="551.0" layoutY="308.0" pickOnBounds="true" stroke="BLACK" strokeType="INSIDE" width="244.0" />
+      <Rectangle fx:id="rect3" arcHeight="50.0" arcWidth="50.0" fill="#ded2ae4d" height="131.0" layoutX="845.0" layoutY="308.0" pickOnBounds="true" stroke="BLACK" strokeType="INSIDE" width="244.0" />
       <Button layoutX="9.0" layoutY="100.0" mnemonicParsing="false" onAction="#view_dashboard" prefHeight="38.0" prefWidth="203.0" text="dashboard" />
 
       <Label layoutX="111.0" layoutY="27.0" prefHeight="38.0" prefWidth="978.0" text="Palisade hotel | Receptionist Dashboard" textFill="WHITE" />
@@ -27,17 +27,12 @@
          </image>
       </ImageView>
 
-      <Label fx:id="id" layoutX="299.0" layoutY="100.0" prefHeight="36.0" prefWidth="185.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="Number of guests">
+      <Label fx:id="id" layoutX="292.0" layoutY="319.0" prefHeight="36.0" prefWidth="185.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="Number of guests">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-
-      <Button layoutX="513.0" layoutY="96.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Number of rooms available">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font></Button>
-      <Label fx:id="recepname" layoutX="856.0" layoutY="34.0" style="-fx-font-style: regular;" stylesheets="@hadi.css" text="Label" />
-      <Label layoutX="710.0" layoutY="175.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="Label" />
+      <Label fx:id="recepname" layoutX="856.0" layoutY="34.0" style="-fx-font-style: regular;" stylesheets="@hadi.css" text="recepname" />
+      <Label fx:id="Roomno" layoutX="710.0" layoutY="397.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="Label" />
       <Label fx:id="date" layoutX="626.0" layoutY="37.0" text="Date" />
       <Button layoutX="9.0" layoutY="151.0" mnemonicParsing="false" onAction="#view_reservation" prefHeight="36.0" prefWidth="203.0" text="View reservation" />
       <Button fx:id="viewRooms" layoutX="6.0" layoutY="198.0" mnemonicParsing="false" onAction="#view_rooms" prefHeight="36.0" prefWidth="203.0" text="View rooms" />
@@ -45,5 +40,16 @@
       <Button layoutX="6.0" layoutY="337.0" mnemonicParsing="false" onAction="#check_out" prefHeight="36.0" prefWidth="203.0" text="Check out" />
       <Button layoutX="6.0" layoutY="290.0" mnemonicParsing="false" onAction="#check_in" prefHeight="36.0" prefWidth="203.0" text="check in" />
       <Button layoutX="6.0" layoutY="380.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" text="logout" />
+      <Label layoutX="398.0" layoutY="151.0" prefHeight="51.0" prefWidth="549.0" style="-fx-background-color: transparent; -fx-text-fill: #254441; -fx-font-size: 34; -fx-font-style: bold;" text="WELCOME to Palisade Hotel">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="Guestno" layoutX="437.0" layoutY="397.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="no" />
+      <Label fx:id="id1" layoutX="568.0" layoutY="319.0" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: transparent; -fx-text-fill: #254441;" text="Number of rooms">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

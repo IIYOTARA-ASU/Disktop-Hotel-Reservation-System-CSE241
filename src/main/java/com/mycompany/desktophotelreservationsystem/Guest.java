@@ -18,6 +18,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class Guest extends User implements users {
 	public static Guest currentLoggedInGuest;
+	public static Integer Guestno = 0;
 
 	/// ///////////////////////////////// GUI methods to access reservation class
 	public void populateReservationContainer(javafx.scene.layout.VBox container) {
@@ -100,7 +101,7 @@ public class Guest extends User implements users {
 	public void   setAddress(String a)      { this.address = a; }
 
 	Guest() {}
-	public Guest(String username, String password) { super(username, password); }
+	public Guest(String username, String password) { super(username, password);Guestno++;}
 
 	public enum gender { MALE, FEMALE }
 	Room currentRoom = null;
@@ -393,4 +394,12 @@ public class Guest extends User implements users {
 		cal.set(y, m - 1, d);
 		return cal.getTime();
 	}
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Receptionist to know how many guests
+	// ─────────────────────────────────────────────────────────────────────────
+	public static String getGuestno()
+	{
+		return Guestno.toString();
+	}
+
 }
