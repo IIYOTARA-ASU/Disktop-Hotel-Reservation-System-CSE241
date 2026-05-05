@@ -10,28 +10,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="484.0" prefWidth="754.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.GuestController">
+<AnchorPane prefHeight="630.0" prefWidth="1120.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.desktophotelreservationsystem.Controllers.GuestController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="557.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="720.0" AnchorPane.topAnchor="0.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="557.0" layoutX="724.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="720.4" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#24423f" height="107.0" layoutX="14.0" stroke="BLACK" strokeType="INSIDE" width="725.0" />
-        <Text fill="WHITE" layoutX="93.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 50; -fx-font-weight: bold;" styleClass="textBox" text="Cancel Reservations" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="630.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1087.0" AnchorPane.topAnchor="0.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#43aa8b" height="630.0" layoutX="1087.0" stroke="BLACK" strokeType="INSIDE" width="33.0" AnchorPane.bottomAnchor="0.7999999999999545" AnchorPane.leftAnchor="1087.0" AnchorPane.rightAnchor="0.20000000000004547" AnchorPane.topAnchor="0.0" />
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#24423f" height="121.0" layoutX="14.0" stroke="BLACK" strokeType="INSIDE" width="1090.0" />
+        <Text fill="WHITE" layoutX="312.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 50; -fx-font-weight: bold;" styleClass="textBox" text="Cancel Reservations" />
         <Label layoutX="57.0" layoutY="124.0" prefHeight="46.0" prefWidth="112.0" stylesheets="@Style.css" text="Reservation:" />
-        <ScrollPane layoutX="70.0" layoutY="170.0" prefHeight="107.0" prefWidth="618.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+        <VBox layoutX="89.0" layoutY="170.0" prefHeight="156.0" prefWidth="917.0">
+        <ScrollPane layoutX="70.0" layoutY="170.0" prefHeight="154.0" prefWidth="912.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
             <content>
-                <VBox fx:id="reservationListContainer" prefHeight="107.0" prefWidth="625.0" spacing="15.0" style="-fx-padding: 10;" />
+                <VBox fx:id="reservationListContainer" prefHeight="154.0" prefWidth="916.0" spacing="15.0" style="-fx-padding: 10;" />
             </content>
         </ScrollPane>
+        </VBox>
 
-        <Button layoutX="470.0" layoutY="489.0" onAction="#toGuestMenu" styleClass="btn-round" text="Back" />
-      <TextField fx:id="roomTextFiel" layoutX="297.0" layoutY="302.0" styleClass="textBox" stylesheets="@Style.css" />
-      <Label layoutX="70.0" layoutY="307.0" prefHeight="20.0" prefWidth="208.0" styleClass="root" stylesheets="@Style.css" text="Enter room ID to be canceled:">
+        <Button layoutX="560.0" layoutY="525.0" onAction="#toGuestMenu" styleClass="btn-round" text="Back" />
+      <TextField fx:id="roomTextFiel" layoutX="300.0" layoutY="380.0" styleClass="textBox" stylesheets="@Style.css" />
+      <Label layoutX="80.0" layoutY="385.0" prefHeight="20.0" prefWidth="208.0" styleClass="root" stylesheets="@Style.css" text="Enter room ID to be canceled:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="113.0" layoutY="489.0" mnemonicParsing="false" onAction="#handleCancelReservation" styleClass="btn-round" stylesheets="@Style.css" text="confirm cancelation" />
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="462.0" layoutY="354.0" prefHeight="32.0" prefWidth="249.0" text="Label" textFill="RED" visible="false">
+      <Button layoutX="113.0" layoutY="525.0" mnemonicParsing="false" onAction="#handleCancelReservation" styleClass="btn-round" stylesheets="@Style.css" text="confirm cancelation" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="421.0" layoutY="454.0" prefHeight="46.0" prefWidth="595.0" text="Label" textFill="RED" visible="false">
          <font>
             <Font size="22.0" />
          </font>

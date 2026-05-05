@@ -17,22 +17,22 @@
         <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#24423f" height="107.0" layoutX="14.0" stroke="BLACK" strokeType="INSIDE" width="1090.0" />
         <Text fill="WHITE" layoutX="430.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 50; -fx-font-weight: bold;" styleClass="textBox" text="Checkout" />
         <Label layoutX="57.0" layoutY="124.0" prefHeight="46.0" prefWidth="112.0" stylesheets="@Style.css" text="Reservation:" />
-        <VBox layoutX="70.0" layoutY="180.0" prefHeight="138.0" prefWidth="970.0">
-        <ScrollPane layoutX="70.0" layoutY="170.0" prefHeight="133.0" prefWidth="970.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+        <VBox layoutX="70.0" layoutY="180.0" prefHeight="163.0" prefWidth="970.0">
+        <ScrollPane layoutX="70.0" layoutY="170.0" prefHeight="163.0" prefWidth="970.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
             <content>
-                <VBox fx:id="reservationListContainer" prefHeight="136.0" prefWidth="970.0" spacing="15.0" style="-fx-padding: 10;" />
+                <VBox fx:id="reservationListContainer" prefHeight="169.0" prefWidth="970.0" spacing="15.0" style="-fx-padding: 10;" />
             </content>
         </ScrollPane>
         </VBox>
         <Button layoutX="470.0" layoutY="489.0" onAction="#toGuestMenu" styleClass="btn-round" text="Back" />
-        <TextField fx:id="roomTextFiel" layoutX="310.0" layoutY="327.0" styleClass="textBox" stylesheets="@Style.css" />
-        <Label layoutX="69.0" layoutY="332.0" styleClass="root" stylesheets="@Style.css" text="Enter room number to be payed">
+        <TextField fx:id="roomTextFiel" layoutX="310.0" layoutY="352.0" styleClass="textBox" stylesheets="@Style.css" />
+        <Label layoutX="70.0" layoutY="357.0" prefHeight="20.0" prefWidth="184.0" styleClass="root" stylesheets="@Style.css" text="Enter room ID to be payed:">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
         <Button layoutX="113.0" layoutY="489.0" mnemonicParsing="false" onAction="#handlePayInvoice" styleClass="btn-round" stylesheets="@Style.css" text="confirm payment" />
-      <Label fx:id="balanceLabel" layoutX="70.0" layoutY="372.0" prefHeight="27.0" prefWidth="261.0" text="Balance:" textFill="#086952">
+      <Label fx:id="balanceLabel" layoutX="70.0" layoutY="393.0" prefHeight="27.0" prefWidth="261.0" text="Balance:" textFill="#086952">
          <font>
             <Font size="18.0" />
          </font>

@@ -18,12 +18,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class GuestController {
     @FXML private FlowPane roomContainer;
@@ -239,10 +237,10 @@ public class GuestController {
                 return;
             }
 
-            int roomNumber = Integer.parseInt(roomNumStr);
+            int ReservationId = Integer.parseInt(roomNumStr);
 
             if (Guest.currentLoggedInGuest != null) {
-                boolean success = Guest.currentLoggedInGuest.payInvoiceByRoomNumber(roomNumber);
+                boolean success = Guest.currentLoggedInGuest.payInvoiceByReservationId(ReservationId);
 
                 if (success) {
                     errorLabel.setText("transaction successful");

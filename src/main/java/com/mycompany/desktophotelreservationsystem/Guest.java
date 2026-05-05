@@ -1,8 +1,5 @@
 package com.mycompany.desktophotelreservationsystem;
 // Firebase Core Imports
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 
 // Realtime Database Specifics
 import com.google.firebase.database.DatabaseReference;
@@ -76,14 +73,12 @@ public class Guest extends User implements users {
 		return false; // No match found
 	}
 /// //////////////////////////////////////////////////////////////handle PayInvoice for GUI
-	public boolean payInvoiceByRoomNumber(int roomNumber) {
+	public boolean payInvoiceByReservationId(int roomID) {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
-			Reservation r = DataBase.reservations.get(i);
+			Reservation res = DataBase.reservations.get(i);
 
-			if (r.getGuest().equals(this) && r.getRoom().getRoomNumber() == roomNumber && r.getReservationStatus().toString().equals("CONFIRMED")) {
-
-				// Call checkout/payInvoice logic homa nafs e7aga m4 fahem eh el e5telaf aslan
-				this.checkout(r);
+			if (res.getGuest().equals(this) && res.getReservationId() == roomID && !res.getReservationStatus().equals("CANCELLED")) {
+				this.checkout(res);
 				return true;
 			}
 		}
