@@ -1,8 +1,5 @@
 package com.mycompany.desktophotelreservationsystem;
 // Firebase Core Imports
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 
 // Realtime Database Specifics
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class Guest extends User implements users {
 	public static Guest currentLoggedInGuest;
+	public static Integer Guestno = 0;
 
 	/// ///////////////////////////////// GUI methods to access reservation class
 	public void populateReservationContainer(javafx.scene.layout.VBox container) {
@@ -39,9 +37,7 @@ public class Guest extends User implements users {
 					statusColor = "#3498db"; // Blue
 				}
 
-				String info = "Room: " + res.getRoom().getRoomNumber() +
-						"\nCheck-in: " + res.getCheckInDate() +
-						"\nStatus: " + statusStr;
+				String info = "Reservation: "+res.getReservationId()+"\nRoom: " + res.getRoom().getRoomNumber() + "\nCheck-in: " + res.getCheckInDate() + "\nStatus: " + statusStr;
 
 				javafx.scene.control.Label card = new javafx.scene.control.Label(info);
 
@@ -63,12 +59,13 @@ public class Guest extends User implements users {
 			}
 		}
 	}
+
 	/// /////////////////////////////////////////////for cancelation GUI
-	public boolean processCancellation(int roomNum) {
+	public boolean processCancellation(int roomID) {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
 			Reservation res = DataBase.reservations.get(i);
 
-			if (res.getGuest().equals(this) && res.getRoom().getRoomNumber() == roomNum) {
+			if (res.getGuest().equals(this) && res.getReservationId() == roomID && !res.getReservationStatus().equals("CANCELLED")) {
 				this.cancelReservation(res);
 				return true;
 			}
@@ -76,14 +73,12 @@ public class Guest extends User implements users {
 		return false; // No match found
 	}
 /// //////////////////////////////////////////////////////////////handle PayInvoice for GUI
-	public boolean payInvoiceByRoomNumber(int roomNumber) {
+	public boolean payInvoiceByReservationId(int roomID) {
 		for (int i = 0; i < DataBase.reservations.size(); i++) {
-			Reservation r = DataBase.reservations.get(i);
+			Reservation res = DataBase.reservations.get(i);
 
-			if (r.getGuest().equals(this) && r.getRoom().getRoomNumber() == roomNumber && r.getReservationStatus().toString().equals("CONFIRMED")) {
-
-				// Call checkout/payInvoice logic homa nafs e7aga m4 fahem eh el e5telaf aslan
-				this.checkout(r);
+			if (res.getGuest().equals(this) && res.getReservationId() == roomID && !res.getReservationStatus().equals("CANCELLED")) {
+				this.checkout(res);
 				return true;
 			}
 		}
@@ -101,7 +96,7 @@ public class Guest extends User implements users {
 	public void   setAddress(String a)      { this.address = a; }
 
 	Guest() {}
-	public Guest(String username, String password) { super(username, password); }
+	public Guest(String username, String password) { super(username, password);Guestno++;}
 
 	public enum gender { MALE, FEMALE }
 	Room currentRoom = null;
@@ -394,4 +389,12 @@ public class Guest extends User implements users {
 		cal.set(y, m - 1, d);
 		return cal.getTime();
 	}
+	// ─────────────────────────────────────────────────────────────────────────
+	//  Receptionist to know how many guests
+	// ─────────────────────────────────────────────────────────────────────────
+	public static String getGuestno()
+	{
+		return Guestno.toString();
+	}
+
 }

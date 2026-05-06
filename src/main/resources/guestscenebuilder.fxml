@@ -22,11 +22,11 @@
          </font>
       </Label>
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffffff4a" height="641.0" layoutX="-14.0" layoutY="-13.0" stroke="BLACK" strokeType="INSIDE" width="231.0" />
-      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="471.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="574.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/cancelReservation.png" />
          </image></ImageView>
-      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="689.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="814.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/checkout.png" />
          </image>
@@ -46,17 +46,11 @@
             <Image url="@Images/makeReservation.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="100.0" fitWidth="113.0" layoutX="904.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/payInvoice.png" />
-         </image>
-      </ImageView>
       <Button fx:id="buttonViewRooms" layoutX="448.0" layoutY="319.0" mnemonicParsing="false" onAction="#switchToViewRooms" prefHeight="27.0" prefWidth="148.0" styleClass="btn-round" stylesheets="@Style.css" text="view rooms" textAlignment="CENTER" textFill="#fcfcfb" />
       <Button fx:id="buttonViewReservation" layoutX="641.0" layoutY="319.0" mnemonicParsing="false" onAction="#switchToViewReservations" styleClass="btn-round" stylesheets="@Style.css" text="view reservation" />
       <Button fx:id="buttonMakeReservation" layoutX="863.0" layoutY="319.0" mnemonicParsing="false" onAction="#switchToMakeReservations" prefHeight="36.0" prefWidth="203.0" styleClass="btn-round" stylesheets="@Style.css" text="make reservation" />
-      <Button fx:id="buttonCancelReservation" layoutX="417.0" layoutY="513.0" mnemonicParsing="false" onAction="#switchToCancelReservations" styleClass="btn-round" stylesheets="@Style.css" text="cancel reservation" />
-      <Button fx:id="buttonCheckout" layoutX="680.0" layoutY="513.0" mnemonicParsing="false" styleClass="btn-round" stylesheets="@Style.css" text="checkout" />
-      <Button fx:id="buttonPayInvoice" layoutX="888.0" layoutY="513.0" mnemonicParsing="false" onAction="#switchToPayInvoice" styleClass="btn-round" stylesheets="@Style.css" text="pay invoice" />
+      <Button fx:id="buttonCancelReservation" layoutX="519.0" layoutY="513.0" mnemonicParsing="false" onAction="#switchToCancelReservations" styleClass="btn-round" stylesheets="@Style.css" text="cancel reservation" />
+      <Button fx:id="buttonPayInvoice" layoutX="805.0" layoutY="513.0" mnemonicParsing="false" onAction="#switchToPayInvoice" styleClass="btn-round" stylesheets="@Style.css" text="checkout" />
       <Button layoutX="6.0" layoutY="427.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="203.0" style="-fx-background-color: red;" styleClass="btn-round" stylesheets="@Style.css" text="logout" />
    </children>
 </AnchorPane>
