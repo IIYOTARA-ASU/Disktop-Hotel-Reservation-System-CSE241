@@ -9,13 +9,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.ChildEventListener;
 
+import java.io.Serializable;
 // Java Standard IO and Utilities
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
-public class Guest extends User implements users {
+public class Guest extends User implements users, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Guest currentLoggedInGuest;
 	public static Integer Guestno = 0;
+	private transient Scanner sc = new Scanner(System.in);
 
 	/// ///////////////////////////////// GUI methods to access reservation class
 	public void populateReservationContainer(javafx.scene.layout.VBox container) {
@@ -155,8 +161,8 @@ public class Guest extends User implements users {
     //  Firebase Chat Logic
     // ─────────────────────────────────────────────────────────────────────────
 
-    private DatabaseReference chatRef;
-    private ChildEventListener activeListener; 
+    private transient DatabaseReference chatRef;
+    private transient ChildEventListener activeListener; 
 
     private void initChatRef() {
         // Points to chats/[username]/messages. 
@@ -244,10 +250,9 @@ public class Guest extends User implements users {
             chatRef.addChildEventListener(activeListener);
         }
 
-		Scanner chatScanner = new Scanner(System.in);
         while (true) {
             System.out.print("[YOU]: ");
-            String input = chatScanner.nextLine();
+            String input = sc.nextLine();
             
             if (input.equalsIgnoreCase("/back")) {
 				// DETACH THE LISTENER BEFORE LEAVING
@@ -272,7 +277,6 @@ public class Guest extends User implements users {
 	//  Interface
 	// ─────────────────────────────────────────────────────────────────────────
 	public void guestInterface() {
-		Scanner scanner = new Scanner(System.in);
 		String balanceBanner = String.format( "║  %-31s %27s  ║", "USER MENU", balance + "$" );
 		System.out.println(
 			"╔═══════════════════════════════════════════════════════════════╗\n" +
@@ -286,7 +290,7 @@ public class Guest extends User implements users {
 		);
 
 		String prompt = ">> Select an option: ";
-		int inputOption = Validation.getOption(scanner, 8, prompt);
+		int inputOption = Validation.getOption(sc, 8, prompt);
 		System.out.println();
 
 		switch (inputOption) {
@@ -296,7 +300,7 @@ public class Guest extends User implements users {
 
 			case 2:
 				viewRooms();
-				int roomNumber = Validation.getInt(scanner, ">> Enter desired room number: ");
+				int roomNumber = Validation.getInt(sc, ">> Enter desired room number: ");
 				Room selectedRoom = null;
 				for (int i = 0; i < DataBase.rooms.size(); i++) {
 					if (DataBase.rooms.get(i).getRoomNumber() == roomNumber) {
@@ -312,10 +316,10 @@ public class Guest extends User implements users {
 					System.out.println("   [Error] Room is already occupied.");
 					break;
 				}
-				Date inDate  = readDate(scanner, ">> Check-in date:");
+				Date inDate  = readDate(">> Check-in date:");
 				Date outDate;
 				do {
-					outDate = readDate(scanner, ">> Check-out date:");
+					outDate = readDate(">> Check-out date:");
 					if (outDate.before(inDate)) {
 						System.out.println("   [Error] Check-out date cannot be before check-in date. Please try again.");
 					}
@@ -380,11 +384,11 @@ public class Guest extends User implements users {
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Date helper
 	// ─────────────────────────────────────────────────────────────────────────
-	private Date readDate(Scanner scanner, String prompt) {
+	private Date readDate(String prompt) {
 		System.out.println(prompt);
-		int d = Validation.getIntInRange(scanner, "   Day   (1~30):  ", 1, 30);
-		int m = Validation.getIntInRange(scanner, "   Month (1~12):  ", 1, 12);
-		int y = Validation.getIntInRange(scanner, "   Year  (2026~2028): ", 2026, 2028);
+		int d = Validation.getIntInRange(sc, "   Day   (1~30):  ", 1, 30);
+		int m = Validation.getIntInRange(sc, "   Month (1~12):  ", 1, 12);
+		int y = Validation.getIntInRange(sc, "   Year  (2026~2028): ", 2026, 2028);
 		Calendar cal = Calendar.getInstance();
 		cal.set(y, m - 1, d);
 		return cal.getTime();

@@ -1,8 +1,14 @@
 package com.mycompany.desktophotelreservationsystem;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Reservation implements reservationProcess{
-    public enum ReservationStatus { PENDING, CONFIRMED, CANCELLED, COMPLETED }
+public class Reservation implements reservationProcess,Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public enum ReservationStatus { PENDING, CONFIRMED, CANCELLED, COMPLETED }
 
     private Guest guest;
     private Room room;

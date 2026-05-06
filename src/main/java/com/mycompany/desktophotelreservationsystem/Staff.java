@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 public abstract class Staff extends User implements users{
-    Scanner in = new Scanner(System.in);
+    transient Scanner in = new Scanner(System.in);
     Staff(){
     }
     Staff(String n, String p){

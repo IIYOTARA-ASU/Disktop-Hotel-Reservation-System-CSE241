@@ -33,6 +33,8 @@ public class GUI_testing extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
+    	
+    	DataBase.loadData("dataBase.diggers");
     	theGOATcontroller.currentStage = primaryStage;
     	User user = new User();
     	DataBase.demoFill();
@@ -74,6 +76,10 @@ public class GUI_testing extends Application {
        // scene.getStylesheets().add(css);
         primaryStage.setScene(thegoat);
         primaryStage.show();
+        
+        primaryStage.setOnCloseRequest(event -> {
+            DataBase.saveData("dataBase.diggers");
+        });
     }
 
     public static void main(String[] args) {

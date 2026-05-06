@@ -3,7 +3,7 @@ package com.mycompany.desktophotelreservationsystem;
 import java.util.Scanner;
 
 public class Admin extends Staff implements users{
-
+	private transient Scanner sc = new Scanner(System.in);
 	Admin() {}
 	public Admin(String username, String password) { super(username, password); }
 
@@ -12,10 +12,9 @@ public class Admin extends Staff implements users{
 	// =========================================================================
 
 	public void createRoom() {
-		Scanner scanner = new Scanner(System.in);
 
 		// ── Room number ───────────────────────────────────────────────────────
-		int newRoomNumber = Validation.getInt(scanner, ">> Enter room number: ");
+		int newRoomNumber = Validation.getInt(sc, ">> Enter room number: ");
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			if (DataBase.rooms.get(i).getRoomNumber() == newRoomNumber) {
 				System.out.println("   [Error] Room number already exists. Please enter a unique room number.");
@@ -24,11 +23,11 @@ public class Admin extends Staff implements users{
 		}
 
 		// ── Room type ─────────────────────────────────────────────────────────
-		int newRoomTypeID      = Validation.getOption(scanner, DataBase.roomTypes.size(), buildTypePrompt());
+		int newRoomTypeID      = Validation.getOption(sc, DataBase.roomTypes.size(), buildTypePrompt());
 		RoomType existingType  = DataBase.roomTypes.get(newRoomTypeID - 1);
 
 		// ── Room price ────────────────────────────────────────────────────────
-		int newRoomPrice = Validation.getInt(scanner, ">> Enter room price: ");
+		int newRoomPrice = Validation.getInt(sc, ">> Enter room price: ");
 
 		// ── Create room ───────────────────────────────────────────────────────
 		DataBase.rooms.add(new Room(newRoomNumber, existingType, newRoomPrice));
@@ -38,7 +37,7 @@ public class Admin extends Staff implements users{
 		System.out.println(">> Room Amenities Checklist:");
 		System.out.println("   ─────────────────────────────────────────────");
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
-			boolean has = Validation.getYesNo(scanner,
+			boolean has = Validation.getYesNo(sc,
 				"   Include " + DataBase.amenities.get(i).getName() + "? (y/n): ");
 			if (has) { newRoom.addAmenity(DataBase.amenities.get(i)); }
 		}
@@ -47,14 +46,13 @@ public class Admin extends Staff implements users{
 	}
 
 	public void updateRoom() {
-		Scanner scanner = new Scanner(System.in);
 		displayRoomTable();
 
 		// ── Choose room ───────────────────────────────────────────────────────
 		int updateIndex = -1;
 		int updateRoomNumber;
 		do {
-			updateRoomNumber = Validation.getInt(scanner, ">> Enter room number to update: ");
+			updateRoomNumber = Validation.getInt(sc, ">> Enter room number to update: ");
 			for (int i = 0; i < DataBase.rooms.size(); i++) {
 				if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) { updateIndex = i; break; }
 			}
@@ -64,11 +62,11 @@ public class Admin extends Staff implements users{
 		} while (updateIndex == -1);
 
 		// ── Room type ─────────────────────────────────────────────────────────
-		int updatedTypeID     = Validation.getOption(scanner, DataBase.roomTypes.size(), buildTypePrompt());
+		int updatedTypeID     = Validation.getOption(sc, DataBase.roomTypes.size(), buildTypePrompt());
 		RoomType existingType = DataBase.roomTypes.get(updatedTypeID - 1);
 
 		// ── Room price ────────────────────────────────────────────────────────
-		int updatedPrice = Validation.getInt(scanner, ">> Enter new price: ");
+		int updatedPrice = Validation.getInt(sc, ">> Enter new price: ");
 
 		// ── Apply changes ─────────────────────────────────────────────────────
 		Room updatedRoom = DataBase.rooms.get(updateIndex);
@@ -81,7 +79,7 @@ public class Admin extends Staff implements users{
 		System.out.println(">> Room Amenities Checklist:");
 		System.out.println("   ─────────────────────────────────────────────");
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
-			boolean has = Validation.getYesNo(scanner,
+			boolean has = Validation.getYesNo(sc,
 				"   Include " + DataBase.amenities.get(i).getName() + "? (y/n): ");
 			if (has) { updatedRoom.addAmenity(DataBase.amenities.get(i)); }
 		}
@@ -90,13 +88,12 @@ public class Admin extends Staff implements users{
 	}
 
 	public void deleteRoom() {
-		Scanner scanner = new Scanner(System.in);
 		displayRoomTable();
 
 		int deletedIndex = -1;
 		int deletedRoomNumber;
 		do {
-			deletedRoomNumber = Validation.getInt(scanner, ">> Enter room number to delete: ");
+			deletedRoomNumber = Validation.getInt(sc, ">> Enter room number to delete: ");
 			for (int i = 0; i < DataBase.rooms.size(); i++) {
 				if (DataBase.rooms.get(i).getRoomNumber() == deletedRoomNumber) { deletedIndex = i; break; }
 			}
@@ -123,9 +120,8 @@ public class Admin extends Staff implements users{
 	// =========================================================================
 
 	public void createAmenities() {
-		Scanner scanner = new Scanner(System.in);
 
-		String newName = Validation.getString(scanner, ">> Enter amenity name: ");
+		String newName = Validation.getString(sc, ">> Enter amenity name: ");
 		for (int i = 0; i < DataBase.amenities.size(); i++) {
 			if (DataBase.amenities.get(i).getName().equalsIgnoreCase(newName)) {
 				System.out.println("   [Error] An amenity with that name already exists.");
@@ -133,36 +129,35 @@ public class Admin extends Staff implements users{
 			}
 		}
 
-		double newPrice = Validation.getDouble(scanner, ">> Enter amenity price: ");
+		double newPrice = Validation.getDouble(sc, ">> Enter amenity price: ");
 		DataBase.amenities.add(new Amenity(newName, newPrice));
 		System.out.println("   [OK] Amenity added successfully.");
 	}
 
 	public void updateAmenities() {
-		Scanner scanner = new Scanner(System.in);
 		displayAmenitiesTable();
 
 		int updateId = -1;
 		do {
-			updateId = Validation.getInt(scanner, ">> Enter amenity ID to update: ");
+			updateId = Validation.getInt(sc, ">> Enter amenity ID to update: ");
 			if (updateId < 0 || updateId >= DataBase.amenities.size()) {
 				System.out.println("   [Error] Amenity not found. Please enter a valid ID.");
 				updateId = -1;
 			}
 		} while (updateId == -1);
 
-		double updatedPrice = Validation.getDouble(scanner, ">> Enter new price: ");
+		double updatedPrice = Validation.getDouble(sc, ">> Enter new price: ");
 		DataBase.amenities.get(updateId).setPrice(updatedPrice);
 		System.out.println("   [OK] Amenity updated successfully.");
 	}
 
 	public void deleteAmenities() {
-		Scanner scanner = new Scanner(System.in);
 		displayAmenitiesTable();
 
 		int deletedId = -1;
 		do {
-			deletedId = Validation.getInt(scanner, ">> Enter amenity ID to delete: ");
+			deletedId = Validation.getInt(sc
+					, ">> Enter amenity ID to delete: ");
 			if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
 				System.out.println("   [Error] Amenity not found. Please enter a valid ID.");
 				deletedId = -1;
@@ -182,9 +177,8 @@ public class Admin extends Staff implements users{
 	// =========================================================================
 
 	public void createRoomTypes() {
-		Scanner scanner = new Scanner(System.in);
 
-		String newTypeName = Validation.getString(scanner, ">> Enter new room type name: ");
+		String newTypeName = Validation.getString(sc, ">> Enter new room type name: ");
 		for (int i = 0; i < DataBase.roomTypes.size(); i++) {
 			if (DataBase.roomTypes.get(i).getRoomType().equalsIgnoreCase(newTypeName)) {
 				System.out.println("   [Error] Room type already exists.");
@@ -197,30 +191,28 @@ public class Admin extends Staff implements users{
 	}
 
 	public void updateRoomTypes() {
-		Scanner scanner = new Scanner(System.in);
 		displayRoomTypesTable();
 
 		int updateId = -1;
 		do {
-			updateId = Validation.getInt(scanner, ">> Enter room type ID to update: ");
+			updateId = Validation.getInt(sc, ">> Enter room type ID to update: ");
 			if (updateId < 0 || updateId >= DataBase.roomTypes.size()) {
 				System.out.println("   [Error] Room type not found. Please enter a valid ID.");
 				updateId = -1;
 			}
 		} while (updateId == -1);
 
-		String newName = Validation.getString(scanner, ">> Enter new name for this room type: ");
+		String newName = Validation.getString(sc, ">> Enter new name for this room type: ");
 		DataBase.roomTypes.get(updateId).setRoomType(newName);
 		System.out.println("   [OK] Room type updated successfully.");
 	}
 
 	public void deleteRoomTypes() {
-		Scanner scanner = new Scanner(System.in);
 		displayRoomTypesTable();
 
 		int deletedId = -1;
 		do {
-			deletedId = Validation.getInt(scanner, ">> Enter room type ID to delete: ");
+			deletedId = Validation.getInt(sc, ">> Enter room type ID to delete: ");
 			if (deletedId < 0 || deletedId >= DataBase.roomTypes.size()) {
 				System.out.println("   [Error] Room type not found. Please enter a valid ID.");
 				deletedId = -1;
@@ -274,7 +266,6 @@ public class Admin extends Staff implements users{
 	// =========================================================================
 
 	public void adminInterface() {
-		Scanner scanner = new Scanner(System.in);
 
 		System.out.println(
 			"╔═══════════════════════════════════════════════════════════════╗\n" +
@@ -286,14 +277,14 @@ public class Admin extends Staff implements users{
 		);
 
 		String prompt = ">> Select an option: ";
-		int inputOption = Validation.getOption(scanner, 4, prompt);
+		int inputOption = Validation.getOption(sc, 4, prompt);
 
 		System.out.println();
 
 		switch (inputOption) {
-			case 1: roomsMenu(scanner);     break;
-			case 2: amenitiesMenu(scanner); break;
-			case 3: roomTypesMenu(scanner); break;
+			case 1: roomsMenu(sc);     break;
+			case 2: amenitiesMenu(sc); break;
+			case 3: roomTypesMenu(sc); break;
 			case 4: logOut(this); break;
 		}
 	}

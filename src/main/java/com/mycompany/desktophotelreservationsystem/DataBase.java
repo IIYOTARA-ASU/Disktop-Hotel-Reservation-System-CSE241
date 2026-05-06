@@ -1,4 +1,10 @@
 package com.mycompany.desktophotelreservationsystem;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class DataBase {
@@ -15,7 +21,50 @@ public class DataBase {
     DataBase(){
 
     }
-
+    //////////// Serialization
+    
+    public static void saveData(String filePath) {
+    	try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+			oos.writeObject(rooms);
+			oos.writeObject(reservations);
+			oos.writeObject(invoices);
+			oos.writeObject(people);
+			oos.writeObject(guests);
+			oos.writeObject(roomTypes);
+			oos.writeObject(amenities);
+			System.out.println("data saved succesfullyyyyyyyyyyyyyyy");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    @SuppressWarnings("unchecked")
+	public static void loadData(String filePath) throws IOException {
+    	try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
+){
+			DataBase.rooms = (ArrayList<Room>) ois.readObject();
+			DataBase.reservations = (ArrayList<Reservation>) ois.readObject();
+			DataBase.invoices = (ArrayList<Invoice>) ois.readObject();
+			DataBase.people = (ArrayList<User>) ois.readObject();
+			DataBase.guests = (ArrayList<Guest>) ois.readObject();
+			DataBase.roomTypes = (ArrayList<RoomType>) ois.readObject();
+			DataBase.amenities = (ArrayList<Amenity>) ois.readObject();
+			System.out.println("data loaded succesfullyyyyyyyyyyyyyyy");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+    ////////////
     public static void demoFill() {
         /////////////////////////////////////////////////////////// PEOPLE
         Admin admin = new Admin("Ahmed", "67");
