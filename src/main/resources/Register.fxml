@@ -84,5 +84,12 @@
          </font>
       </Text>
       <Label fx:id="staffCodeErrorMessage" layoutX="817.0" layoutY="447.0" prefHeight="18.0" prefWidth="230.0" textFill="RED" visible="false" />
+      <TextField fx:id="balance" layoutX="815.0" layoutY="416.0" prefHeight="30.0" prefWidth="230.0" styleClass="textBox" stylesheets="@Style.css" />
+      <Text fx:id="balanceText" fill="DARKSLATEGRAY" layoutX="734.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Verdana;" text="Balance" wrappingWidth="84.97265625">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Label fx:id="balanceErrorMessage" layoutX="722.0" layoutY="447.0" prefHeight="18.0" prefWidth="325.0" textFill="RED" />
    </children>
 </AnchorPane>

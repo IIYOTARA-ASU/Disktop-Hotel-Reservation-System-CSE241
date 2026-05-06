@@ -247,6 +247,7 @@ public class User implements users {
 		}
 
 		DataBase.people.add(user);
+		
 		System.out.println("   [OK] Account created successfully!\n");
 		return user;
 

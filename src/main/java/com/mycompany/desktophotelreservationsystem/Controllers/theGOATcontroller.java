@@ -8,6 +8,7 @@ import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.InvalidBalanceException;
 import com.mycompany.desktophotelreservationsystem.RFIDThread;
 import com.mycompany.desktophotelreservationsystem.Receptionist;
 import com.mycompany.desktophotelreservationsystem.Room;
@@ -44,6 +45,8 @@ public class theGOATcontroller {
 
     @FXML
     private Text staffCodeText; 
+    @FXML
+    private Text balanceText;
     @FXML
     private Label dynamicText; 
     @FXML
@@ -95,6 +98,8 @@ public class theGOATcontroller {
     @FXML
     private Label roomChangeMessage;
     @FXML
+    private Label balanceErrorMessage;
+    @FXML
     private TextField amenityName;
     @FXML
     private TextField roomTypeName;
@@ -118,6 +123,8 @@ public class theGOATcontroller {
     private TextField password;
     @FXML
     private TextField staffCode;
+    @FXML
+    private TextField balance;
     @FXML
     private FlowPane amenityContainer;
     @FXML
@@ -420,16 +427,25 @@ public class theGOATcontroller {
     	staffCode.setVisible(false); 
     	staffCodeErrorMessage.setVisible(false);
     	staffCodeText.setVisible(false);
+       	balance.setVisible(true); 
+    	balanceErrorMessage.setVisible(true);
+    	balanceText.setVisible(true);
     	break;
     	case "a" : 
     	staffCode.setVisible(true); 
     	staffCodeErrorMessage.setVisible(true);
     	staffCodeText.setVisible(true);
+       	balance.setVisible(false); 
+    	balanceErrorMessage.setVisible(false);
+    	balanceText.setVisible(false);
     	break;
     	case "r" : 
         	staffCode.setVisible(true); 
         	staffCodeErrorMessage.setVisible(true);
         	staffCodeText.setVisible(true);
+           	balance.setVisible(false); 
+        	balanceErrorMessage.setVisible(false);
+        	balanceText.setVisible(false);
         	break;
     	}
     }
@@ -503,11 +519,15 @@ public class theGOATcontroller {
 		username.setStyle("-fx-border-color : darkSlateGray");
 		password.setStyle("-fx-border-color : darkSlateGray");
 		staffCode.setStyle("-fx-border-color : darkSlateGray");
+		balance.setStyle("-fx-border-color : darkSlateGray");
+
+		balanceErrorMessage.setText("");
 		passwordErrorMessage.setText("");
 		usernameErrorMessage.setText("");
 		usernameErrorMessage.setText("");
 		staffCodeErrorMessage.setText("");
 
+    	String registerBalance = balance.getText().trim();
     	String registerPass = password.getText().trim();
     	String registerUser = username.getText().trim();
     	String registerStaffCode = staffCode.getText().trim();
@@ -522,7 +542,31 @@ public class theGOATcontroller {
     		password.setText("");
     		passwordErrorMessage.setText("Password is empty");
     	}
-    	if(registerUser.equals("") || registerPass.equals("")) {
+    	if(registerBalance.equals("")) {
+    		balance.setStyle("-fx-border-color : red");
+    		balance.setText("");
+    		balanceErrorMessage.setText("Balance is empty");
+    	}
+    	/////////////////////////
+    	int bal = 0;
+    	try {
+    		bal = Integer.parseInt(registerBalance);
+    		if(bal<0) {
+    			throw new InvalidBalanceException();
+    		} 
+    	}catch(InvalidBalanceException ibe) {
+    		balance.setStyle("-fx-border-color : red");
+    		balance.setText("");
+    		balanceErrorMessage.setText("You can't have a negative balance.");
+    		return;
+    	}catch(Exception e1) {
+    		balance.setStyle("-fx-border-color : red");
+    		balance.setText("");
+    		balanceErrorMessage.setText("Balance is not a valid number");
+    		return;
+    	}
+    	/////////////////
+    	if(registerUser.equals("") || registerPass.equals("") || registerBalance.equals("")) {
     		return;
     	}
     	boolean usernameFound = false;
@@ -549,7 +593,7 @@ public class theGOATcontroller {
 		RadioButton selectedAccType = (RadioButton)accountType.getSelectedToggle();
 		String newAccType = selectedAccType.getText();
 		switch(newAccType) {
-		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(100); break;
+		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(100); ((Guest)DataBase.currentUser).setBalance(bal); break;
 		case "a" : DataBase.currentUser = new Admin(registerUser, registerPass); break;
 		case "r" : DataBase.currentUser = new Receptionist(registerUser, registerPass); ((Receptionist)DataBase.currentUser).setWorkingHours(7); break;
 		}
