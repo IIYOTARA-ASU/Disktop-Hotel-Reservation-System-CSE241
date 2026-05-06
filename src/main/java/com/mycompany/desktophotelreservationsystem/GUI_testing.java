@@ -37,7 +37,7 @@ public class GUI_testing extends Application {
     	DataBase.loadData("dataBase.diggers");
     	theGOATcontroller.currentStage = primaryStage;
     	User user = new User();
-    	DataBase.demoFill();
+    	// DataBase.demoFill();
         for (User p : DataBase.people) {//just for testing Guest when login gets implemented delete eshta
             if (p instanceof Guest && p.getUserName().equals("Baraa")) {
                 Guest.currentLoggedInGuest = (Guest) p;
