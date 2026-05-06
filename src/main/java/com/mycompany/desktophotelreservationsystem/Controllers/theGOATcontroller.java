@@ -593,12 +593,11 @@ public class theGOATcontroller {
 		RadioButton selectedAccType = (RadioButton)accountType.getSelectedToggle();
 		String newAccType = selectedAccType.getText();
 		switch(newAccType) {
-		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(100); ((Guest)DataBase.currentUser).setBalance(bal); break;
+		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(bal); break;
 		case "a" : DataBase.currentUser = new Admin(registerUser, registerPass); break;
 		case "r" : DataBase.currentUser = new Receptionist(registerUser, registerPass); ((Receptionist)DataBase.currentUser).setWorkingHours(7); break;
 		}
 		DataBase.people.add(DataBase.currentUser);
-		
 		if(DataBase.currentUser instanceof Admin) {
     		toAdmin(e);
     	}
