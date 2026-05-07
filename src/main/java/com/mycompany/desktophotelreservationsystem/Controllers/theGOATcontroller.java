@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+import org.controlsfx.control.Notifications;
+
 import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
@@ -293,7 +295,6 @@ public class theGOATcontroller {
     @FXML
     public void initialize() {
     	goated = this;
-    	
     	if(!isRfidRunning) {
         t.setDaemon(true); 
         t.start();
@@ -324,6 +325,8 @@ public class theGOATcontroller {
     	}
     }
     public void toLoginFromRFID(String path) {
+ 
+    	
         Platform.runLater(() -> {
             try {
             	Parent root = FXMLLoader.load(getClass().getResource(path));
@@ -334,8 +337,11 @@ public class theGOATcontroller {
             }
         });
     }
-    @FXML  void loadScreen(String path, ActionEvent e) {
-  	  try {
+    @FXML  
+    void loadScreen(String path, ActionEvent e) {
+  	  String css = "/Style.css";
+    	try {
+          css = this.getClass().getResource("/Style.css").toExternalForm();
 			root = FXMLLoader.load(getClass().getResource(path));
 			
 		  	if (e != null) {
@@ -351,10 +357,18 @@ public class theGOATcontroller {
 
   	  stage = (Stage)((Node)e.getSource()).getScene().getWindow();
   	  scene = new Scene(root);
+  	  scene.getStylesheets().add(css);
   	  stage.setScene(scene);
   	  stage.show();    
     }
-    
+    public void displayNotification(String title,String text) {
+    	Notifications notification = Notifications.create();
+    	notification
+        .title(title)
+        .text(text)
+        .styleClass("notificationRectangle");
+    	notification.show();
+    }
     
     @FXML
     public void toAmenities(ActionEvent e) {
@@ -499,6 +513,7 @@ public class theGOATcontroller {
     	DataBase.loggedIn = true;
 	    	if(DataBase.currentUser instanceof Admin) {
 	    		toAdmin(e);
+	    		displayNotification("LOGIN SUCCESSFUL","You logged in successfully!");
 	    	}
 	    	if(DataBase.currentUser instanceof Receptionist) {
 	    		//
@@ -508,7 +523,7 @@ public class theGOATcontroller {
 			if(DataBase.currentUser instanceof Guest) {
 				// Save the session inside the Guest class
 				Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
-
+				
 				// Redirect to the Guest Menu
 				loadScreen("/guestscenebuilder.fxml", e);
 		}

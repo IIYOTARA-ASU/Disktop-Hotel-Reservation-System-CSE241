@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+	    <dependency>
+	    <groupId>org.controlsfx</groupId>
+	    <artifactId>controlsfx</artifactId>
+	    <version>11.1.2</version> 
+		</dependency>
         <dependency>
             <groupId>com.fazecast</groupId>
             <artifactId>jSerialComm</artifactId>

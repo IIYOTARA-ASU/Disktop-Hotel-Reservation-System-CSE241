@@ -2,27 +2,57 @@
 	-fx-background-color : #DED2AE;
 }
 .formRect{
-	-fx-border-radius : 10px;
-	-fx-background-radius: 30px;
+	-fx-border-radius : 10.0px;
+	-fx-background-radius: 30.0px;
 }
 
 .textBox{
 	-fx-border-color : darkSlateGray;
-	-fx-border-radius : 7px;
-	-fx-background-radius : 7px;
-	-fx-border-width : 2px;
+	-fx-border-radius : 7.0px;
+	-fx-background-radius : 7.0px;
+	-fx-border-width : 2.0px;
 }
+.notificationRectangle{
+	-fx-background-insets : 0.0;
+	-fx-opacity : 1.0;
+	-fx-background-color : beige;
+	-fx-border-color : darkSlateGray;
+	-fx-border-width : 5.0px;
+	-fx-effect : null;
+	-fx-font-family: "Verdana";
+}
+.notification-pane {
+    -fx-background-color: transparent !important;
+}
+.notification-bar{
+	-fx-background-color : transparent !important;	
+	-fx-effect : null;
+}
+.notificationRectangle > .pane{
+	-fx-background-color : transparent;	
+	-fx-effect : null;
 
+}
+.notificationRectangle .container{
+	-fx-background-color : transparent;	
+		-fx-effect : null;
+	
+}
+.notificationRectangle .graphic-container{
+	-fx-background-color : transparent;	
+		-fx-effect : null;
+}
 .textBox:focused {
     -fx-focus-color: #2ecc71;
     -fx-faint-focus-color: #2ecc7122;
 }
+
 .btn-round{
 	-fx-background-color : darkSlateGray;
 	-fx-text-fill : white;
-    -fx-font-size: 18px; 
+    -fx-font-size: 18.0px; 
     -fx-font-weight: bold; 
-    -fx-background-radius : 25px;
+    -fx-background-radius : 25.0px;
     -fx-font-family: "Verdana";
 }
 .btn-round:hover{
@@ -33,7 +63,7 @@
 .hyperlink{
 	-fx-underline : false;
 	-fx-text-fill : darkSlateGray;
-	-fx-font-size : 20px;
+	-fx-font-size : 20.0px;
 }
 .hyperlink:hover{
 	-fx-underline : true;
@@ -52,19 +82,19 @@
 .radioButtons .radio {
 -fx-background-color: transparent;
     -fx-border-color: darkSlateGray;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
+    -fx-border-width: 2.0px;
+    -fx-border-radius: 10.0px;
+    -fx-background-radius: 10.0px;
 }
 
 .radioButtons:selected .radio .dot {
     -fx-background-color: darkSlateGray; 
-    -fx-background-insets: 0;
+    -fx-background-insets: 0.0;
 }
 
 .rfidLabel{
 	-fx-background-color : #3C3C3C;
-	-fx-background-radius : 20px;
+	-fx-background-radius : 20.0px;
 	-fx-text-fill : #FFFFE0;
 	}
 .radioButtons:hover {
@@ -73,14 +103,14 @@
 .radioButtons .radio {
 -fx-background-color: transparent;
     -fx-border-color:  #43AA8B;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
+    -fx-border-width: 2.0px;
+    -fx-border-radius: 10.0px;
+    -fx-background-radius: 10.0px;
 }
 
 .radioButtons:selected .radio .dot {
     -fx-background-color:  #43AA8B;
-    -fx-background-insets: 0;
+    -fx-background-insets: 0.0;
 }
 
 .radioButtons:hover {
@@ -89,13 +119,13 @@
 .roomTypesRadio > .radio{
 	-fx-background-color : transparent;
 	-fx-border-color : #43AA8B;
-	-fx-border-radius : 10px;
-	-fx-background-radius : 10px;
+	-fx-border-radius : 10.0px;
+	-fx-background-radius : 10.0px;
 }
 
 .roomTypesRadio:selected .radio .dot {
     -fx-background-color: #43AA8B;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 10.0px;
 }
 .roomTypesRadio:hover{
 	-fx-cursor:hand;
