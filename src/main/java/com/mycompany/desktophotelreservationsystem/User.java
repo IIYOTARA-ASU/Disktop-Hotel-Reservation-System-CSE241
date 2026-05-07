@@ -5,9 +5,6 @@ import java.util.*;
 
 public class User implements users ,Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private transient Scanner sc = new Scanner(System.in);
 	public User() {
@@ -24,7 +21,9 @@ public class User implements users ,Serializable{
 	private String rfidId;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-	private static String adminCode = "3an abo el habal";
+	public static ArrayList<Message> messages = new ArrayList<>();
+	
+	private static String adminCode = "3an abo el habal"; // WTF who wrote this?
 	String inputCode;
 	
 	public String getRfidId() {
