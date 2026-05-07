@@ -5,7 +5,19 @@ public class Message {
     private String content = "";
     private String sender = "";
 
-    public Message() {
+    public String getChat() {
+		return chat;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public Message() {
     }
 
     public Message(String chat, String content, String sender) {

@@ -1,6 +1,8 @@
 package com.mycompany.desktophotelreservationsystem.Controllers;
+import com.google.cloud.storage.Acl.User;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.Message;
 import com.mycompany.desktophotelreservationsystem.RFIDThread;
 import com.mycompany.desktophotelreservationsystem.Reservation;
 import com.mycompany.desktophotelreservationsystem.Room;
@@ -30,8 +32,23 @@ public class GuestController {
     @FXML private DatePicker checkinDatepicker;
     @FXML private DatePicker checkoutDatePicker;
     @FXML private Label errorLabel;
+    @FXML private VBox chatContainer;
 
-
+    @FXML
+    public void displayChat() {
+    	chatContainer.getChildren().clear();
+        for(Message m : DataBase.currentUser.messages) {
+        	
+            VBox messageBox = new VBox(2);            
+            Label sender = new Label(m.getSender() + ":");
+            sender.setStyle("-fx-font-weight: bold; -fx-text-fill: #43aa8b;");           
+            Label content = new Label(m.getContent());
+            content.setStyle("-fx-text-fill: white;");
+            content.setWrapText(true); 
+            messageBox.getChildren().addAll(sender, content);
+            chatContainer.getChildren().add(messageBox);
+        }
+    }
     @FXML
     public void handleMakeReservation(ActionEvent event) {
         try {
@@ -168,7 +185,9 @@ public class GuestController {
     public void initialize() {
     	theGOATcontroller.isRfidRunning = false;
     	RFIDThread.commPort.closePort();
-
+    	if(chatContainer!=null) {
+    		displayChat();
+    	}
     	if (roomContainer != null) {
             displayRooms();
         }
@@ -260,7 +279,10 @@ public class GuestController {
     }
 
     @FXML private VBox reservationListContainer;
-
+    @FXML
+    public void switchToChat(ActionEvent e) {
+        loadScreen("/guestChat.fxml", e);
+    }
     @FXML
     public void displayUserReservations() {
         if (reservationListContainer != null && Guest.currentLoggedInGuest != null) {

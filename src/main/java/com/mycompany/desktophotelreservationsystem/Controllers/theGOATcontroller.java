@@ -557,7 +557,7 @@ public class theGOATcontroller {
     		password.setText("");
     		passwordErrorMessage.setText("Password is empty");
     	}
-    	if(registerBalance.equals("")) {
+    	if(registerBalance.equals("") && balance.isVisible()) {
     		balance.setStyle("-fx-border-color : red");
     		balance.setText("");
     		balanceErrorMessage.setText("Balance is empty");
@@ -565,10 +565,12 @@ public class theGOATcontroller {
     	/////////////////////////
     	int bal = 0;
     	try {
+    		if(balance.isVisible()) {
     		bal = Integer.parseInt(registerBalance);
     		if(bal<0) {
     			throw new InvalidBalanceException();
     		} 
+    		}
     	}catch(InvalidBalanceException ibe) {
     		balance.setStyle("-fx-border-color : red");
     		balance.setText("");
@@ -581,7 +583,7 @@ public class theGOATcontroller {
     		return;
     	}
     	/////////////////
-    	if(registerUser.equals("") || registerPass.equals("") || registerBalance.equals("")) {
+    	if(registerUser.equals("") || registerPass.equals("") || registerBalance.equals("") && balance.isVisible()) {
     		return;
     	}
     	boolean usernameFound = false;
