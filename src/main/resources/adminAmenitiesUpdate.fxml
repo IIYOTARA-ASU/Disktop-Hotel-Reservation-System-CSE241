@@ -22,19 +22,12 @@
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#254441" height="107.0" layoutX="12.0" stroke="BLACK" strokeType="INSIDE" style="-fx-border-radius: 10px; -fx-background-radius: 10px;" width="1097.0" />
       <Text fill="WHITE" layoutX="335.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 67; -fx-font-weight: bolder; -fx-font-family: verdana;" text="ADMIN MENU" />
       <Button layoutX="507.0" layoutY="571.0" mnemonicParsing="false" onAction="#toAmenities" prefHeight="48.0" prefWidth="134.0" style="-fx-background-radius: 30; -fx-background-color: 43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Back" />
-      <ScrollPane layoutX="165.0" layoutY="179.0" prefHeight="178.0" prefWidth="798.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
+      <ScrollPane layoutX="165.0" layoutY="179.0" prefHeight="249.0" prefWidth="798.0" style="-fx-background: darkSlateGray; -fx-background-color: transparent;">
          <content>
             <FlowPane fx:id="amenityContainer" prefHeight="387.0" prefWidth="794.0" />
          </content>
       </ScrollPane>
-      <TextField fx:id="updateID" layoutX="537.0" layoutY="393.0" prefHeight="30.0" prefWidth="69.0" styleClass="textBox" stylesheets="@Style.css" />
-      <Text layoutX="264.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 18;" text="Type Amenity ID to Update it">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Text>
       <Button layoutX="504.0" layoutY="511.0" mnemonicParsing="false" onAction="#updateAmenity" prefHeight="48.0" prefWidth="134.0" style="-fx-background-radius: 30; -fx-background-color: #43AA8B;" styleClass="btn-round" stylesheets="@Style.css" text="Update" />
-      <Label fx:id="updateIDError" layoutX="618.0" layoutY="399.0" prefHeight="18.0" prefWidth="258.0" textFill="RED" />
       <TextField fx:id="updatePrice" layoutX="539.0" layoutY="440.0" prefHeight="30.0" prefWidth="70.0" styleClass="textBox" stylesheets="@Style.css" />
       <Label fx:id="amenityDeleteMessage1" layoutX="442.0" layoutY="487.0" prefHeight="18.0" prefWidth="258.0" />
       <Text layoutX="442.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: verdana; -fx-font-size: 18;" text="New Price">

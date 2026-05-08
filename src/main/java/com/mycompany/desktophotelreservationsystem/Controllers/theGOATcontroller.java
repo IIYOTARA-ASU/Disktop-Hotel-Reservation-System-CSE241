@@ -19,6 +19,7 @@ import com.mycompany.desktophotelreservationsystem.User;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -32,6 +33,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -144,6 +147,10 @@ public class theGOATcontroller {
     @FXML
     private ToggleGroup rfidRadios = new ToggleGroup();
     @FXML
+    private ToggleGroup roomTypeUpdateRadios = new ToggleGroup();
+    @FXML
+    private ToggleGroup amenityUpdateRadios = new ToggleGroup();
+    @FXML
     private ToggleGroup accountType;
     @FXML
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
@@ -154,6 +161,10 @@ public class theGOATcontroller {
     boolean amenities = false;
 	public static theGOATcontroller goated;
 	private static boolean isUpdatingRfid = false;
+	private static boolean isUpdatingRoomTypes = false;
+	private static boolean isUpdatingAmenities = false;
+	private static boolean isUpdatingRooms = false;
+
     public theGOATcontroller() {}
 
 
@@ -192,16 +203,28 @@ public class theGOATcontroller {
         amenityContainer.setVgap(20);
         amenityContainer.setPadding(new Insets(20));
         
-    	for(Amenity a : DataBase.amenities) {
-    		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $"+a.getPrice();
-    	
+        for(Amenity a : DataBase.amenities) {
+    		VBox cardWrapper = new VBox(10); 
+            cardWrapper.setAlignment(Pos.CENTER);
+            cardWrapper.setSpacing(1);
+    		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $" + a.getPrice();
+        	
     		Label amenityLabel = new Label(amenityInfo);
     		
     		amenityLabel.
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
-    		amenityContainer.getChildren().add(amenityLabel);
+    		
+    		cardWrapper.getChildren().add(amenityLabel);  
+    		RadioButton rb = new RadioButton(Integer.toString(amenityID));
+        	rb.getStyleClass().add("radioButtons");
+        	rb.setToggleGroup(amenityUpdateRadios);
+        	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+        	if(isUpdatingAmenities) {
+        	cardWrapper.getChildren().add(rb);
+        	}
+        	amenityContainer.getChildren().add(cardWrapper);
     		
     		amenityID++;
     	}
@@ -243,8 +266,11 @@ public class theGOATcontroller {
         roomTypeContainer.setPadding(new Insets(20));
         
     	for(RoomType r : DataBase.roomTypes) {
+    		VBox cardWrapper = new VBox(10); 
+            cardWrapper.setAlignment(Pos.CENTER);
+            cardWrapper.setSpacing(1);
     		String roomTypeInfo = "ID : "+ roomTypeID + "\nName : "+r.getRoomType();
-    	
+        	
     		Label roomTypeLabel = new Label(roomTypeInfo);
     		
     		roomTypeLabel.
@@ -252,7 +278,15 @@ public class theGOATcontroller {
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
     		
-    		roomTypeContainer.getChildren().add(roomTypeLabel);
+    		cardWrapper.getChildren().add(roomTypeLabel);  
+    		RadioButton rb = new RadioButton(Integer.toString(roomTypeID));
+        	rb.getStyleClass().add("radioButtons");
+        	rb.setToggleGroup(roomTypeUpdateRadios);
+        	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+        	if(isUpdatingRoomTypes) {
+        	cardWrapper.getChildren().add(rb);
+        	}
+        	roomTypeContainer.getChildren().add(cardWrapper);
     		
     		roomTypeID++;
     	}
@@ -338,7 +372,7 @@ public class theGOATcontroller {
         });
     }
     @FXML  
-    void loadScreen(String path, ActionEvent e) {
+    void loadScreen(String path, Event e) {
   	  String css = "/Style.css";
     	try {
           css = this.getClass().getResource("/Style.css").toExternalForm();
@@ -360,6 +394,7 @@ public class theGOATcontroller {
   	  scene.getStylesheets().add(css);
   	  stage.setScene(scene);
   	  stage.show();    
+  	  
     }
     public void displayNotification(String title,String text) {
     	Notifications notification = Notifications.create();
@@ -372,11 +407,12 @@ public class theGOATcontroller {
     
     @FXML
     public void toAmenities(ActionEvent e) {
+    	isUpdatingAmenities = false;
     	loadScreen("/adminAmenities.fxml",e);
     }
 	
     @FXML
-    public void toAdmin(ActionEvent e) {
+    public void toAdmin(Event e) {
     	loadScreen("/theGoat.fxml",e);
     }
     
@@ -402,6 +438,7 @@ public class theGOATcontroller {
     }
     @FXML
     public void toRoomTypes(ActionEvent e) {
+    	isUpdatingRoomTypes = false;
     	loadScreen("/adminRoomTypes.fxml",e);
     }
     
@@ -415,10 +452,12 @@ public class theGOATcontroller {
     }
     @FXML
     public void toDeleteAmenities(ActionEvent e) {
+    	isUpdatingAmenities = true;
     	loadScreen("/adminAmenitiesDelete.fxml",e);
     }
     @FXML
     public void toUpdateAmenities(ActionEvent e) {
+    	isUpdatingAmenities = true;
     	loadScreen("/adminAmenitiesUpdate.fxml",e);
     	if(updateID != null && updateIDError != null) {
     	updateIDError.setText("");
@@ -463,8 +502,9 @@ public class theGOATcontroller {
         	break;
     	}
     }
+    
     @FXML
-    public void loginGui(ActionEvent e) {
+    public void loginGui(Event e) {
 		username.setStyle("-fx-border-color : darkSlateGray");
 		password.setStyle("-fx-border-color : darkSlateGray");
 		passwordErrorMessage.setText("");
@@ -530,7 +570,7 @@ public class theGOATcontroller {
 
     }
     @FXML
-    public void Register(ActionEvent e) {
+    public void Register(Event e) {
 		username.setStyle("-fx-border-color : darkSlateGray");
 		password.setStyle("-fx-border-color : darkSlateGray");
 		staffCode.setStyle("-fx-border-color : darkSlateGray");
@@ -639,11 +679,11 @@ public class theGOATcontroller {
     	loadScreen("/Login.fxml",e);
     }
     @FXML
-    public void toGuest(ActionEvent e){
+    public void toGuest(Event e){
     	loadScreen("/guestscenebuilder.fxml",e);
     }
     @FXML
-    public void toReceptionist(ActionEvent e){
+    public void toReceptionist(Event e){
     	loadScreen("/Receptionists.fxml",e);
     }
     @FXML
@@ -652,6 +692,7 @@ public class theGOATcontroller {
     }
     @FXML
     public void toDeleteRoomTypes(ActionEvent e) {
+    	isUpdatingRoomTypes = true;
     	loadScreen("/adminRoomTypesDelete.fxml",e);
     }
     @FXML
@@ -677,7 +718,22 @@ public class theGOATcontroller {
     	loadScreen("/adminRFIDView.fxml",e);
     }
     @FXML
+    public void loginKeyBoard(KeyEvent e) {
+    	KeyCode keycode = e.getCode();
+    	if(keycode == KeyCode.ENTER) {
+    		loginGui(e);
+    	}
+    }
+    @FXML
+    public void registerKeyBoard(KeyEvent e) {
+    	KeyCode keycode = e.getCode();
+    	if(keycode == KeyCode.ENTER) {
+    		Register(e);
+    	}
+    }
+    @FXML
     public void toUpdateRoomTypes(ActionEvent e) {
+    	isUpdatingRoomTypes = true;
     	loadScreen("/adminRoomTypesUpdate.fxml",e);
     	if(updateID != null && updateIDError != null) {
     	updateIDError.setText("");
@@ -752,43 +808,26 @@ public class theGOATcontroller {
     @FXML
     public void updateAmenity() {
     	String priceString = updatePrice.getText().trim();
-    	String idString = updateID.getText().trim();
     	int price=-1;
     	int updateId=-1;
+    	if(amenityUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		updateSuccessMessage.setText("No Room Type Selected");
+    		updateSuccessMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    		
+    	}else {
+    		updateId = Integer.parseInt(((RadioButton)amenityUpdateRadios.getSelectedToggle()).getText());
+    	}
     	if(priceString.equals("")) {
     		updatePrice.setStyle("-fx-border-color : red;");
     		updatePriceError.setText("Price is Empty.");
     	}
-    	if(idString.equals("")) {
-    		updateID.setStyle("-fx-border-color : red");
-    		updateIDError.setText("ID is Empty.");
-    	}
+    	
 
-    	try {
-    		updateId = Integer.parseInt(idString);
-			updateIDError.setText("");
-			updateID.setStyle("-fx-border-color : darkSlateGray;");
-    	}catch(Exception e){
-    		updateID.setStyle("-fx-border-color : red;");
-    		updateIDError.setText("Amenity not found. Please enter a valid ID.");
-    		updateIDError.setStyle("-fx-text-fill : red;");
-    		updateID.setText("");
-    		updateSuccessMessage.setText("");
-    		return;
-    	}
-		updateIDError.setText("");
-		updateID.setStyle("-fx-border-color : darkSlateGray;");
 		updatePriceError.setText("");
 		updatePrice.setStyle("-fx-border-color : darkSlateGray;");
 
-		if (updateId < 0 || updateId > DataBase.amenities.size()) {
-			updateID.setStyle("-fx-border-color : red;");
-    		updateIDError.setText("Invalid ID.");
-    		updateIDError.setStyle("-fx-text-fill : red;");
-    		updateID.setText("");
-    		updateSuccessMessage.setText("");
-    		return;
-		}
 		
 		Amenity toUpdate = DataBase.amenities.get(updateId);
 		
@@ -824,9 +863,7 @@ public class theGOATcontroller {
 		
 		updateSuccessMessage.setStyle("-fx-text-fill: green;");
 		updateSuccessMessage.setText("Amenity Updated Successfully!");
-		updateID.setStyle("-fx-border-color : darkSlateGray");
 		updatePrice.setStyle("-fx-border-color : darkSlateGray");
-		updateID.setText("");
 		updatePrice.setText("");
 		
 		
@@ -836,27 +873,18 @@ public class theGOATcontroller {
     
     @FXML
     public void deleteAmenity() {
+		amenityDeleteMessage.setText("");
     	int deletedId = -1;
     	
-    	try {
-    		deletedId = Integer.parseInt(deleteID.getText().trim());
-    	}catch(Exception e){
-    		deleteID.setStyle("-fx-border-color : red;");
-    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
+       	if(amenityUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		amenityDeleteMessage.setText("No Room Type Selected");
     		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
     		return;
+    		
+    	}else {
+    		deletedId = Integer.parseInt(((RadioButton)amenityUpdateRadios.getSelectedToggle()).getText());
     	}
-		amenityDeleteMessage.setText("");
-		deleteID.setStyle("-fx-border-color : darkSlateGray;");
-
-		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
-			deleteID.setStyle("-fx-border-color : red;");
-    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
-    		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
-    		return;
-		}
 		
 		Amenity toDelete = DataBase.amenities.get(deletedId);
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
@@ -866,8 +894,6 @@ public class theGOATcontroller {
 		System.out.println("   [OK] Amenity deleted and removed from all rooms.");
 		amenityDeleteMessage.setStyle("-fx-text-fill: green;");
 		amenityDeleteMessage.setText("Amenity deleted and removed from all rooms!");
-		deleteID.setStyle("-fx-border-color : darkSlateGray");
-		deleteID.setText("");
 		
 		displayAmenities();
     }
@@ -905,26 +931,18 @@ public class theGOATcontroller {
     
     @FXML
     public void updateRoomType() {
-    	String idString = updateID.getText().trim();
+		updateSuccessMessage.setText("");
     	String newName = updateName.getText().trim();
     	int updateId = -1;
-    	try {
-    		updateId = Integer.parseInt(idString); 
-    	}catch(Exception e){
-    		updateIDError.setText("ID is invalid.");
-    		updateID.setText("");
-    		updateID.setStyle("-fx-border-color : red;");
+    	if(roomTypeUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		updateSuccessMessage.setText("No Room Type Selected");
+    		updateSuccessMessage.setStyle("-fx-text-fill : red;");
     		return;
+    		
+    	}else {
+    		updateId = Integer.parseInt(((RadioButton)roomTypeUpdateRadios.getSelectedToggle()).getText());
     	}
-		updateID.setStyle("-fx-border-color : darkSlateGray;");
-    	if(updateId < 0 || updateId > DataBase.roomTypes.size()) {
-    		updateIDError.setText("ID not found.");
-    		updateID.setStyle("-fx-border-color : red;");
-    		updateID.setText("");
-    		return;
-    	}
-		updateID.setStyle("-fx-border-color : darkSlateGray;");
-		updateIDError.setText("");
     	if(newName.equals("")) {
     		updateName.setStyle("-fx-border-color : red;");
     		updateNameError.setText("Room type name is empty.");
@@ -947,8 +965,7 @@ public class theGOATcontroller {
 		DataBase.roomTypes.get(updateId).setRoomType(newName);
     	updateName.setText("");
     	updateNameError.setText("");
-    	updateID.setText("");
-    	updateIDError.setText("");
+		updateSuccessMessage.setStyle("-fx-text-fill : green;");
     	updateSuccessMessage.setText("Roomtype updated successfully!");
     	displayRoomTypes();
     }
@@ -957,30 +974,22 @@ public class theGOATcontroller {
     public void deleteRoomType() {
     	int deletedId = -1;
     	
-    	try {
-    		deletedId = Integer.parseInt(deleteID.getText().trim());
-    	}catch(Exception e){
-    		deleteID.setStyle("-fx-border-color : red;");
-    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
+    	if(roomTypeUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		roomTypeDeleteMessage.setText("No Room Type Selected");
     		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
     		return;
+    		
+    	}else {
+    		deletedId = Integer.parseInt(((RadioButton)roomTypeUpdateRadios.getSelectedToggle()).getText());
     	}
+    	
     	roomTypeDeleteMessage.setText("");
-		deleteID.setStyle("-fx-border-color : darkSlateGray;");
 
-		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
-			deleteID.setStyle("-fx-border-color : red;");
-    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
-    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
-    		return;
-		}
 		
 		RoomType toDelete = DataBase.roomTypes.get(deletedId);
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			if (DataBase.rooms.get(i).getRoomType().equals(toDelete)) {
-				deleteID.setStyle("-fx-border-color : red;");
 	    		roomTypeDeleteMessage.setText("Room Type already belongs to a room.");
 	    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
 				return;
@@ -989,9 +998,7 @@ public class theGOATcontroller {
 		
 		DataBase.roomTypes.remove(toDelete);
 		roomTypeDeleteMessage.setStyle("-fx-text-fill: green;");
-		roomTypeDeleteMessage.setText("Room Type deleted and removed from all rooms!");
-		deleteID.setStyle("-fx-border-color : darkSlateGray");
-		deleteID.setText("");
+		roomTypeDeleteMessage.setText("Room Type deleted successfully");
 		
 		displayRoomTypes();
     }
