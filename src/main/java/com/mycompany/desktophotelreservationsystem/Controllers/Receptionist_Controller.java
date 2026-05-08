@@ -33,7 +33,6 @@ import com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller
 
 public class Receptionist_Controller {
 
-	
     private Admin admin;
     private Receptionist receptionist;
     private boolean[] roomstate = new boolean[25];
@@ -88,8 +87,6 @@ public class Receptionist_Controller {
     @FXML
     private FlowPane roomContainer;
     @FXML
-    private FlowPane selectChatPane;
-    @FXML
     private VBox recepContainers;
     @FXML
     private Rectangle NoOfGuest;
@@ -108,19 +105,7 @@ public class Receptionist_Controller {
     @FXML
     private Label Roomno;
 
-    @FXML
-    public void loadSelectChat(){
-    	int i = 0;
-    	for(Guest g : DataBase.guests) {
-    		FlowPane fp = new FlowPane();
-    		fp.setStyle("-fx-background-color : Brown");
-    		Label chatLabel = new Label("Chat #\n"+g.getUserName());
-    		Button chatBtn = new Button("Chat");
-    		fp.getChildren().setAll(chatLabel,chatBtn);
-    		selectChatPane.getChildren().add(fp);
-    		i++;
-    	}
-    }
+
     @FXML
     void loadScreen(String path, ActionEvent e) {
         try {
@@ -146,9 +131,7 @@ public class Receptionist_Controller {
         if (roomContainer != null) {
             displayRooms();
         }
-        if(selectChatPane != null) {
-        	
-        }
+
         // 2. Handle the Rectangles (Visual Map)
         if (Room67 != null && Room123 != null && Room108 != null) {
             // Reset them all to Green first

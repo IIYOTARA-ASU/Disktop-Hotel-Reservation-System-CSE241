@@ -1,12 +1,9 @@
 package com.mycompany.desktophotelreservationsystem;
 
-import java.io.Serializable;
 import java.util.*;
 
-public class User implements users ,Serializable{
+public class User implements users {
 
-	private static final long serialVersionUID = 1L;
-	private transient Scanner sc = new Scanner(System.in);
 	public User() {
 	}
 
@@ -21,9 +18,7 @@ public class User implements users ,Serializable{
 	private String rfidId;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-	public static ArrayList<Message> messages = new ArrayList<>();
-	
-	private static String adminCode = "3an abo el habal"; // WTF who wrote this?
+	private static String adminCode = "3an abo el habal";
 	String inputCode;
 	
 	public String getRfidId() {
@@ -115,12 +110,13 @@ public class User implements users ,Serializable{
 	// ─────────────────────────────────────────────────────────────────────────
 	public User login(String inputUser, String inputPass, boolean GUI) {
 		System.out.println();
+		Scanner scanner = new Scanner(System.in);
 		boolean usernameFound;
 		int userIndex = -1;
 
 		do {
 			if (!GUI) {
-				inputUser = Validation.getString(sc, ">> Enter your username: ");
+				inputUser = Validation.getString(scanner, ">> Enter your username: ");
 			} else if (GUI) {
 				usernameFound = false;
 				for (int i = 0; i < DataBase.people.size(); i++) {
@@ -151,7 +147,7 @@ public class User implements users ,Serializable{
 		boolean correctPassword;
 		do {
 			if (!GUI) {
-				inputPass = Validation.getString(sc, ">> Enter your password: ");
+				inputPass = Validation.getString(scanner, ">> Enter your password: ");
 			} else {
 				correctPassword = DataBase.people.get(userIndex).password.equals(inputPass);
 				if (!correctPassword) {
@@ -176,13 +172,14 @@ public class User implements users ,Serializable{
 	// ─────────────────────────────────────────────────────────────────────────
 	public User register(String inputUser, String inputPass, int inputType, boolean GUI) {
 		System.out.println();
+		Scanner scanner = new Scanner(System.in);
 		User user;
 
 		boolean usernameAlreadyExists;
 
 		do {
 			if (!GUI) {
-				inputUser = Validation.getString(sc, ">> Enter a username: ");
+				inputUser = Validation.getString(scanner, ">> Enter a username: ");
 			} else {
 				usernameAlreadyExists = false;
 				for (int i = 0; i < DataBase.people.size(); i++) {
@@ -203,18 +200,18 @@ public class User implements users ,Serializable{
 		} while (usernameAlreadyExists);
 
 		if (!GUI) {
-			inputPass = Validation.getString(sc, ">> Enter a password: ");
+			inputPass = Validation.getString(scanner, ">> Enter a password: ");
 		}
 
 		if (!GUI) {
-			inputType = Validation.getOption(sc, 3,
+			inputType = Validation.getOption(scanner, 3,
 					">> Account type  [1] Guest  [2] Admin  [3] Receptionist: ");
 		}
 
 		switch (inputType) {
 			case 1:
 				if (!GUI) {
-					double balance = Validation.getDouble(sc, ">> Enter Account Balance : ");
+					double balance = Validation.getDouble(scanner, ">> Enter Account Balance : ");
 					user = new Guest(inputUser, inputPass);
 					((Guest) user).setBalance(balance);
 					break;
@@ -222,7 +219,7 @@ public class User implements users ,Serializable{
 
 			case 2:
 
-				inputCode = Validation.getString(sc, "Enter Admin Code : ");
+				inputCode = Validation.getString(scanner, "Enter Admin Code : ");
 				if (inputCode.equals(adminCode)) {
 					user = new Admin(inputUser, inputPass);
 				} else {
@@ -233,7 +230,7 @@ public class User implements users ,Serializable{
 				break;
 			case 3:
 				if (!GUI) {
-					inputCode = Validation.getString(sc, "Enter Admin Code : ");
+					inputCode = Validation.getString(scanner, "Enter Admin Code : ");
 					if (inputCode.equals(adminCode)) {
 						user = new Receptionist(inputUser, inputPass);
 					} else {
@@ -241,7 +238,7 @@ public class User implements users ,Serializable{
 						System.exit(0);
 						return null;
 					}
-					int workingHours = Validation.getIntInRange(sc, ">> Enter Working Hours (0~15) : ", 0, 15);
+					int workingHours = Validation.getIntInRange(scanner, ">> Enter Working Hours (0~15) : ", 0, 15);
 					((Receptionist) user).setWorkingHours(workingHours);
 					break;
 				}
@@ -251,7 +248,6 @@ public class User implements users ,Serializable{
 		}
 
 		DataBase.people.add(user);
-		
 		System.out.println("   [OK] Account created successfully!\n");
 		return user;
 
