@@ -74,7 +74,6 @@ public class DataBase {
         people.add(admin);
         people.add(guest);
         people.add(receptionist);
-        guests.add(guest);
 
         /////////////////////////////////////////////////////////// ROOM TYPES
         RoomType single = new RoomType("Single");
