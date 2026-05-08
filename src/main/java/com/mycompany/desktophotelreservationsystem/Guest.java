@@ -17,7 +17,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class Guest extends User implements users, Serializable{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	public static Guest currentLoggedInGuest;
@@ -44,10 +44,11 @@ public class Guest extends User implements users, Serializable{
 					statusColor = "#3498db"; // Blue
 				}
 
-				String info = "Reservation: "+res.getReservationId()+"\nRoom: " + res.getRoom().getRoomNumber() + "\nCheck-in: " + res.getCheckInDate() + "\nStatus: " + statusStr;
+				String info = "Reservation: "+res.getReservationId()+"\nRoom: " + res.getRoom().getRoomNumber() + "\nCheck-in: " + res.getCheckInDate()+ "\nCheck-out: " + res.getCheckOutDate() + "\nStatus: " + statusStr;
 
 				javafx.scene.control.Label card = new javafx.scene.control.Label(info);
 
+				card.setMaxWidth(Double.MAX_VALUE);
 				card.setStyle(
 						"-fx-text-fill: beige; " +
 								"-fx-font-size: 15px; " +
@@ -62,6 +63,7 @@ public class Guest extends User implements users, Serializable{
 								"-fx-border-radius: 10;"
 				);
 
+				javafx.scene.layout.VBox.setMargin(card, new javafx.geometry.Insets(0, 0, 5, 0));
 				container.getChildren().add(card);
 			}
 		}

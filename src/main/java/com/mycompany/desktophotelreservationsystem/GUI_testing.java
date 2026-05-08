@@ -35,7 +35,15 @@ public class GUI_testing extends Application {
     public void start(Stage primaryStage) throws IOException {
     	
     	DataBase.loadData("dataBase.diggers");
-    	theGOATcontroller.currentStage = primaryStage;
+        int maxId = DataBase.reservations.stream()
+                .mapToInt(Reservation::getReservationId)
+                .max()
+                .orElse(-1);
+        Reservation.setReservationCounter(maxId + 1);
+
+        /// //////so that reservation id doesnt reset wwhen exiting thus logic still works
+
+        theGOATcontroller.currentStage = primaryStage;
     	User user = new User();
     	// DataBase.demoFill();
         for (User p : DataBase.people) {//just for testing Guest when login gets implemented delete eshta

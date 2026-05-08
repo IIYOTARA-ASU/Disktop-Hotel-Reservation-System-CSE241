@@ -63,8 +63,8 @@ public class GuestController {
                 errorLabel.setVisible(true);
                 return;
             }
-            if (inDate!=null && outDate!=null&& outDate.isBefore(currentDate)||inDate!=null && outDate!=null&& inDate.isBefore(currentDate)){
-                errorLabel.setText("error in inputted date");
+            if (inDate != null && outDate != null && (outDate.isBefore(currentDate) || inDate.isBefore(currentDate))) {
+                errorLabel.setText("Check-in and check-out dates must be in the future.");
                 errorLabel.setVisible(true);
                 return;
             }

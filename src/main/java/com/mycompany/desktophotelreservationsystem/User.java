@@ -21,7 +21,7 @@ public class User implements users ,Serializable{
 	private String rfidId;
 	private Date dateOfBirth;
 	boolean loggedIn = false;
-	public static ArrayList<Message> messages = new ArrayList<>();
+	public ArrayList<Message> messages = new ArrayList<>();//34an lma beyaba static kol el users beyba 3andohom nafs el chat
 	
 	private static String adminCode = "3an abo el habal"; // WTF who wrote this?
 	String inputCode;

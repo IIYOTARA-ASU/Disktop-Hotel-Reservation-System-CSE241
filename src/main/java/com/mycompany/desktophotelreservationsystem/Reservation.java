@@ -33,7 +33,9 @@ public class Reservation implements reservationProcess,Serializable{
         this.reservationId=reservationNumber++;
     }
 
-
+    public static void setReservationCounter(int n) {
+        reservationNumber = n;
+    }
 
 
     // ###############################  GETTERS  ###############################
