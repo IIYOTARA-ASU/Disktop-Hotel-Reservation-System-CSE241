@@ -44,7 +44,7 @@ public class Guest extends User implements users, Serializable{
 					statusColor = "#3498db"; // Blue
 				}
 
-				String info = "Reservation: "+res.getReservationId()+"\nRoom: " + res.getRoom().getRoomNumber() + "\nCheck-in: " + res.getCheckInDate()+ "\nCheck-out: " + res.getCheckOutDate() + "\nStatus: " + statusStr;
+				String info = "Reservation ID: "+res.getReservationId()+"\nRoom: " + res.getRoom().getRoomNumber() + "\nCheck-in: " + res.getCheckInDate()+ "\nCheck-out: " + res.getCheckOutDate() + "\nStatus: " + statusStr;
 
 				javafx.scene.control.Label card = new javafx.scene.control.Label(info);
 
