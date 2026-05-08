@@ -21,7 +21,7 @@ public class Guest extends User implements users, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	public static Guest currentLoggedInGuest;
-	public static Integer Guestno = 0;
+	public static Integer Guestno = 1;
 	private transient Scanner sc = new Scanner(System.in);
 
 	/// ///////////////////////////////// GUI methods to access reservation class

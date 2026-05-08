@@ -33,7 +33,6 @@ import com.mycompany.desktophotelreservationsystem.Controllers.theGOATcontroller
 
 public class Receptionist_Controller {
 
-	
     private Admin admin;
     private Receptionist receptionist;
     private boolean[] roomstate = new boolean[25];
@@ -88,8 +87,6 @@ public class Receptionist_Controller {
     @FXML
     private FlowPane roomContainer;
     @FXML
-    private FlowPane selectChatPane;
-    @FXML
     private VBox recepContainers;
     @FXML
     private Rectangle NoOfGuest;
@@ -97,6 +94,8 @@ public class Receptionist_Controller {
     private TextField roomno ;
     @FXML
     private VBox checkinContainers;
+    @FXML
+    private VBox GuestContainers;
     @FXML
     private VBox checkoutContainers;
     @FXML
@@ -108,19 +107,7 @@ public class Receptionist_Controller {
     @FXML
     private Label Roomno;
 
-    @FXML
-    public void loadSelectChat(){
-    	int i = 0;
-    	for(Guest g : DataBase.guests) {
-    		FlowPane fp = new FlowPane();
-    		fp.setStyle("-fx-background-color : Brown");
-    		Label chatLabel = new Label("Chat #\n"+g.getUserName());
-    		Button chatBtn = new Button("Chat");
-    		fp.getChildren().setAll(chatLabel,chatBtn);
-    		selectChatPane.getChildren().add(fp);
-    		i++;
-    	}
-    }
+
     @FXML
     void loadScreen(String path, ActionEvent e) {
         try {
@@ -146,9 +133,7 @@ public class Receptionist_Controller {
         if (roomContainer != null) {
             displayRooms();
         }
-        if(selectChatPane != null) {
-        	
-        }
+
         // 2. Handle the Rectangles (Visual Map)
         if (Room67 != null && Room123 != null && Room108 != null) {
             // Reset them all to Green first
@@ -172,7 +157,7 @@ public class Receptionist_Controller {
         }
         if (Guestno != null)
         {
-            Guestno.setText(Guest.getGuestno());
+            Guestno.setText(String.valueOf(DataBase.guests.size()));
         }
         if(Roomno!=null)
         {
@@ -196,6 +181,16 @@ public class Receptionist_Controller {
         }
         if (checkoutContainers != null ) {
             checkout();
+        }
+        if (GuestContainers != null)
+        {
+            viewguests();
+        }
+        DataBase.guests.clear();
+        for(User u : DataBase.people){
+            if(u instanceof Guest){
+                DataBase.guests.add((Guest) u);
+            }
         }
 
     }
@@ -303,14 +298,48 @@ public class Receptionist_Controller {
     }
     @FXML
     public void logout(ActionEvent e){
-    	DataBase.loggedIn = false;
-    	DataBase.currentUser = null;
+        DataBase.loggedIn = false;
+        DataBase.currentUser = null;
         loadScreen("/Login.fxml",e);
     }
     @FXML
     public void view_guest(ActionEvent e){
 
         loadScreen("/ReceptionistViewGuests.fxml",e);
+    }
+    @FXML
+    public void viewguests() {
+        if (GuestContainers == null) {
+            System.out.println("Error: GuestContainers VBox is null. Check fx:id in FXML.");
+            return;
+        }
+
+        GuestContainers.getChildren().clear();
+        GuestContainers.setSpacing(10); // Adds space between cards
+
+        if (DataBase.guests.isEmpty()) {
+            Label emptyLabel = new Label("No guests found in the database.");
+            emptyLabel.setStyle("-fx-text-fill: white;");
+            GuestContainers.getChildren().add(emptyLabel);
+            return;
+        }
+
+        for (Guest g : DataBase.guests) {
+            // Create a structured card for the guest
+            Label infoLabel = new Label("Guest Name: " + g.getUserName());
+            infoLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+
+            HBox card = new HBox(20, infoLabel);
+            card.setAlignment(Pos.CENTER_LEFT);
+
+            // Ensure the background color contrasts with the text
+            card.setStyle("-fx-background-color: #34495e; " +
+                    "-fx-padding: 15; " +
+                    "-fx-background-radius: 10; " +
+                    "-fx-min-width: 400;");
+
+            GuestContainers.getChildren().add(card);
+        }
     }
     @FXML
     public void check_out(ActionEvent e){

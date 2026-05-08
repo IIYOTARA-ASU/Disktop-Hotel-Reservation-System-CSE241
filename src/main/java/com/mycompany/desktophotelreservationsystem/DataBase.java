@@ -71,9 +71,11 @@ public class DataBase {
         Guest guest = new Guest("Baraa", "67");
         Receptionist receptionist = new Receptionist("Hadi", "67");
         admin.setRfidId("FB 70 6C 8A");
+        guests.add(guest);
         people.add(admin);
         people.add(guest);
         people.add(receptionist);
+
 
         /////////////////////////////////////////////////////////// ROOM TYPES
         RoomType single = new RoomType("Single");
