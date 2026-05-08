@@ -161,7 +161,7 @@ public class Receptionist_Controller {
         }
         if(Roomno!=null)
         {
-            Roomno.setText(Room.getRoomNo());
+            Roomno.setText(String.valueOf(DataBase.rooms.size()));
         }
         if(date!=null)
         {
