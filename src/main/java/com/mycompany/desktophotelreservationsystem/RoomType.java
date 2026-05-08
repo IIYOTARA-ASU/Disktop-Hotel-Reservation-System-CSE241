@@ -1,6 +1,12 @@
 package com.mycompany.desktophotelreservationsystem;
 
-public class RoomType implements roomstuff {
+import java.io.Serializable;
+
+public class RoomType implements roomstuff,Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String roomType;
 
 	RoomType() {

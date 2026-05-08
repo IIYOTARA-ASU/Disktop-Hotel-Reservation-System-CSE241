@@ -1,7 +1,14 @@
 package com.mycompany.desktophotelreservationsystem;
 
-public class Amenity implements roomstuff{
-    private double price;
+import java.io.Serializable;
+
+public class Amenity implements roomstuff,Serializable{
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private double price;
     private String name;
 
     Amenity() {

@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+import org.controlsfx.control.Notifications;
+
 import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
+import com.mycompany.desktophotelreservationsystem.InvalidBalanceException;
 import com.mycompany.desktophotelreservationsystem.RFIDThread;
 import com.mycompany.desktophotelreservationsystem.Receptionist;
 import com.mycompany.desktophotelreservationsystem.Room;
@@ -16,6 +19,7 @@ import com.mycompany.desktophotelreservationsystem.User;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -29,6 +33,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -44,6 +50,8 @@ public class theGOATcontroller {
 
     @FXML
     private Text staffCodeText; 
+    @FXML
+    private Text balanceText;
     @FXML
     private Label dynamicText; 
     @FXML
@@ -95,6 +103,8 @@ public class theGOATcontroller {
     @FXML
     private Label roomChangeMessage;
     @FXML
+    private Label balanceErrorMessage;
+    @FXML
     private TextField amenityName;
     @FXML
     private TextField roomTypeName;
@@ -119,6 +129,8 @@ public class theGOATcontroller {
     @FXML
     private TextField staffCode;
     @FXML
+    private TextField balance;
+    @FXML
     private FlowPane amenityContainer;
     @FXML
     private FlowPane rfidContainer;
@@ -135,6 +147,12 @@ public class theGOATcontroller {
     @FXML
     private ToggleGroup rfidRadios = new ToggleGroup();
     @FXML
+    private ToggleGroup roomTypeUpdateRadios = new ToggleGroup();
+    @FXML
+    private ToggleGroup amenityUpdateRadios = new ToggleGroup();
+    @FXML
+    private ToggleGroup roomUpdateRadios = new ToggleGroup();
+    @FXML
     private ToggleGroup accountType;
     @FXML
     private ArrayList<CheckBox> amenityCheckBoxes = new ArrayList<>();
@@ -145,6 +163,10 @@ public class theGOATcontroller {
     boolean amenities = false;
 	public static theGOATcontroller goated;
 	private static boolean isUpdatingRfid = false;
+	private static boolean isUpdatingRoomTypes = false;
+	private static boolean isUpdatingAmenities = false;
+	private static boolean isUpdatingRooms = false;
+
     public theGOATcontroller() {}
 
 
@@ -183,16 +205,28 @@ public class theGOATcontroller {
         amenityContainer.setVgap(20);
         amenityContainer.setPadding(new Insets(20));
         
-    	for(Amenity a : DataBase.amenities) {
-    		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $"+a.getPrice();
-    	
+        for(Amenity a : DataBase.amenities) {
+    		VBox cardWrapper = new VBox(10); 
+            cardWrapper.setAlignment(Pos.CENTER);
+            cardWrapper.setSpacing(1);
+    		String amenityInfo = "ID : "+ amenityID + "\nName : "+a.getName() + "\nPrice : $" + a.getPrice();
+        	
     		Label amenityLabel = new Label(amenityInfo);
     		
     		amenityLabel.
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
-    		amenityContainer.getChildren().add(amenityLabel);
+    		
+    		cardWrapper.getChildren().add(amenityLabel);  
+    		RadioButton rb = new RadioButton(Integer.toString(amenityID));
+        	rb.getStyleClass().add("radioButtons");
+        	rb.setToggleGroup(amenityUpdateRadios);
+        	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+        	if(isUpdatingAmenities) {
+        	cardWrapper.getChildren().add(rb);
+        	}
+        	amenityContainer.getChildren().add(cardWrapper);
     		
     		amenityID++;
     	}
@@ -207,6 +241,10 @@ public class theGOATcontroller {
         roomContainer.setPadding(new Insets(20));
         
     	for(Room r : DataBase.rooms) {
+    		VBox cardWrapper = new VBox(10); 
+            cardWrapper.setAlignment(Pos.CENTER);
+            cardWrapper.setSpacing(1);
+            
     		String roomInfo = "Room Number : " + r.getRoomNumber() +"\n Room Type : " +r.getRoomType().getRoomType() + "\n Room Amenities : ";
 			for (int j = 0; j < r.getAmenities().size(); j++) {
 				roomInfo += r.getAmenities().get(j).getName();
@@ -220,8 +258,16 @@ public class theGOATcontroller {
     		setStyle("-fx-text-fill: beige; -fx-font-size: 15px; -fx-font-weight: bold; " +
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
-    		roomContainer.getChildren().add(roomLabel);
+    		cardWrapper.getChildren().add(roomLabel);
     		
+    		RadioButton rb = new RadioButton(Integer.toString(r.getRoomNumber()));
+        	rb.getStyleClass().add("radioButtons");
+        	rb.setToggleGroup(roomUpdateRadios);
+        	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+        	if(isUpdatingRooms) {
+        	cardWrapper.getChildren().add(rb);
+        	}
+    		roomContainer.getChildren().add(cardWrapper);
     	}
     }
     @FXML
@@ -234,8 +280,11 @@ public class theGOATcontroller {
         roomTypeContainer.setPadding(new Insets(20));
         
     	for(RoomType r : DataBase.roomTypes) {
+    		VBox cardWrapper = new VBox(10); 
+            cardWrapper.setAlignment(Pos.CENTER);
+            cardWrapper.setSpacing(1);
     		String roomTypeInfo = "ID : "+ roomTypeID + "\nName : "+r.getRoomType();
-    	
+        	
     		Label roomTypeLabel = new Label(roomTypeInfo);
     		
     		roomTypeLabel.
@@ -243,7 +292,15 @@ public class theGOATcontroller {
                     "-fx-background-color: #333; -fx-padding: 10; -fx-background-radius: 10; " +
                     "-fx-text-alignment: center; -fx-min-width: 120;");
     		
-    		roomTypeContainer.getChildren().add(roomTypeLabel);
+    		cardWrapper.getChildren().add(roomTypeLabel);  
+    		RadioButton rb = new RadioButton(Integer.toString(roomTypeID));
+        	rb.getStyleClass().add("radioButtons");
+        	rb.setToggleGroup(roomTypeUpdateRadios);
+        	rb.setStyle("-fx-text-fill: beige; -fx-font-weight: bold; -fx-padding: 8; -fx-font-size: 14px;");
+        	if(isUpdatingRoomTypes) {
+        	cardWrapper.getChildren().add(rb);
+        	}
+        	roomTypeContainer.getChildren().add(cardWrapper);
     		
     		roomTypeID++;
     	}
@@ -286,7 +343,6 @@ public class theGOATcontroller {
     @FXML
     public void initialize() {
     	goated = this;
-    	
     	if(!isRfidRunning) {
         t.setDaemon(true); 
         t.start();
@@ -294,8 +350,6 @@ public class theGOATcontroller {
     	}
     	if (dynamicText != null) {
             dynamicText.setText("Welcome, " + DataBase.currentUser.getUserName());
-        } else {
-            System.out.println("No dynamicText label found on this screen. Skipping text update.");
         }
     	if(rfidContainer != null) {
     		displayRFID();
@@ -317,6 +371,8 @@ public class theGOATcontroller {
     	}
     }
     public void toLoginFromRFID(String path) {
+ 
+    	
         Platform.runLater(() -> {
             try {
             	Parent root = FXMLLoader.load(getClass().getResource(path));
@@ -327,8 +383,11 @@ public class theGOATcontroller {
             }
         });
     }
-    @FXML  void loadScreen(String path, ActionEvent e) {
-  	  try {
+    @FXML  
+    void loadScreen(String path, Event e) {
+  	  String css = "/Style.css";
+    	try {
+          css = this.getClass().getResource("/Style.css").toExternalForm();
 			root = FXMLLoader.load(getClass().getResource(path));
 			
 		  	if (e != null) {
@@ -344,23 +403,34 @@ public class theGOATcontroller {
 
   	  stage = (Stage)((Node)e.getSource()).getScene().getWindow();
   	  scene = new Scene(root);
+  	  scene.getStylesheets().add(css);
   	  stage.setScene(scene);
   	  stage.show();    
+  	  
     }
-    
+    public void displayNotification(String title,String text) {
+    	Notifications notification = Notifications.create();
+    	notification
+        .title(title)
+        .text(text)
+        .styleClass("notificationRectangle");
+    	notification.show();
+    }
     
     @FXML
     public void toAmenities(ActionEvent e) {
+    	isUpdatingAmenities = false;
     	loadScreen("/adminAmenities.fxml",e);
     }
 	
     @FXML
-    public void toAdmin(ActionEvent e) {
+    public void toAdmin(Event e) {
     	loadScreen("/theGoat.fxml",e);
     }
     
     @FXML
     public void toRooms(ActionEvent e) {
+    	isUpdatingRooms = false;
     	loadScreen("/adminRooms.fxml",e);
     }
     @FXML
@@ -369,6 +439,7 @@ public class theGOATcontroller {
     }
     @FXML
     public void toDeleteRooms(ActionEvent e) {
+    	isUpdatingRooms = true;
     	loadScreen("/adminRoomsDelete.fxml",e);
     }
     @FXML
@@ -377,10 +448,12 @@ public class theGOATcontroller {
     }
     @FXML
     public void toUpdateRooms(ActionEvent e) {
+    	isUpdatingRooms = true;
     	loadScreen("/adminRoomsUpdate.fxml",e);
     }
     @FXML
     public void toRoomTypes(ActionEvent e) {
+    	isUpdatingRoomTypes = false;
     	loadScreen("/adminRoomTypes.fxml",e);
     }
     
@@ -394,10 +467,12 @@ public class theGOATcontroller {
     }
     @FXML
     public void toDeleteAmenities(ActionEvent e) {
+    	isUpdatingAmenities = true;
     	loadScreen("/adminAmenitiesDelete.fxml",e);
     }
     @FXML
     public void toUpdateAmenities(ActionEvent e) {
+    	isUpdatingAmenities = true;
     	loadScreen("/adminAmenitiesUpdate.fxml",e);
     	if(updateID != null && updateIDError != null) {
     	updateIDError.setText("");
@@ -420,21 +495,31 @@ public class theGOATcontroller {
     	staffCode.setVisible(false); 
     	staffCodeErrorMessage.setVisible(false);
     	staffCodeText.setVisible(false);
+       	balance.setVisible(true); 
+    	balanceErrorMessage.setVisible(true);
+    	balanceText.setVisible(true);
     	break;
     	case "a" : 
     	staffCode.setVisible(true); 
     	staffCodeErrorMessage.setVisible(true);
     	staffCodeText.setVisible(true);
+       	balance.setVisible(false); 
+    	balanceErrorMessage.setVisible(false);
+    	balanceText.setVisible(false);
     	break;
     	case "r" : 
         	staffCode.setVisible(true); 
         	staffCodeErrorMessage.setVisible(true);
         	staffCodeText.setVisible(true);
+           	balance.setVisible(false); 
+        	balanceErrorMessage.setVisible(false);
+        	balanceText.setVisible(false);
         	break;
     	}
     }
+    
     @FXML
-    public void loginGui(ActionEvent e) {
+    public void loginGui(Event e) {
 		username.setStyle("-fx-border-color : darkSlateGray");
 		password.setStyle("-fx-border-color : darkSlateGray");
 		passwordErrorMessage.setText("");
@@ -483,6 +568,7 @@ public class theGOATcontroller {
     	DataBase.loggedIn = true;
 	    	if(DataBase.currentUser instanceof Admin) {
 	    		toAdmin(e);
+	    		displayNotification("LOGIN SUCCESSFUL","You logged in successfully!");
 	    	}
 	    	if(DataBase.currentUser instanceof Receptionist) {
 	    		//
@@ -492,22 +578,26 @@ public class theGOATcontroller {
 			if(DataBase.currentUser instanceof Guest) {
 				// Save the session inside the Guest class
 				Guest.currentLoggedInGuest = (Guest) DataBase.currentUser;
-
+				
 				// Redirect to the Guest Menu
 				loadScreen("/guestscenebuilder.fxml", e);
 		}
 
     }
     @FXML
-    public void Register(ActionEvent e) {
+    public void Register(Event e) {
 		username.setStyle("-fx-border-color : darkSlateGray");
 		password.setStyle("-fx-border-color : darkSlateGray");
 		staffCode.setStyle("-fx-border-color : darkSlateGray");
+		balance.setStyle("-fx-border-color : darkSlateGray");
+
+		balanceErrorMessage.setText("");
 		passwordErrorMessage.setText("");
 		usernameErrorMessage.setText("");
 		usernameErrorMessage.setText("");
 		staffCodeErrorMessage.setText("");
 
+    	String registerBalance = balance.getText().trim();
     	String registerPass = password.getText().trim();
     	String registerUser = username.getText().trim();
     	String registerStaffCode = staffCode.getText().trim();
@@ -522,7 +612,33 @@ public class theGOATcontroller {
     		password.setText("");
     		passwordErrorMessage.setText("Password is empty");
     	}
-    	if(registerUser.equals("") || registerPass.equals("")) {
+    	if(registerBalance.equals("") && balance.isVisible()) {
+    		balance.setStyle("-fx-border-color : red");
+    		balance.setText("");
+    		balanceErrorMessage.setText("Balance is empty");
+    	}
+    	/////////////////////////
+    	int bal = 0;
+    	try {
+    		if(balance.isVisible()) {
+    		bal = Integer.parseInt(registerBalance);
+    		if(bal<0) {
+    			throw new InvalidBalanceException();
+    		} 
+    		}
+    	}catch(InvalidBalanceException ibe) {
+    		balance.setStyle("-fx-border-color : red");
+    		balance.setText("");
+    		balanceErrorMessage.setText("You can't have a negative balance.");
+    		return;
+    	}catch(Exception e1) {
+    		balance.setStyle("-fx-border-color : red");
+    		balance.setText("");
+    		balanceErrorMessage.setText("Balance is not a valid number");
+    		return;
+    	}
+    	/////////////////
+    	if(registerUser.equals("") || registerPass.equals("") || registerBalance.equals("") && balance.isVisible()) {
     		return;
     	}
     	boolean usernameFound = false;
@@ -549,12 +665,11 @@ public class theGOATcontroller {
 		RadioButton selectedAccType = (RadioButton)accountType.getSelectedToggle();
 		String newAccType = selectedAccType.getText();
 		switch(newAccType) {
-		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(100); break;
+		case "g" : DataBase.currentUser = new Guest(registerUser, registerPass); ((Guest)DataBase.currentUser).setBalance(bal); break;
 		case "a" : DataBase.currentUser = new Admin(registerUser, registerPass); break;
 		case "r" : DataBase.currentUser = new Receptionist(registerUser, registerPass); ((Receptionist)DataBase.currentUser).setWorkingHours(7); break;
 		}
 		DataBase.people.add(DataBase.currentUser);
-		
 		if(DataBase.currentUser instanceof Admin) {
     		toAdmin(e);
     	}
@@ -579,11 +694,11 @@ public class theGOATcontroller {
     	loadScreen("/Login.fxml",e);
     }
     @FXML
-    public void toGuest(ActionEvent e){
+    public void toGuest(Event e){
     	loadScreen("/guestscenebuilder.fxml",e);
     }
     @FXML
-    public void toReceptionist(ActionEvent e){
+    public void toReceptionist(Event e){
     	loadScreen("/Receptionists.fxml",e);
     }
     @FXML
@@ -592,6 +707,7 @@ public class theGOATcontroller {
     }
     @FXML
     public void toDeleteRoomTypes(ActionEvent e) {
+    	isUpdatingRoomTypes = true;
     	loadScreen("/adminRoomTypesDelete.fxml",e);
     }
     @FXML
@@ -617,7 +733,22 @@ public class theGOATcontroller {
     	loadScreen("/adminRFIDView.fxml",e);
     }
     @FXML
+    public void loginKeyBoard(KeyEvent e) {
+    	KeyCode keycode = e.getCode();
+    	if(keycode == KeyCode.ENTER) {
+    		loginGui(e);
+    	}
+    }
+    @FXML
+    public void registerKeyBoard(KeyEvent e) {
+    	KeyCode keycode = e.getCode();
+    	if(keycode == KeyCode.ENTER) {
+    		Register(e);
+    	}
+    }
+    @FXML
     public void toUpdateRoomTypes(ActionEvent e) {
+    	isUpdatingRoomTypes = true;
     	loadScreen("/adminRoomTypesUpdate.fxml",e);
     	if(updateID != null && updateIDError != null) {
     	updateIDError.setText("");
@@ -692,43 +823,26 @@ public class theGOATcontroller {
     @FXML
     public void updateAmenity() {
     	String priceString = updatePrice.getText().trim();
-    	String idString = updateID.getText().trim();
     	int price=-1;
     	int updateId=-1;
+    	if(amenityUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		updateSuccessMessage.setText("No Room Type Selected");
+    		updateSuccessMessage.setStyle("-fx-text-fill : red;");
+    		return;
+    		
+    	}else {
+    		updateId = Integer.parseInt(((RadioButton)amenityUpdateRadios.getSelectedToggle()).getText());
+    	}
     	if(priceString.equals("")) {
     		updatePrice.setStyle("-fx-border-color : red;");
     		updatePriceError.setText("Price is Empty.");
     	}
-    	if(idString.equals("")) {
-    		updateID.setStyle("-fx-border-color : red");
-    		updateIDError.setText("ID is Empty.");
-    	}
+    	
 
-    	try {
-    		updateId = Integer.parseInt(idString);
-			updateIDError.setText("");
-			updateID.setStyle("-fx-border-color : darkSlateGray;");
-    	}catch(Exception e){
-    		updateID.setStyle("-fx-border-color : red;");
-    		updateIDError.setText("Amenity not found. Please enter a valid ID.");
-    		updateIDError.setStyle("-fx-text-fill : red;");
-    		updateID.setText("");
-    		updateSuccessMessage.setText("");
-    		return;
-    	}
-		updateIDError.setText("");
-		updateID.setStyle("-fx-border-color : darkSlateGray;");
 		updatePriceError.setText("");
 		updatePrice.setStyle("-fx-border-color : darkSlateGray;");
 
-		if (updateId < 0 || updateId > DataBase.amenities.size()) {
-			updateID.setStyle("-fx-border-color : red;");
-    		updateIDError.setText("Invalid ID.");
-    		updateIDError.setStyle("-fx-text-fill : red;");
-    		updateID.setText("");
-    		updateSuccessMessage.setText("");
-    		return;
-		}
 		
 		Amenity toUpdate = DataBase.amenities.get(updateId);
 		
@@ -764,39 +878,29 @@ public class theGOATcontroller {
 		
 		updateSuccessMessage.setStyle("-fx-text-fill: green;");
 		updateSuccessMessage.setText("Amenity Updated Successfully!");
-		updateID.setStyle("-fx-border-color : darkSlateGray");
 		updatePrice.setStyle("-fx-border-color : darkSlateGray");
-		updateID.setText("");
 		updatePrice.setText("");
 		
 		
 		displayAmenities();
+		amenityUpdateRadios.selectToggle(null);
     	
     }
     
     @FXML
     public void deleteAmenity() {
+		amenityDeleteMessage.setText("");
     	int deletedId = -1;
     	
-    	try {
-    		deletedId = Integer.parseInt(deleteID.getText().trim());
-    	}catch(Exception e){
-    		deleteID.setStyle("-fx-border-color : red;");
-    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
+       	if(amenityUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		amenityDeleteMessage.setText("No Room Type Selected");
     		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
     		return;
+    		
+    	}else {
+    		deletedId = Integer.parseInt(((RadioButton)amenityUpdateRadios.getSelectedToggle()).getText());
     	}
-		amenityDeleteMessage.setText("");
-		deleteID.setStyle("-fx-border-color : darkSlateGray;");
-
-		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
-			deleteID.setStyle("-fx-border-color : red;");
-    		amenityDeleteMessage.setText("Amenity not found. Please enter a valid ID.");
-    		amenityDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
-    		return;
-		}
 		
 		Amenity toDelete = DataBase.amenities.get(deletedId);
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
@@ -806,10 +910,9 @@ public class theGOATcontroller {
 		System.out.println("   [OK] Amenity deleted and removed from all rooms.");
 		amenityDeleteMessage.setStyle("-fx-text-fill: green;");
 		amenityDeleteMessage.setText("Amenity deleted and removed from all rooms!");
-		deleteID.setStyle("-fx-border-color : darkSlateGray");
-		deleteID.setText("");
 		
 		displayAmenities();
+		amenityUpdateRadios.selectToggle(null);
     }
     ///////////////////////////////////// AMENITIES FUNCTIONS END
     
@@ -845,26 +948,18 @@ public class theGOATcontroller {
     
     @FXML
     public void updateRoomType() {
-    	String idString = updateID.getText().trim();
+		updateSuccessMessage.setText("");
     	String newName = updateName.getText().trim();
     	int updateId = -1;
-    	try {
-    		updateId = Integer.parseInt(idString); 
-    	}catch(Exception e){
-    		updateIDError.setText("ID is invalid.");
-    		updateID.setText("");
-    		updateID.setStyle("-fx-border-color : red;");
+    	if(roomTypeUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		updateSuccessMessage.setText("No Room Type Selected");
+    		updateSuccessMessage.setStyle("-fx-text-fill : red;");
     		return;
+    		
+    	}else {
+    		updateId = Integer.parseInt(((RadioButton)roomTypeUpdateRadios.getSelectedToggle()).getText());
     	}
-		updateID.setStyle("-fx-border-color : darkSlateGray;");
-    	if(updateId < 0 || updateId > DataBase.roomTypes.size()) {
-    		updateIDError.setText("ID not found.");
-    		updateID.setStyle("-fx-border-color : red;");
-    		updateID.setText("");
-    		return;
-    	}
-		updateID.setStyle("-fx-border-color : darkSlateGray;");
-		updateIDError.setText("");
     	if(newName.equals("")) {
     		updateName.setStyle("-fx-border-color : red;");
     		updateNameError.setText("Room type name is empty.");
@@ -887,40 +982,32 @@ public class theGOATcontroller {
 		DataBase.roomTypes.get(updateId).setRoomType(newName);
     	updateName.setText("");
     	updateNameError.setText("");
-    	updateID.setText("");
-    	updateIDError.setText("");
+		updateSuccessMessage.setStyle("-fx-text-fill : green;");
     	updateSuccessMessage.setText("Roomtype updated successfully!");
     	displayRoomTypes();
+		roomTypeUpdateRadios.selectToggle(null);
     }
     
     @FXML
     public void deleteRoomType() {
     	int deletedId = -1;
     	
-    	try {
-    		deletedId = Integer.parseInt(deleteID.getText().trim());
-    	}catch(Exception e){
-    		deleteID.setStyle("-fx-border-color : red;");
-    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
+    	if(roomTypeUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		roomTypeDeleteMessage.setText("No Room Type Selected");
     		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
     		return;
+    		
+    	}else {
+    		deletedId = Integer.parseInt(((RadioButton)roomTypeUpdateRadios.getSelectedToggle()).getText());
     	}
+    	
     	roomTypeDeleteMessage.setText("");
-		deleteID.setStyle("-fx-border-color : darkSlateGray;");
 
-		if (deletedId < 0 || deletedId >= DataBase.amenities.size()) {
-			deleteID.setStyle("-fx-border-color : red;");
-    		roomTypeDeleteMessage.setText("Room Type not found. Please enter a valid ID.");
-    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
-    		return;
-		}
 		
 		RoomType toDelete = DataBase.roomTypes.get(deletedId);
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 			if (DataBase.rooms.get(i).getRoomType().equals(toDelete)) {
-				deleteID.setStyle("-fx-border-color : red;");
 	    		roomTypeDeleteMessage.setText("Room Type already belongs to a room.");
 	    		roomTypeDeleteMessage.setStyle("-fx-text-fill : red;");
 				return;
@@ -929,11 +1016,11 @@ public class theGOATcontroller {
 		
 		DataBase.roomTypes.remove(toDelete);
 		roomTypeDeleteMessage.setStyle("-fx-text-fill: green;");
-		roomTypeDeleteMessage.setText("Room Type deleted and removed from all rooms!");
-		deleteID.setStyle("-fx-border-color : darkSlateGray");
-		deleteID.setText("");
+		roomTypeDeleteMessage.setText("Room Type deleted successfully");
 		
 		displayRoomTypes();
+		roomTypeUpdateRadios.selectToggle(null);
+
     }
     ///////////////////////////////////// ROOMTYPES FUNCTIONS END
     
@@ -943,27 +1030,20 @@ public class theGOATcontroller {
     	int deletedNumber = -1;
     	int deletedIndex = -1;
     	
-
-    	
-    	try {
-    		deletedNumber = Integer.parseInt(deleteID.getText().trim());
-    	}catch(Exception e){
-    		deleteID.setStyle("-fx-border-color : red;");
-    		roomDeleteMessage.setText("Room not found. Please enter a valid number.");
+    	if(roomUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		roomDeleteMessage.setText("No Room Type Selected");
     		roomDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
     		return;
+    		
+    	}else {
+    		deletedNumber = Integer.parseInt(((RadioButton)roomUpdateRadios.getSelectedToggle()).getText());
     	}
+    	
+    	
     	roomDeleteMessage.setText("");
-		deleteID.setStyle("-fx-border-color : darkSlateGray;");
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 		if (DataBase.rooms.get(i).getRoomNumber() == deletedNumber) { deletedIndex = i; break; }
-		}if(deletedIndex == -1) {
-			deleteID.setStyle("-fx-border-color : red;");
-    		roomDeleteMessage.setText("Room not found. Please enter a valid number.");
-    		roomDeleteMessage.setStyle("-fx-text-fill : red;");
-    		deleteID.setText("");
-    		return;
 		}
 	
 		
@@ -971,8 +1051,7 @@ public class theGOATcontroller {
 		DataBase.rooms.remove(toDelete);
 		roomDeleteMessage.setStyle("-fx-text-fill: green;");
 		roomDeleteMessage.setText("Room deleted successfully!");
-		deleteID.setStyle("-fx-border-color : darkSlateGray");
-		deleteID.setText("");
+		roomUpdateRadios.selectToggle(null);
 		
 		displayRooms();
     }
@@ -1054,7 +1133,6 @@ public class theGOATcontroller {
     }
     
     public void updateRoom() {
-		roomNumber.setStyle("-fx-border-color : darkSlateGray;");
 		roomPrice.setStyle("-fx-border-color : darkSlateGray;");
 		roomNumberError.setText("");
 		roomPriceError.setText("");
@@ -1064,20 +1142,19 @@ public class theGOATcontroller {
 		int roomIndex = -1;
 		RadioButton selectedRoomTypeRadio = (RadioButton) roomTypeRadios.getSelectedToggle();
 		RoomType updateRoomType = null;
-    	String roomNumberString = roomNumber.getText().trim();
     	String roomPriceString = roomPrice.getText().trim();
     	int updateRoomNumber = -1;
     	int updateRoomPrice = -1;
-    	try {
-    		updateRoomNumber = Integer.parseInt(roomNumberString);
-        	if(updateRoomNumber < 0) {
-        		throw new Exception();
-        	}
-    	}catch(Exception e) {
-    		roomNumber.setStyle("-fx-border-color : red;");
-    		roomNumberError.setText("Invalid Room Number.");
+    	if(roomUpdateRadios.getSelectedToggle() == null) {
+    		System.out.println("Not Selected");
+    		roomNumberError.setText("No Room Type Selected");
+    		roomNumberError.setStyle("-fx-text-fill : red;");
     		return;
+    		
+    	}else {
+    		updateRoomNumber = Integer.parseInt(((RadioButton)roomUpdateRadios.getSelectedToggle()).getText());
     	}
+    	
     	try {
     		updateRoomPrice = Integer.parseInt(roomPriceString);
     		if(updateRoomPrice < 0) {
@@ -1103,12 +1180,6 @@ public class theGOATcontroller {
     	
 		for (int i = 0; i < DataBase.rooms.size(); i++) {
 		if (DataBase.rooms.get(i).getRoomNumber() == updateRoomNumber) { roomIndex = i; break; }
-		}if(roomIndex == -1) {
-			roomNumber.setStyle("-fx-border-color : red;");
-    		roomChangeMessage.setText("Room not found. Please enter a valid number.");
-    		roomChangeMessage.setStyle("-fx-text-fill : red;");
-    		roomNumber.setText("");
-    		return;
 		}
     	
 		Room updateRoom = DataBase.rooms.get(roomIndex);
@@ -1123,8 +1194,9 @@ public class theGOATcontroller {
 		}
 		roomChangeMessage.setText("Room Updated successfully!");
 		
-		roomNumber.setText("");
 		roomPrice.setText("");
+		roomUpdateRadios.selectToggle(null);
+		displayRooms();
 		
     }
     ///////////////////////////////////// ROOMS FUNCTIONS END

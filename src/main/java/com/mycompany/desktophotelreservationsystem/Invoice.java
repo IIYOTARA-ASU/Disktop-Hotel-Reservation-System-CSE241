@@ -1,8 +1,14 @@
 package com.mycompany.desktophotelreservationsystem;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Invoice implements reservationProcess{
-    public enum PaymentMethod { CASH, CREDIT_CARD, ONLINE }
+public class Invoice implements reservationProcess,Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public enum PaymentMethod { CASH, CREDIT_CARD, ONLINE }
     Invoice() {
     }
 

@@ -8,14 +8,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.ServerValue;
 
+import java.io.Serializable;
 // Java Standard IO and Utilities
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
-public class Guest extends User implements users {
+public class Guest extends User implements users, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Guest currentLoggedInGuest;
 	public static Integer Guestno = 0;
+	private transient Scanner sc = new Scanner(System.in);
 
 	/// ///////////////////////////////// GUI methods to access reservation class
 	public void populateReservationContainer(javafx.scene.layout.VBox container) {
@@ -155,8 +162,8 @@ public class Guest extends User implements users {
     //  Firebase Chat Logic
     // ─────────────────────────────────────────────────────────────────────────
 
-    private DatabaseReference chatRef;
-    private ChildEventListener activeListener; 
+    private transient DatabaseReference chatRef;
+    private transient ChildEventListener activeListener; 
 
     private void initChatRef() {
         // Points to chats/[username]/messages. 
@@ -169,110 +176,124 @@ public class Guest extends User implements users {
         }
     }
 
-    public void sendMessageToFirebase(String text) {
-        initChatRef();
-        
-        Map<String, Object> messageData = new HashMap<>();
-        messageData.put("sender", this.getUserName());
-        messageData.put("text", text);
-        messageData.put("timestamp", System.currentTimeMillis());
-
-        // push() creates a unique ID so messages are sorted chronologically
-        chatRef.push().setValueAsync(messageData);
-    }
-
 	private void startChat(User user) {
 		System.out.println();
 		Validation.centerText("LIVE CHAT WITH RECEPTIONISTS", 65, true);
-        System.out.println("Type your message and press Enter. Type '/back' to exit.");
-        
-        initChatRef();
-        
-        // We use a CountDownLatch to force the console to wait until history is printed
-        CountDownLatch latch = new CountDownLatch(1);
-        chatRef.limitToLast(25).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot child : snapshot.getChildren()) {
-                    String sender = child.child("sender").getValue(String.class);
-                    String text = child.child("text").getValue(String.class);
-                    
-                    // Identify if the message was from YOU or the RECEPTIONIST
-                    String label = (sender != null && sender.equals(user.getUserName())) ? "YOU" : "RECEPTIONIST";
-                    System.out.println("[" + label + "]: " + text);
-                }
-                latch.countDown(); // Signal that printing is finished
-            }
+		System.out.println("Type your message and press Enter. Type '/back' to exit.");
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.err.println("Could not load history: " + error.getMessage());
-                latch.countDown();
-            }
-        });
+		// 1. Set openTime BEFORE anything else. 
+		// This defines the boundary between "History" and "Live".
+		long openTime = System.currentTimeMillis();
 
-        try {
-            latch.await(); // Blocks the main thread until history is loaded
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+		initChatRef();
+		Guest.this.messages.clear();
 
-        // 2. Setup real-time listener for NEW messages only
-        // Note: We use the current time to avoid double-printing the history we just loaded
-        long openTime = System.currentTimeMillis();
-        
-        if (activeListener == null) {
-            activeListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
-                    Long ts = snapshot.child("timestamp").getValue(Long.class);
-                    String sender = snapshot.child("sender").getValue(String.class);
-                    String text = snapshot.child("text").getValue(String.class);
-                    
-                    // Only print if the message is NEW and NOT from the guest themselves
-                    if (ts != null && ts > openTime) {
-                        if (sender != null && !sender.equals(user.getUserName())) {
-                            System.out.println("\n[RECEPTIONIST]: " + text);
-                        }
-                    }
-                }
-                @Override public void onChildChanged(DataSnapshot s, String p) {}
-                @Override public void onChildRemoved(DataSnapshot s) {}
-                @Override public void onChildMoved(DataSnapshot s, String p) {}
-                @Override public void onCancelled(DatabaseError e) {}
-            };
-            chatRef.addChildEventListener(activeListener);
-        }
+		// 2. LOAD HISTORY
+		CountDownLatch latch = new CountDownLatch(1);
+		chatRef.limitToLast(25).addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				for (DataSnapshot child : snapshot.getChildren()) {
+					String sender = child.child("sender").getValue(String.class);
+					String text = child.child("text").getValue(String.class);
+					
+					String label = (sender != null && sender.equals(Guest.this.getUserName())) ? "YOU" : "RECEPTIONIST";
+					System.out.println("[" + label + "]: " + text);
 
-		Scanner chatScanner = new Scanner(System.in);
-        while (true) {
-            System.out.print("[YOU]: ");
-            String input = chatScanner.nextLine();
-            
-            if (input.equalsIgnoreCase("/back")) {
-				// DETACH THE LISTENER BEFORE LEAVING
+					// Add history to list
+					Guest.this.messages.add(new Message(Guest.this.getUserName(), text, sender));
+				}
+				latch.countDown();
+			}
+			@Override
+			public void onCancelled(DatabaseError error) {
+				latch.countDown();
+			}
+		});
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+
+		// 3. LIVE LISTENER
+		if (activeListener == null) {
+			activeListener = new ChildEventListener() {
+				@Override
+				public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
+					Long ts = snapshot.child("timestamp").getValue(Long.class);
+					String sender = snapshot.child("sender").getValue(String.class);
+					String text = snapshot.child("text").getValue(String.class);
+
+					// CRITICAL FIX: Only add to list if it's NEW (after openTime)
+					if (ts != null && ts > openTime) {
+						
+						// Add BOTH your messages and Receptionist messages to the list here
+						Guest.this.messages.add(new Message(Guest.this.getUserName(), text, sender));
+
+						// Only PRINT if it's the Receptionist (to avoid double printing your own input)
+						if (sender != null && !sender.equals(Guest.this.getUserName())) {
+							System.out.println("\n[RECEPTIONIST]: " + text);
+							System.out.print("[YOU]: "); 
+						}
+					}
+				}
+				@Override public void onChildChanged(DataSnapshot s, String p) {}
+				@Override public void onChildRemoved(DataSnapshot s) {}
+				@Override public void onChildMoved(DataSnapshot s, String p) {}
+				@Override public void onCancelled(DatabaseError e) {}
+			};
+			chatRef.addChildEventListener(activeListener);
+		}
+
+		// 4. INPUT LOOP
+		while (true) {
+			System.out.print("[YOU]: ");
+			String input = sc.nextLine();
+
+			if (input.equalsIgnoreCase("/back")) {
 				if (activeListener != null && chatRef != null) {
 					chatRef.removeEventListener(activeListener);
 				}
-				// RESET REFERENCES SO THE NEXT GUEST RE-INITIALIZES THEM
 				activeListener = null;
-				chatRef = null; 
-				System.out.println("");
+				chatRef = null;
 				break;
+			} 
+			else if (input.equalsIgnoreCase("/debug")) {
+				System.out.println("\n--- MESSAGE LOG ---");
+				for (Message m : Guest.this.messages) {
+					System.out.println(m.toString());
+				}
+				System.out.println("-------------------\n");
+				continue;
 			}
 
-            if (!input.trim().isEmpty()) {
-                sendMessageToFirebase(input);
-            }
-        }
-    }
+			if (!input.trim().isEmpty()) {
+				sendMessageToFirebase(input);
+			}
+		}
+	}
+
+
+	private void sendMessageToFirebase(String text) {
+		Map<String, Object> msgMap = new HashMap<>();
+		msgMap.put("sender", Guest.this.getUserName());
+		msgMap.put("text", text);
+		msgMap.put("timestamp", ServerValue.TIMESTAMP); // Use Firebase Server Time
+		
+		chatRef.push().setValue(msgMap, (error, ref) -> {
+			if (error != null) {
+				System.err.println("Message failed to send: " + error.getMessage());
+			}
+		});
+	}
 
 	
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Interface
 	// ─────────────────────────────────────────────────────────────────────────
 	public void guestInterface() {
-		Scanner scanner = new Scanner(System.in);
 		String balanceBanner = String.format( "║  %-31s %27s  ║", "USER MENU", balance + "$" );
 		System.out.println(
 			"╔═══════════════════════════════════════════════════════════════╗\n" +
@@ -286,7 +307,7 @@ public class Guest extends User implements users {
 		);
 
 		String prompt = ">> Select an option: ";
-		int inputOption = Validation.getOption(scanner, 8, prompt);
+		int inputOption = Validation.getOption(sc, 8, prompt);
 		System.out.println();
 
 		switch (inputOption) {
@@ -296,7 +317,7 @@ public class Guest extends User implements users {
 
 			case 2:
 				viewRooms();
-				int roomNumber = Validation.getInt(scanner, ">> Enter desired room number: ");
+				int roomNumber = Validation.getInt(sc, ">> Enter desired room number: ");
 				Room selectedRoom = null;
 				for (int i = 0; i < DataBase.rooms.size(); i++) {
 					if (DataBase.rooms.get(i).getRoomNumber() == roomNumber) {
@@ -312,10 +333,10 @@ public class Guest extends User implements users {
 					System.out.println("   [Error] Room is already occupied.");
 					break;
 				}
-				Date inDate  = readDate(scanner, ">> Check-in date:");
+				Date inDate  = readDate(">> Check-in date:");
 				Date outDate;
 				do {
-					outDate = readDate(scanner, ">> Check-out date:");
+					outDate = readDate(">> Check-out date:");
 					if (outDate.before(inDate)) {
 						System.out.println("   [Error] Check-out date cannot be before check-in date. Please try again.");
 					}
@@ -380,11 +401,11 @@ public class Guest extends User implements users {
 	// ─────────────────────────────────────────────────────────────────────────
 	//  Date helper
 	// ─────────────────────────────────────────────────────────────────────────
-	private Date readDate(Scanner scanner, String prompt) {
+	private Date readDate(String prompt) {
 		System.out.println(prompt);
-		int d = Validation.getIntInRange(scanner, "   Day   (1~30):  ", 1, 30);
-		int m = Validation.getIntInRange(scanner, "   Month (1~12):  ", 1, 12);
-		int y = Validation.getIntInRange(scanner, "   Year  (2026~2028): ", 2026, 2028);
+		int d = Validation.getIntInRange(sc, "   Day   (1~30):  ", 1, 30);
+		int m = Validation.getIntInRange(sc, "   Month (1~12):  ", 1, 12);
+		int y = Validation.getIntInRange(sc, "   Year  (2026~2028): ", 2026, 2028);
 		Calendar cal = Calendar.getInstance();
 		cal.set(y, m - 1, d);
 		return cal.getTime();
