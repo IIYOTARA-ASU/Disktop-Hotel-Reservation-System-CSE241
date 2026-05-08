@@ -27,7 +27,7 @@
 
         <Button layoutX="560.0" layoutY="525.0" onAction="#toGuestMenu" styleClass="btn-round" text="Back" />
       <TextField fx:id="roomTextFiel" layoutX="300.0" layoutY="380.0" styleClass="textBox" stylesheets="@Style.css" />
-      <Label layoutX="80.0" layoutY="385.0" prefHeight="20.0" prefWidth="208.0" styleClass="root" stylesheets="@Style.css" text="Enter room ID to be canceled:">
+      <Label layoutX="80.0" layoutY="385.0" prefHeight="20.0" prefWidth="208.0" styleClass="root" stylesheets="@Style.css" text="Enter reservation ID to be canceled:">
          <font>
             <Font size="14.0" />
          </font>
