@@ -6,11 +6,13 @@ import java.util.InputMismatchException;
 
 import org.controlsfx.control.Notifications;
 
+
 import com.mycompany.desktophotelreservationsystem.Admin;
 import com.mycompany.desktophotelreservationsystem.Amenity;
 import com.mycompany.desktophotelreservationsystem.DataBase;
 import com.mycompany.desktophotelreservationsystem.Guest;
 import com.mycompany.desktophotelreservationsystem.InvalidBalanceException;
+import com.mycompany.desktophotelreservationsystem.Message;
 import com.mycompany.desktophotelreservationsystem.RFIDThread;
 import com.mycompany.desktophotelreservationsystem.Receptionist;
 import com.mycompany.desktophotelreservationsystem.Room;
@@ -166,7 +168,7 @@ public class theGOATcontroller {
 	private static boolean isUpdatingRoomTypes = false;
 	private static boolean isUpdatingAmenities = false;
 	private static boolean isUpdatingRooms = false;
-
+	
     public theGOATcontroller() {}
 
 
@@ -343,6 +345,7 @@ public class theGOATcontroller {
     @FXML
     public void initialize() {
     	goated = this;
+    	
     	if(!isRfidRunning) {
         t.setDaemon(true); 
         t.start();
@@ -370,6 +373,7 @@ public class theGOATcontroller {
     	chooseRoomTypes();
     	}
     }
+    
     public void toLoginFromRFID(String path) {
  
     	
@@ -392,16 +396,19 @@ public class theGOATcontroller {
 			
 		  	if (e != null) {
 		        currentStage = (Stage)((Node)e.getSource()).getScene().getWindow();
-		        }
+		     }
 		  	
 		  } catch (IOException e1) {
 			// TODO Auto-generated catch block
 			  System.out.println("Ballersssss");
 			e1.printStackTrace();
-		  }
-  	  
-
-  	  stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+		  }catch (Exception e2) { 
+	            // THIS WILL CATCH THE REAL CRASH
+	            System.out.println("CAUGHT THE REAL ERROR: " + e2.getMessage());
+	            e2.printStackTrace();
+	        }
+    	
+      stage = (Stage)((Node)e.getSource()).getScene().getWindow();
   	  scene = new Scene(root);
   	  scene.getStylesheets().add(css);
   	  stage.setScene(scene);
@@ -568,7 +575,6 @@ public class theGOATcontroller {
     	DataBase.loggedIn = true;
 	    	if(DataBase.currentUser instanceof Admin) {
 	    		toAdmin(e);
-	    		displayNotification("LOGIN SUCCESSFUL","You logged in successfully!");
 	    	}
 	    	if(DataBase.currentUser instanceof Receptionist) {
 	    		//
@@ -582,6 +588,7 @@ public class theGOATcontroller {
 				// Redirect to the Guest Menu
 				loadScreen("/guestscenebuilder.fxml", e);
 		}
+    	displayNotification("Welcome " + DataBase.currentUser.getUserName() + ",","You logged in successfully!");
 
     }
     @FXML
@@ -681,6 +688,7 @@ public class theGOATcontroller {
     		//
     		toGuest(e);
     	}
+    	displayNotification("Welcome " + DataBase.currentUser.getUserName() + ",","Account created successfully!");
 		
     }
     @FXML
@@ -736,14 +744,14 @@ public class theGOATcontroller {
     public void loginKeyBoard(KeyEvent e) {
     	KeyCode keycode = e.getCode();
     	if(keycode == KeyCode.ENTER) {
-    		loginGui(e);
+    	//	loginGui(e);
     	}
     }
     @FXML
     public void registerKeyBoard(KeyEvent e) {
     	KeyCode keycode = e.getCode();
     	if(keycode == KeyCode.ENTER) {
-    		Register(e);
+    	//	Register(e);
     	}
     }
     @FXML
