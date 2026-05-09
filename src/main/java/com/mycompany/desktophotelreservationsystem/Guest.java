@@ -230,14 +230,14 @@ public class Guest extends User implements users, Serializable{
 
 					// CRITICAL FIX: Only add to list if it's NEW (after openTime)
 					if (ts != null && ts > openTime) {
-						
+
 						// Add BOTH your messages and Receptionist messages to the list here
 						Guest.this.messages.add(new Message(Guest.this.getUserName(), text, sender));
 
 						// Only PRINT if it's the Receptionist (to avoid double printing your own input)
 						if (sender != null && !sender.equals(Guest.this.getUserName())) {
-							System.out.println("\n[RECEPTIONIST]: " + text);
-							System.out.print("[YOU]: "); 
+							System.out.print("\r"); // Clear the current line
+							System.out.print("[RECEPTIONIST]: " + text + "\n[YOU]: ");
 						}
 					}
 				}

@@ -136,8 +136,10 @@ public class Receptionist extends Staff implements users{
 						// Only print if it's NOT from the current Receptionist
 						if (sender != null && !sender.equals(user.getUserName())) {
 							String label = determineLabel(sender, user.getUserName(), selectedGuestName);
-							System.out.println("\n[" + label + "]: " + text);
-							System.out.print("[YOU]: "); 
+
+							// Clear the current line and overwrite it
+							System.out.print("\r"); // Clear the current line
+							System.out.print("[" + label + "]: " + text + "\n[YOU]: ");
 						}
 					}
 				}
