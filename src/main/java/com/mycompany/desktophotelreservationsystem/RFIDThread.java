@@ -37,8 +37,10 @@ public class RFIDThread implements Runnable {
     }
 	@Override
 	public void run() {
-			
-			commPort = SerialPort.getCommPort("COM5");
+			for(SerialPort p : SerialPort.getCommPorts()){
+				System.out.println(p.getDescriptivePortName());
+			}
+			commPort = SerialPort.getCommPort("COM6");
 			commPort.setBaudRate(9600);
 			commPort.setNumDataBits(8);
 			commPort.setNumStopBits(1);

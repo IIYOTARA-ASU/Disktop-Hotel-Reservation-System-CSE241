@@ -1,17 +1,48 @@
-[README.md](https://github.com/user-attachments/files/26860402/README.md)
+<div align="center">
+
+<img src="src/main/resources/Images/palisade.png" alt="Palisade Hotel" width="160"/>
+
 # 🏨 Palisade Hotel Reservation System
+
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/#java17)
+[![JavaFX](https://img.shields.io/badge/JavaFX-17.0.2-1B6AC6?style=for-the-badge&logo=java&logoColor=white)](https://openjfx.io/)
+[![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-Admin_SDK-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![RFID](https://img.shields.io/badge/RFID-Hardware_Auth-00BCD4?style=for-the-badge&logo=arduino&logoColor=white)](#-rfid-hardware-login)
+[![Course](https://img.shields.io/badge/CSE241-Ain_Shams_University-0066CC?style=for-the-badge)](https://eng.asu.edu.eg/)
+
+**A full-featured desktop hotel management system** built with Java 17 + JavaFX, featuring a rich dual-interface design, RFID card-based login, Firebase cloud integration, and persistent data storage — structured around a clean OOP architecture with three distinct user roles.
+
+</div>
+
+---
+
+## 🎬 Project Demo
 
 <div align="center">
 
-![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![JavaFX](https://img.shields.io/badge/JavaFX-17.0.2-1B6AC6?style=for-the-badge&logo=java&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
-![OOP](https://img.shields.io/badge/OOP-Architecture-4CAF50?style=for-the-badge)
-![Course](https://img.shields.io/badge/CSE241-Ain_Shams_University-0066CC?style=for-the-badge)
-
-A full-featured desktop hotel reservation system built with **Java 17 + JavaFX**, featuring a dual-interface design — a rich graphical GUI layered over a fully operational console application — with complete role-based management for Guests, Receptionists, and Administrators.
+[![Watch the Demo](https://img.shields.io/badge/▶_Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/0Bug0bVTbM8)
 
 </div>
+
+---
+
+## 📦 Project Resources
+
+<div align="center">
+
+[![Google Drive](https://img.shields.io/badge/📂_Open_Project_Drive_Folder-Google_Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1BJJXqeGWHp0oTbOwlTomSWOUWCYMq0A0?usp=drive_link)
+
+</div>
+
+> 👆 **Click the button above** to access the shared Drive folder. It contains everything you need to run and understand the project:
+
+| File / Folder | Description |
+|---|---|
+| 🔑 `serviceAccountKey.json` | **Required** — Download this and place it in the project root to enable Firebase |
+| 📄 Project Documentation | Full written report and system documentation |
+| 🖼️ Class Diagram | High-resolution UML class diagram |
+| 📎 Extra Attachments | Any additional design assets and references |
 
 ---
 
@@ -19,6 +50,7 @@ A full-featured desktop hotel reservation system built with **Java 17 + JavaFX**
 
 - [Overview](#-overview)
 - [Features](#-features)
+- [RFID Hardware Login](#-rfid-hardware-login)
 - [System Architecture](#%EF%B8%8F-system-architecture)
 - [Class Diagram](#-class-diagram)
 - [Class Structure](#%EF%B8%8F-class-structure)
@@ -30,19 +62,22 @@ A full-featured desktop hotel reservation system built with **Java 17 + JavaFX**
 - [Tech Stack](#%EF%B8%8F-tech-stack)
 - [Design Patterns & OOP Concepts](#-design-patterns--oop-concepts)
 - [Academic Context](#-academic-context)
+- [Team](#-team)
 
 ---
 
 ## 🔍 Overview
 
-The **Palisade Hotel Reservation System** is a desktop application that simulates a complete hotel management workflow. The system supports three distinct user roles — Guest, Receptionist, and Admin — each with a dedicated menu and set of capabilities.
+The **Palisade Hotel Reservation System** is a fully-featured desktop application that simulates real-world hotel management workflows. It supports three distinct user roles — **Guest**, **Receptionist**, and **Admin** — each with a dedicated interface and set of capabilities.
 
-The project was implemented with a **dual-interface approach**:
-
-- A **Console UI** (terminal-based) providing all core system functionality through clean, formatted menus.
-- A **JavaFX GUI** providing a visual interface for login, registration, and core guest/receptionist interactions.
-
-All data is managed in-memory via a central static `DataBase` class and pre-populated with realistic demo data on startup.
+| Highlight | Description |
+|---|---|
+| 🪪 **RFID Login** | Physical card authentication via serial port — tap a card to log in |
+| ☁️ **Firebase Integration** | Cloud-backed data with Firebase Admin SDK 9.2.0 |
+| 💾 **Data Persistence** | Java Serialization saves/loads all system state to a `.diggers` file |
+| 🖥️ **Dual Interface** | Full JavaFX GUI *and* a complete terminal-based console UI |
+| 🔐 **Role-Based Access** | Strict permission separation across Guest, Receptionist, and Admin |
+| 🏗️ **Pure OOP Design** | Inheritance hierarchy, interfaces, enums, and encapsulation throughout |
 
 ---
 
@@ -51,80 +86,112 @@ All data is managed in-memory via a central static `DataBase` class and pre-popu
 ### 👤 Guest
 - Browse all available rooms with type, amenities, and pricing
 - Make room reservations with check-in / check-out date selection
-- View all personal reservations with status tracking
-- Cancel pending reservations
-- Pay invoices and complete checkout with balance deduction
+- View all personal reservations with real-time status tracking
+- Cancel pending reservations before confirmation
+- Pay invoices and complete checkout with wallet balance deduction
 
 ### 🛎️ Receptionist
-- Check guests in directly (creates a CONFIRMED reservation)
-- Check guests out with payment collection (Cash or Credit Card)
-- View all pending reservation requests
-- Accept/confirm pending reservations submitted by guests
-- Working-hours tracking per receptionist session
+- Check guests in directly — creates a `CONFIRMED` reservation instantly
+- Check guests out and collect payment (Cash, Credit Card, or Online)
+- View and accept all pending reservation requests from guests
+- Session-based working-hours tracking per receptionist
 
 ### 🔧 Admin
-- **Room Management** — Create, view, update, and delete rooms with full amenity configuration
-- **Amenity Management** — Add, update, and delete amenities; changes propagate to all rooms automatically
+- **Room Management** — Full CRUD: create, view, update, and delete rooms with amenity configuration
+- **Amenity Management** — Add, update, and delete amenities; changes auto-propagate to all rooms
 - **Room Type Management** — Define and manage room categories (Single, Double, Suite, etc.) with referential integrity checks
+- **RFID Management** — Assign and update RFID card IDs per user from the admin panel
 
 ### 🔐 System-Wide
-- Secure login with username/password validation
-- Guest self-registration with balance setup
-- Protected Staff registration (Admin code required)
+- Standard username/password login + **RFID card login**
+- Guest self-registration with wallet balance setup
+- Protected staff registration (Admin code required)
 - Real-time room occupancy tracking based on active reservations
-- Input validation with meaningful error messages throughout
+- Full data persistence — save and reload all state across sessions
+
+---
+
+## 🪪 RFID Hardware Login
+
+One of the standout features of this system is **physical RFID card-based authentication**.
+
+```
+┌─────────────┐    Serial (COM5)    ┌─────────────────────┐
+│  RFID Card  │ ─────────────────▶  │  RFIDThread (Java)  │
+│  (Tag/Card) │    9600 baud        │  reads card ID      │
+└─────────────┘                     └──────────┬──────────┘
+                                               │
+                                    Match against DataBase.people
+                                               │
+                              ┌────────────────▼────────────────┐
+                              │  Route to correct dashboard:    │
+                              │  Admin   → theGoat.fxml         │
+                              │  Guest   → guestscenebuilder    │
+                              │  Staff   → Receptionists.fxml   │
+                              └─────────────────────────────────┘
+```
+
+`RFIDThread` runs on a background thread, listens on `COM5` at 9600 baud, and matches the incoming tag ID against stored user records — then automatically navigates to the correct role dashboard.
+
+> **Hardware:** Any Arduino-compatible RFID reader (e.g., RC522 + CH340) connected via USB serial. For Linux/macOS, update the port in `RFIDThread.java` to `/dev/ttyUSB0`.
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                    Entry Point (Main)                │
-│          Login / Register / Role Dispatch            │
-└──────────────────┬───────────────────────────────────┘
-                   │
-       ┌───────────┼───────────┐
-       ▼           ▼           ▼
-  ┌─────────┐ ┌──────────┐ ┌───────┐
-  │  Guest  │ │Reception-│ │ Admin │
-  │  Menu   │ │  ist     │ │ Menu  │
-  └────┬────┘ └────┬─────┘ └───┬───┘
-       │           │           │
-       └───────────┴───────────┘
-                   │
-           ┌───────▼────────┐
-           │    DataBase    │
-           │  (In-Memory)   │
-           │  rooms         │
-           │  reservations  │
-           │  invoices      │
-           │  people        │
-           │  amenities     │
-           │  roomTypes     │
-           └────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                       Entry Point (Main)                     │
+│              Login / Register / RFID Auth / Role Dispatch    │
+└────────────────────────────┬─────────────────────────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+         ┌─────────┐   ┌──────────┐   ┌─────────┐
+         │  Guest  │   │Reception-│   │  Admin  │
+         │  Menu   │   │   ist    │   │  Menu   │
+         └────┬────┘   └────┬─────┘   └────┬────┘
+              │             │              │
+              └─────────────┴──────────────┘
+                            │
+              ┌─────────────▼──────────────┐
+              │          DataBase           │
+              │    (In-Memory + Persisted)  │
+              │  ├── rooms[]               │
+              │  ├── reservations[]        │
+              │  ├── invoices[]            │
+              │  ├── people[]              │
+              │  ├── guests[]              │
+              │  ├── roomTypes[]           │
+              │  └── amenities[]           │
+              └─────────────┬──────────────┘
+                            │
+              ┌─────────────┴──────────────┐
+              │      Persistence Layer      │
+              │  Java Serialization →       │
+              │  dataBase.diggers           │
+              └────────────────────────────┘
 ```
 
 ---
 
 ## 📐 Class Diagram
 
-The diagram below provides a complete visual overview of the system's object-oriented design. It captures the full class hierarchy, interface contracts, relationships, and multiplicity across all entities — from the `User` inheritance tree down to `Room`, `Reservation`, `Invoice`, and the supporting enums.
-
 <div align="center">
 
-![Class Diagram.png](src/main/resources/Images/Class%20Diagram.png)
+![Class Diagram](src/main/resources/Images/Class%20Diagram.png)
+
+> 🔗 Full-resolution version available in the [📂 Drive folder](https://drive.google.com/drive/folders/1BJJXqeGWHp0oTbOwlTomSWOUWCYMq0A0?usp=drive_link).
 
 </div>
 
 **Key relationships at a glance:**
 
 - `User` is the root of the inheritance tree — `Guest` and the abstract `Staff` (which branches into `Admin` and `Receptionist`) all extend it.
-- `DataBase` acts as the central static store, holding `ArrayList` collections for rooms, reservations, invoices, people, room types, and amenities.
+- `DataBase` is the central static store holding `ArrayList` collections for rooms, reservations, invoices, people, room types, and amenities.
 - `Reservation` links a `Guest` to a `Room`, carries a `ReservationStatus` enum (`PENDING → CONFIRMED → COMPLETED / CANCELLED`), and generates exactly one `Invoice`.
-- `Room` is categorized as a `RoomType` and includes zero or more `Amenity` items; both implement the `roomstuff` interface alongside `Room` itself.
+- `Room` is categorized by a `RoomType` and includes zero or more `Amenity` items; both implement the `roomstuff` interface.
 - `Invoice` holds a `PaymentMethod` enum (`CASH`, `CREDIT_CARD`, `ONLINE`) and references back to its `Reservation`.
-- `Validation` is a standalone utility used by `Main` for all scanner-based input sanitization.
 
 ---
 
@@ -132,36 +199,38 @@ The diagram below provides a complete visual overview of the system's object-ori
 
 ```
 User  (base class)
-├── Guest       — extends User, implements users
-└── Staff       — abstract, extends User
-    ├── Admin         — extends Staff
-    └── Receptionist  — extends Staff
+├── Guest            — extends User, implements users
+└── Staff            — abstract, extends User
+    ├── Admin        — extends Staff
+    └── Receptionist — extends Staff
 
-Room            — implements roomstuff
-RoomType        — implements roomstuff
-Amenity         — implements roomstuff
-Reservation     — implements reservationProcess
-Invoice         — implements reservationProcess
-DataBase        — central static data store
-Validation      — input validation utilities
-Main            — application entry point
+Room                 — implements roomstuff
+RoomType             — implements roomstuff
+Amenity              — implements roomstuff
+Reservation          — implements reservationProcess
+Invoice              — implements reservationProcess
+DataBase             — central static store + serialization
+Validation           — input sanitization utilities
+RFIDThread           — background RFID card auth thread (Runnable)
+Main                 — application entry point & role dispatch
 
-── GUI Layer ─────────────────────────────────
+── GUI Layer ─────────────────────────────────────────────────
 Controllers/
-  ├── theGOATcontroller   — Login/Register controller
-  ├── GuestController     — Guest GUI actions
-  └── Receptionist_Controller — Receptionist GUI
+  ├── theGOATcontroller        — Login / Register / RFID controller
+  ├── GuestController          — Guest GUI actions
+  └── Receptionist_Controller  — Receptionist GUI
+
 Screens/
-  ├── LoginPage           — JavaFX login screen
-  ├── AdminDashboard      — Admin GUI launcher
-  └── ScreenUtility       — Shared screen helpers
+  ├── LoginPage                — JavaFX login screen
+  ├── AdminDashboard           — Admin GUI launcher
+  └── ScreenUtility            — Shared screen helpers
 ```
 
 ---
 
 ## 👥 Role Capabilities
 
-| Capability | Guest | Receptionist | Admin |
+| Capability | 👤 Guest | 🛎️ Receptionist | 🔧 Admin |
 |---|:---:|:---:|:---:|
 | View Available Rooms | ✅ | ✅ | ✅ |
 | Make Reservation | ✅ | — | — |
@@ -173,82 +242,76 @@ Screens/
 | Manage Rooms (CRUD) | — | — | ✅ |
 | Manage Amenities (CRUD) | — | — | ✅ |
 | Manage Room Types (CRUD) | — | — | ✅ |
+| Manage RFID Cards | — | — | ✅ |
+| RFID Card Login | ✅ | ✅ | ✅ |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-Disktop-Hotel-Reservation-System-CSE241-master/
+Disktop-Hotel-Reservation-System-CSE241/
 │
-├── pom.xml                          # Maven build config
+├── pom.xml                              # Maven build configuration
+├── dataBase.diggers                     # Serialized persistent data file
 │
-└── src/
-    └── main/
-        ├── java/
-        │   ├── Screens/
-        │   │   ├── AdminDashboard.java
-        │   │   ├── LoginPage.java
-        │   │   └── ScreenUtility.java
-        │   │
-        │   └── com/mycompany/desktophotelreservationsystem/
-        │       ├── Main.java                  # App entry point & role dispatch
-        │       ├── DataBase.java              # Central in-memory data store
-        │       ├── User.java                  # Base user class (login/register)
-        │       ├── Guest.java                 # Guest role & actions
-        │       ├── Staff.java                 # Abstract staff base class
-        │       ├── Admin.java                 # Admin CRUD operations
-        │       ├── Receptionist.java          # Receptionist workflow
-        │       ├── Room.java                  # Room entity
-        │       ├── RoomType.java              # Room category entity
-        │       ├── Amenity.java               # Amenity entity
-        │       ├── Reservation.java           # Reservation lifecycle
-        │       ├── Invoice.java               # Payment invoice
-        │       ├── Validation.java            # Input sanitization utilities
-        │       ├── users.java                 # User interface
-        │       ├── roomstuff.java             # Room-related interface
-        │       ├── reservationProcess.java    # Reservation interface
-        │       │
-        │       └── Controllers/
-        │           ├── theGOATcontroller.java      # Login/Register GUI
-        │           ├── GuestController.java         # Guest GUI controller
-        │           └── Receptionist_Controller.java # Receptionist GUI
-        │
-        └── resources/
-            ├── Style.css                  # Main stylesheet
-            ├── receptionist.css           # Receptionist-specific styles
-            ├── hadi.css                   # Additional styles
-            ├── Login.fxml                 # Login screen layout
-            ├── Register.fxml              # Registration screen
-            ├── theGoat.fxml               # Main controller view
-            ├── Receptionists.fxml         # Receptionist dashboard
-            ├── ReceptionistViewrooms.fxml
-            ├── ReceptionistViewroomtypes.fxml
-            ├── guestscenebuilder.fxml     # Guest dashboard
-            ├── guestMakeReservations.fxml
-            ├── guestViewReservation.fxml
-            ├── guestCancelReservation.fxml
-            ├── guestPayInvoice.fxml
-            ├── guestViewRooms.fxml
-            ├── adminAmenities.fxml        # Admin amenity management
-            ├── adminRooms.fxml            # Admin room management
-            ├── adminRoomTypes.fxml        # Admin room-type management
-            └── Images/                   # UI assets
+└── src/main/
+    ├── java/
+    │   ├── Screens/
+    │   │   ├── AdminDashboard.java
+    │   │   ├── LoginPage.java
+    │   │   └── ScreenUtility.java
+    │   │
+    │   └── com/mycompany/desktophotelreservationsystem/
+    │       ├── Main.java                     # App entry point & role dispatch
+    │       ├── DataBase.java                 # Central store + serialization
+    │       ├── User.java                     # Base user class
+    │       ├── Guest.java                    # Guest role & actions
+    │       ├── Staff.java                    # Abstract staff base class
+    │       ├── Admin.java                    # Admin CRUD operations
+    │       ├── Receptionist.java             # Receptionist workflow
+    │       ├── Room.java                     # Room entity
+    │       ├── RoomType.java                 # Room category entity
+    │       ├── Amenity.java                  # Amenity entity
+    │       ├── Reservation.java              # Reservation lifecycle
+    │       ├── Invoice.java                  # Payment invoice
+    │       ├── Message.java                  # Messaging entity
+    │       ├── RFIDThread.java               # 🪪 RFID background auth thread
+    │       ├── Validation.java               # Input sanitization utilities
+    │       ├── InvalidBalanceException.java  # Custom exception
+    │       ├── users.java                    # User interface
+    │       ├── roomstuff.java                # Room-related interface
+    │       ├── reservationProcess.java       # Reservation interface
+    │       │
+    │       └── Controllers/
+    │           ├── theGOATcontroller.java        # Login / Register / RFID GUI
+    │           ├── GuestController.java           # Guest GUI controller
+    │           └── Receptionist_Controller.java   # Receptionist GUI
+    │
+    └── resources/
+        ├── Style.css / receptionist.css / hadi.css
+        ├── Login.fxml · Register.fxml · theGoat.fxml
+        ├── Receptionists.fxml · ReceptionistCheckIn/Out.fxml
+        ├── guestscenebuilder.fxml · guestMakeReservations.fxml
+        ├── guestViewReservation/CancelReservation/PayInvoice.fxml
+        ├── adminRooms / adminAmenities / adminRoomTypes / adminRFID .fxml
+        └── Images/                          # UI assets & class diagram
 ```
 
 ---
 
 ## ✅ Prerequisites
 
-- **Java JDK 17** or higher — [Download](https://www.oracle.com/java/technologies/downloads/#java17)
-- **Apache Maven 3.6+** — [Download](https://maven.apache.org/download.cgi)
-- **JavaFX SDK 17.0.2** — Managed automatically via Maven
-
-Verify your setup:
+| Tool | Version | Link |
+|---|---|---|
+| Java JDK | 17+ | [Download](https://www.oracle.com/java/technologies/downloads/#java17) |
+| Apache Maven | 3.6+ | [Download](https://maven.apache.org/download.cgi) |
+| JavaFX | 17.0.2 | Managed automatically via Maven |
+| Firebase Config | — | Download `serviceAccountKey.json` from the [Drive folder ↓](https://drive.google.com/drive/folders/1BJJXqeGWHp0oTbOwlTomSWOUWCYMq0A0?usp=drive_link) |
 
 ```bash
-java -version     # Should output: openjdk 17.x.x
-mvn -version      # Should output: Apache Maven 3.x.x
+java -version     # Expected: openjdk 17.x.x
+mvn -version      # Expected: Apache Maven 3.x.x
 ```
 
 ---
@@ -262,38 +325,39 @@ git clone https://github.com/your-username/Disktop-Hotel-Reservation-System-CSE2
 cd Disktop-Hotel-Reservation-System-CSE241
 ```
 
-### 2. Build the Project
+### 2. Add Firebase Config
+
+Download `serviceAccountKey.json` from the **[📂 Project Drive folder](https://drive.google.com/drive/folders/1BJJXqeGWHp0oTbOwlTomSWOUWCYMq0A0?usp=drive_link)** and place it in the project root directory. This is required for Firebase to work.
+
+### 3. Build
 
 ```bash
 mvn clean install
 ```
 
-### 3. Run the Application
+### 4. Run the JavaFX GUI
 
 ```bash
 mvn javafx:run
 ```
 
-> **Note:** The app launches the JavaFX GUI by default. If running the console version, ensure you're running `Main.java` directly through your IDE (IntelliJ IDEA or Eclipse).
+### 5. Run the Console Interface (IDE Alternative)
 
-### 4. Run via IDE (Alternative)
+1. Open in **IntelliJ IDEA** or **Eclipse** as a Maven project
+2. Run `Main.java` → full terminal UI
+3. Run `LoginPage.java` → JavaFX GUI
 
-1. Open the project in **IntelliJ IDEA** or **Eclipse**
-2. Import as a **Maven project**
-3. Run `Main.java` for the console interface
-4. Run `LoginPage.java` for the JavaFX GUI interface
+> **Note:** On first run, demo data is loaded via `DataBase.demoFill()`. All data is saved to `dataBase.diggers` and reloaded automatically on subsequent runs.
 
 ---
 
 ## 🔑 Default Demo Accounts
 
-The system auto-populates demo data on startup via `DataBase.demoFill()`.
-
 | Role | Username | Password |
 |---|---|---|
-| Admin | `Ahmed` | `67` |
-| Guest | `Baraa` | `67` |
-| Receptionist | `Youssef` | `67` |
+| 🔧 Admin | `Ahmed` | `67` |
+| 👤 Guest | `Baraa` | `67` |
+| 🛎️ Receptionist | `Youssef` | `67` |
 
 ### Demo Rooms
 
@@ -305,12 +369,12 @@ The system auto-populates demo data on startup via `DataBase.demoFill()`.
 
 ### Demo Amenities
 
-| Name | Price |
+| Name | Add-On Price |
 |---|---|
-| Pool | $50 |
-| Gym | $30 |
-| Free WiFi | $10 |
-| Coffee Machine | $5 |
+| 🏊 Pool | $50 |
+| 🏋️ Gym | $30 |
+| 📶 Free WiFi | $10 |
+| ☕ Coffee Machine | $5 |
 
 ---
 
@@ -320,71 +384,83 @@ The system auto-populates demo data on startup via `DataBase.demoFill()`.
 |---|---|---|
 | Java | 17 | Core application language |
 | JavaFX | 17.0.2 | Desktop GUI framework |
-| FXML | — | Declarative UI layout |
-| CSS | — | JavaFX scene styling |
+| FXML + CSS | — | Declarative UI layout & styling |
 | Apache Maven | 3.x | Build automation & dependency management |
-| IntelliJ IDEA / Eclipse | — | Recommended IDEs |
+| Firebase Admin SDK | 9.2.0 | Cloud integration |
+| ControlsFX | 11.1.2 | Enhanced JavaFX UI components |
+| jSerialComm | 2.11.0 | RFID serial port communication |
+| Java Serialization | — | Local data persistence (`.diggers` file) |
 
 ---
 
 ## 🧱 Design Patterns & OOP Concepts
 
-This project demonstrates several core Object-Oriented Programming principles as part of the CSE241 curriculum:
-
 **Inheritance**
-- `Guest` and `Staff` both extend `User`
-- `Admin` and `Receptionist` both extend the abstract `Staff` class
+```
+User
+├── Guest
+└── Staff (abstract)
+    ├── Admin
+    └── Receptionist
+```
 
-**Polymorphism**
-- `Main` dispatches to role-specific menus using `instanceof` checks
-- `viewRooms()` is overridden in `Guest` while being defined in `User`
+**Polymorphism** — `Main` dispatches to role-specific menus via `instanceof`; `viewRooms()` is overridden per role.
 
-**Encapsulation**
-- All entity fields are private with clean getter/setter contracts
-- `Validation` class centralizes all input sanitization
+**Encapsulation** — All fields are private with getter/setter contracts; `Validation` centralizes input sanitization.
 
 **Interfaces**
-- `users` — implemented by all user-facing classes
-- `roomstuff` — implemented by `Room`, `RoomType`, `Amenity`
-- `reservationProcess` — implemented by `Reservation` and `Invoice`
+```java
+users              // All user-facing classes
+roomstuff          // Room, RoomType, Amenity
+reservationProcess // Reservation, Invoice
+Runnable           // RFIDThread (background auth)
+```
 
 **Method Chaining**
-- `Room.addAmenity()` returns `this`, enabling fluent room construction:
-  ```java
-  new Room(67, suite, 670).addAmenity(gym).addAmenity(coffee);
-  ```
+```java
+new Room(67, suite, 670).addAmenity(gym).addAmenity(coffee);
+```
 
-**Enum-Based State Management**
-- `Reservation.ReservationStatus` — `PENDING`, `CONFIRMED`, `CANCELLED`, `COMPLETED`
-- `Invoice.PaymentMethod` — `CASH`, `CREDIT_CARD`, `ONLINE`
+**Enum State Management**
+```java
+enum ReservationStatus { PENDING, CONFIRMED, CANCELLED, COMPLETED }
+enum PaymentMethod     { CASH, CREDIT_CARD, ONLINE }
+```
+
+**Concurrency**
+```java
+new Thread(new RFIDThread()).start(); // Non-blocking RFID listener
+```
+
+**Data Persistence**
+```java
+DataBase.saveData("dataBase.diggers"); // Serialize all state
+DataBase.loadData("dataBase.diggers"); // Restore on next launch
+```
 
 ---
 
 ## 🎓 Academic Context
 
-This project was developed as a course assignment for:
-
-**CSE241 — Object-Oriented Programming**  
-Faculty of Engineering, Ain Shams University
-
-The system demonstrates practical application of OOP principles including inheritance hierarchies, interface-based contracts, polymorphic dispatch, and encapsulation — applied to a real-world hotel management domain.
+> **CSE241 — Object-Oriented Programming**  
+> Faculty of Engineering, Ain Shams University
 
 ---
 
-## 👨‍💻 Authors
-
-> Add your team member names and IDs here.
+## 👨‍💻 Team
 
 | Name | Student ID |
 |---|---|
 | Yousef Abdullah | 25P0436 |
-| Ahmed Ramy| 25P0187 |
+| Ahmed Ramy | 25P0187 |
 | Hadi Mohamed | 25P0162 |
 | Baraa Khaled | 25P0104 |
 | Youssef Mohamed | 25P0208 |
 
 ---
 
-## 📄 License
+<div align="center">
 
-This project is submitted as academic coursework for Ain Shams University. All rights reserved by the authors.
+Made with ☕ and late nights — **Ain Shams University · CSE241**
+
+</div>
